@@ -7,15 +7,19 @@ import ArniePyl
 from ArniePyl import tokens
 
 def p_programa(p):
-    '''programa : PROGRAM IDENTIFIER SEMICOLON vars bloque
-    | PROGRAM IDENTIFIER SEMICOLON bloque'''
+    '''programa : PROGRAM bloque ENDPROGRAM
+    | global PROGRAM bloque ENDPROGRAM
+    | PROGRAM bloque ENDPROGRAM funciones
+    | global PROGRAM bloque ENDPROGRAM funciones'''
 
 def p_vars(p):
-    '''vars : VAR vars1'''
+    '''vars: VAR vars1 ENDVAR'''
+
+def p_global(p):
+    '''global : GLOBAL vars1 ENDGLOBAL'''
 
 def p_vars1(p):
-    '''vars1 : IDENTIFIER vars2 COLON tipo SEMICOLON vars1
-    | IDENTIFIER vars2 COLON tipo SEMICOLON'''
+    '''vars1 : tipo IDENTIFIER vars2'''
 
 def p_vars2(p):
     '''vars2 : empty
@@ -23,42 +27,51 @@ def p_vars2(p):
 
 def p_tipo(p):
   '''tipo : INT
-      | FLOAT'''
+      | FLOAT
+      | STRING
+      | BOOL
+      | HEY CHRISTMAS TREE'''
 
 def p_bloque(p):
-    '''bloque : LBRACE bloque1 RBRACE'''
-
-def p_bloque1(p):
-    '''bloque1 : empty
-    | estatuto bloque1'''
+    '''bloque : empty
+    | estatuto bloque'''
 
 def p_estatuto(p):
     '''estatuto : asignacion
     | condicion
-    | escritura'''
+    | escritura
+    | lectura
+    | while
+    | for'''
 
 def p_asignacion(p):
-    '''asignacion : IDENTIFIER EQUAL expresion SEMICOLON'''
+    '''asignacion : IDENTIFIER EQUAL expresion'''
 
 def p_escritura(p):
-    '''escritura : PRINT LPARENTHESES escritura1 RPARENTHESES SEMICOLON'''
+    '''escritura : PRINT escritura1'''
 
 def p_escritura1(p):
-    '''escritura1 : expresion escritura2
-    | STRING escritura2'''
+    '''escritura1 : expresion escritura2'''
 
 def p_escritura2(p):
     '''escritura2 : empty
     | COMMA escritura1'''
 
 def p_condicion(p):
-    '''condicion : IF LPARENTHESES expresion RPARENTHESES bloque SEMICOLON
-    | IF LPARENTHESES expresion RPARENTHESES bloque ELSE bloque SEMICOLON'''
+    '''condicion : IF expresion bloque condicion1 ENDIF
+    | IF expresion bloque condicion1 ELSE bloque ENDIF'''
+
+def p_condicion1(p):
+    '''condicion1: empty
+    | ELSEIF expresion bloque condicion1'''
 
 def p_expresion(p):
     '''expresion : exp
     | exp LTHAN exp
     | exp GTHAN exp
+    | exp EQUALTO exp
+    | exp GTHANEQ exp
+    | exp LTHANEQ exp
     | exp NOTEQUAL exp '''
 
 def p_exp(p):
@@ -83,13 +96,14 @@ def p_factor(p):
 
 def p_factor1(p):
     ''' factor1 : empty
-    | PLUS
-    | MINUS'''
+    | MULTI
+    | DIVIDE'''
 
 def p_varcte(p):
     '''varcte : IDENTIFIER
     | CTEINT
-    | CTEFLOAT'''
+    | CTEFLOAT
+    | llamarfun'''
 
 def p_empty(p):
   '''empty : '''
