@@ -1,0 +1,13 @@
+program p5;
+var var1, var2 : int; var3, var4 : float;
+
+{
+	var1 = 4;
+	var4 = 5.6;
+	var2 = var4;
+	var3 = var1;
+	if(var1 < var4){
+		var3 = 8.5;
+	};
+	print("hola", var2, 9.0);
+}

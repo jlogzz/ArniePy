@@ -1,0 +1,6 @@
+program p1;
+var b: int;
+var a: floa;
+{
+
+}
