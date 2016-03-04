@@ -1,5 +1,35 @@
 Created by PLY version 3.8 (http://www.dabeaz.com/ply)
 
+Unused terminals:
+
+    GLOBAL
+    METHOD
+    REFERENCIA
+    ENDFOR
+    HASH
+    CALLMETHOD
+    ENDVAR
+    VALOR
+    EQUALTO
+    ELSEIF
+    CHILL
+    AND
+    OR
+    ENDMETHOD
+    READ
+    ENDGLOBAL
+    VOID
+    FOR
+    GTHANEQ
+    LTHANEQ
+    ENDPROGRAM
+    ENDIF
+    BOOL
+    RETURN
+    FALSE
+    TRUE
+    WHILE
+
 Grammar
 
 Rule 0     S' -> programa
@@ -50,32 +80,59 @@ Rule 44    empty -> <empty>
 
 Terminals, with rules where they appear
 
+AND                  : 
+BOOL                 : 
+CALLMETHOD           : 
+CHILL                : 
 COLON                : 4 5
 COMMA                : 7 21
 CTEFLOAT             : 43
 CTEINT               : 42
 DIVIDE               : 35
 ELSE                 : 23
+ELSEIF               : 
+ENDFOR               : 
+ENDGLOBAL            : 
+ENDIF                : 
+ENDMETHOD            : 
+ENDPROGRAM           : 
+ENDVAR               : 
 EQUAL                : 16
+EQUALTO              : 
+FALSE                : 
 FLOAT                : 9
+FOR                  : 
+GLOBAL               : 
 GTHAN                : 26
+GTHANEQ              : 
+HASH                 : 
 IDENTIFIER           : 1 2 4 5 7 16 41
 IF                   : 22 23
 INT                  : 8
 LBRACE               : 10
 LPARENTHESES         : 17 22 23 36
 LTHAN                : 25
+LTHANEQ              : 
+METHOD               : 
 MINUS                : 31 40
 MULTI                : 34
 NOTEQUAL             : 27
+OR                   : 
 PLUS                 : 30 39
 PRINT                : 17
 PROGRAM              : 1 2
 RBRACE               : 10
+READ                 : 
+REFERENCIA           : 
+RETURN               : 
 RPARENTHESES         : 17 22 23 36
 SEMICOLON            : 1 2 4 5 16 17 22 23
 STRING               : 19
+TRUE                 : 
+VALOR                : 
 VAR                  : 3
+VOID                 : 
+WHILE                : 
 error                : 
 
 Nonterminals, with rules where they appear
@@ -145,12 +202,28 @@ state 4
     (10) bloque -> . LBRACE bloque1 RBRACE
 
     VAR             shift and go to state 8
-    LBRACE          shift and go to state 5
+    LBRACE          shift and go to state 7
 
-    bloque                         shift and go to state 6
-    vars                           shift and go to state 7
+    bloque                         shift and go to state 5
+    vars                           shift and go to state 6
 
 state 5
+
+    (2) programa -> PROGRAM IDENTIFIER SEMICOLON bloque .
+
+    $end            reduce using rule 2 (programa -> PROGRAM IDENTIFIER SEMICOLON bloque .)
+
+
+state 6
+
+    (1) programa -> PROGRAM IDENTIFIER SEMICOLON vars . bloque
+    (10) bloque -> . LBRACE bloque1 RBRACE
+
+    LBRACE          shift and go to state 7
+
+    bloque                         shift and go to state 9
+
+state 7
 
     (10) bloque -> LBRACE . bloque1 RBRACE
     (11) bloque1 -> . empty
@@ -165,32 +238,16 @@ state 5
     (17) escritura -> . PRINT LPARENTHESES escritura1 RPARENTHESES SEMICOLON
 
     RBRACE          reduce using rule 44 (empty -> .)
-    IDENTIFIER      shift and go to state 9
-    IF              shift and go to state 12
-    PRINT           shift and go to state 11
+    IDENTIFIER      shift and go to state 12
+    IF              shift and go to state 10
+    PRINT           shift and go to state 13
 
-    estatuto                       shift and go to state 13
-    condicion                      shift and go to state 14
-    empty                          shift and go to state 10
-    escritura                      shift and go to state 15
-    asignacion                     shift and go to state 16
-    bloque1                        shift and go to state 17
-
-state 6
-
-    (2) programa -> PROGRAM IDENTIFIER SEMICOLON bloque .
-
-    $end            reduce using rule 2 (programa -> PROGRAM IDENTIFIER SEMICOLON bloque .)
-
-
-state 7
-
-    (1) programa -> PROGRAM IDENTIFIER SEMICOLON vars . bloque
-    (10) bloque -> . LBRACE bloque1 RBRACE
-
-    LBRACE          shift and go to state 5
-
-    bloque                         shift and go to state 18
+    empty                          shift and go to state 15
+    escritura                      shift and go to state 11
+    bloque1                        shift and go to state 16
+    estatuto                       shift and go to state 14
+    condicion                      shift and go to state 18
+    asignacion                     shift and go to state 17
 
 state 8
 
@@ -204,34 +261,44 @@ state 8
 
 state 9
 
-    (16) asignacion -> IDENTIFIER . EQUAL expresion SEMICOLON
+    (1) programa -> PROGRAM IDENTIFIER SEMICOLON vars bloque .
 
-    EQUAL           shift and go to state 21
+    $end            reduce using rule 1 (programa -> PROGRAM IDENTIFIER SEMICOLON vars bloque .)
 
 
 state 10
 
-    (11) bloque1 -> empty .
+    (22) condicion -> IF . LPARENTHESES expresion RPARENTHESES bloque SEMICOLON
+    (23) condicion -> IF . LPARENTHESES expresion RPARENTHESES bloque ELSE bloque SEMICOLON
 
-    RBRACE          reduce using rule 11 (bloque1 -> empty .)
+    LPARENTHESES    shift and go to state 21
 
 
 state 11
 
-    (17) escritura -> PRINT . LPARENTHESES escritura1 RPARENTHESES SEMICOLON
+    (15) estatuto -> escritura .
 
-    LPARENTHESES    shift and go to state 22
+    IDENTIFIER      reduce using rule 15 (estatuto -> escritura .)
+    IF              reduce using rule 15 (estatuto -> escritura .)
+    PRINT           reduce using rule 15 (estatuto -> escritura .)
+    RBRACE          reduce using rule 15 (estatuto -> escritura .)
 
 
 state 12
 
-    (22) condicion -> IF . LPARENTHESES expresion RPARENTHESES bloque SEMICOLON
-    (23) condicion -> IF . LPARENTHESES expresion RPARENTHESES bloque ELSE bloque SEMICOLON
+    (16) asignacion -> IDENTIFIER . EQUAL expresion SEMICOLON
+
+    EQUAL           shift and go to state 22
+
+
+state 13
+
+    (17) escritura -> PRINT . LPARENTHESES escritura1 RPARENTHESES SEMICOLON
 
     LPARENTHESES    shift and go to state 23
 
 
-state 13
+state 14
 
     (12) bloque1 -> estatuto . bloque1
     (11) bloque1 -> . empty
@@ -246,38 +313,32 @@ state 13
     (17) escritura -> . PRINT LPARENTHESES escritura1 RPARENTHESES SEMICOLON
 
     RBRACE          reduce using rule 44 (empty -> .)
-    IDENTIFIER      shift and go to state 9
-    IF              shift and go to state 12
-    PRINT           shift and go to state 11
+    IDENTIFIER      shift and go to state 12
+    IF              shift and go to state 10
+    PRINT           shift and go to state 13
 
-    estatuto                       shift and go to state 13
-    condicion                      shift and go to state 14
-    empty                          shift and go to state 10
-    escritura                      shift and go to state 15
-    asignacion                     shift and go to state 16
+    empty                          shift and go to state 15
+    escritura                      shift and go to state 11
     bloque1                        shift and go to state 24
-
-state 14
-
-    (14) estatuto -> condicion .
-
-    IDENTIFIER      reduce using rule 14 (estatuto -> condicion .)
-    IF              reduce using rule 14 (estatuto -> condicion .)
-    PRINT           reduce using rule 14 (estatuto -> condicion .)
-    RBRACE          reduce using rule 14 (estatuto -> condicion .)
-
+    estatuto                       shift and go to state 14
+    condicion                      shift and go to state 18
+    asignacion                     shift and go to state 17
 
 state 15
 
-    (15) estatuto -> escritura .
+    (11) bloque1 -> empty .
 
-    IDENTIFIER      reduce using rule 15 (estatuto -> escritura .)
-    IF              reduce using rule 15 (estatuto -> escritura .)
-    PRINT           reduce using rule 15 (estatuto -> escritura .)
-    RBRACE          reduce using rule 15 (estatuto -> escritura .)
+    RBRACE          reduce using rule 11 (bloque1 -> empty .)
 
 
 state 16
+
+    (10) bloque -> LBRACE bloque1 . RBRACE
+
+    RBRACE          shift and go to state 25
+
+
+state 17
 
     (13) estatuto -> asignacion .
 
@@ -287,18 +348,14 @@ state 16
     RBRACE          reduce using rule 13 (estatuto -> asignacion .)
 
 
-state 17
-
-    (10) bloque -> LBRACE bloque1 . RBRACE
-
-    RBRACE          shift and go to state 25
-
-
 state 18
 
-    (1) programa -> PROGRAM IDENTIFIER SEMICOLON vars bloque .
+    (14) estatuto -> condicion .
 
-    $end            reduce using rule 1 (programa -> PROGRAM IDENTIFIER SEMICOLON vars bloque .)
+    IDENTIFIER      reduce using rule 14 (estatuto -> condicion .)
+    IF              reduce using rule 14 (estatuto -> condicion .)
+    PRINT           reduce using rule 14 (estatuto -> condicion .)
+    RBRACE          reduce using rule 14 (estatuto -> condicion .)
 
 
 state 19
@@ -324,6 +381,37 @@ state 20
 
 state 21
 
+    (22) condicion -> IF LPARENTHESES . expresion RPARENTHESES bloque SEMICOLON
+    (23) condicion -> IF LPARENTHESES . expresion RPARENTHESES bloque ELSE bloque SEMICOLON
+    (24) expresion -> . exp
+    (25) expresion -> . exp LTHAN exp
+    (26) expresion -> . exp GTHAN exp
+    (27) expresion -> . exp NOTEQUAL exp
+    (28) exp -> . termino exp1
+    (32) termino -> . factor termino1
+    (36) factor -> . LPARENTHESES expresion RPARENTHESES
+    (37) factor -> . factor1 varcte
+    (38) factor1 -> . empty
+    (39) factor1 -> . PLUS
+    (40) factor1 -> . MINUS
+    (44) empty -> .
+
+    LPARENTHESES    shift and go to state 29
+    PLUS            shift and go to state 37
+    MINUS           shift and go to state 30
+    IDENTIFIER      reduce using rule 44 (empty -> .)
+    CTEINT          reduce using rule 44 (empty -> .)
+    CTEFLOAT        reduce using rule 44 (empty -> .)
+
+    expresion                      shift and go to state 33
+    empty                          shift and go to state 34
+    termino                        shift and go to state 35
+    factor                         shift and go to state 31
+    factor1                        shift and go to state 36
+    exp                            shift and go to state 32
+
+state 22
+
     (16) asignacion -> IDENTIFIER EQUAL . expresion SEMICOLON
     (24) expresion -> . exp
     (25) expresion -> . exp LTHAN exp
@@ -338,21 +426,21 @@ state 21
     (40) factor1 -> . MINUS
     (44) empty -> .
 
-    LPARENTHESES    shift and go to state 37
-    PLUS            shift and go to state 33
+    LPARENTHESES    shift and go to state 29
+    PLUS            shift and go to state 37
     MINUS           shift and go to state 30
     IDENTIFIER      reduce using rule 44 (empty -> .)
     CTEINT          reduce using rule 44 (empty -> .)
     CTEFLOAT        reduce using rule 44 (empty -> .)
 
-    expresion                      shift and go to state 35
-    factor                         shift and go to state 29
+    expresion                      shift and go to state 38
+    empty                          shift and go to state 34
+    termino                        shift and go to state 35
+    factor                         shift and go to state 31
     factor1                        shift and go to state 36
-    termino                        shift and go to state 31
-    empty                          shift and go to state 32
-    exp                            shift and go to state 34
+    exp                            shift and go to state 32
 
-state 22
+state 23
 
     (17) escritura -> PRINT LPARENTHESES . escritura1 RPARENTHESES SEMICOLON
     (18) escritura1 -> . expresion escritura2
@@ -370,52 +458,21 @@ state 22
     (40) factor1 -> . MINUS
     (44) empty -> .
 
-    STRING          shift and go to state 38
-    LPARENTHESES    shift and go to state 37
-    PLUS            shift and go to state 33
-    MINUS           shift and go to state 30
-    IDENTIFIER      reduce using rule 44 (empty -> .)
-    CTEINT          reduce using rule 44 (empty -> .)
-    CTEFLOAT        reduce using rule 44 (empty -> .)
-
-    expresion                      shift and go to state 39
-    factor                         shift and go to state 29
-    factor1                        shift and go to state 36
-    termino                        shift and go to state 31
-    empty                          shift and go to state 32
-    exp                            shift and go to state 34
-    escritura1                     shift and go to state 40
-
-state 23
-
-    (22) condicion -> IF LPARENTHESES . expresion RPARENTHESES bloque SEMICOLON
-    (23) condicion -> IF LPARENTHESES . expresion RPARENTHESES bloque ELSE bloque SEMICOLON
-    (24) expresion -> . exp
-    (25) expresion -> . exp LTHAN exp
-    (26) expresion -> . exp GTHAN exp
-    (27) expresion -> . exp NOTEQUAL exp
-    (28) exp -> . termino exp1
-    (32) termino -> . factor termino1
-    (36) factor -> . LPARENTHESES expresion RPARENTHESES
-    (37) factor -> . factor1 varcte
-    (38) factor1 -> . empty
-    (39) factor1 -> . PLUS
-    (40) factor1 -> . MINUS
-    (44) empty -> .
-
-    LPARENTHESES    shift and go to state 37
-    PLUS            shift and go to state 33
+    STRING          shift and go to state 40
+    LPARENTHESES    shift and go to state 29
+    PLUS            shift and go to state 37
     MINUS           shift and go to state 30
     IDENTIFIER      reduce using rule 44 (empty -> .)
     CTEINT          reduce using rule 44 (empty -> .)
     CTEFLOAT        reduce using rule 44 (empty -> .)
 
     expresion                      shift and go to state 41
-    factor                         shift and go to state 29
+    escritura1                     shift and go to state 39
+    termino                        shift and go to state 35
+    factor                         shift and go to state 31
     factor1                        shift and go to state 36
-    empty                          shift and go to state 32
-    exp                            shift and go to state 34
-    termino                        shift and go to state 31
+    exp                            shift and go to state 32
+    empty                          shift and go to state 34
 
 state 24
 
@@ -429,8 +486,8 @@ state 25
     (10) bloque -> LBRACE bloque1 RBRACE .
 
     SEMICOLON       reduce using rule 10 (bloque -> LBRACE bloque1 RBRACE .)
-    $end            reduce using rule 10 (bloque -> LBRACE bloque1 RBRACE .)
     ELSE            reduce using rule 10 (bloque -> LBRACE bloque1 RBRACE .)
+    $end            reduce using rule 10 (bloque -> LBRACE bloque1 RBRACE .)
 
 
 state 26
@@ -457,110 +514,6 @@ state 28
 
 state 29
 
-    (32) termino -> factor . termino1
-    (33) termino1 -> . empty
-    (34) termino1 -> . MULTI factor termino1
-    (35) termino1 -> . DIVIDE factor termino1
-    (44) empty -> .
-
-    MULTI           shift and go to state 44
-    DIVIDE          shift and go to state 47
-    PLUS            reduce using rule 44 (empty -> .)
-    MINUS           reduce using rule 44 (empty -> .)
-    LTHAN           reduce using rule 44 (empty -> .)
-    GTHAN           reduce using rule 44 (empty -> .)
-    NOTEQUAL        reduce using rule 44 (empty -> .)
-    SEMICOLON       reduce using rule 44 (empty -> .)
-    COMMA           reduce using rule 44 (empty -> .)
-    RPARENTHESES    reduce using rule 44 (empty -> .)
-
-    termino1                       shift and go to state 45
-    empty                          shift and go to state 46
-
-state 30
-
-    (40) factor1 -> MINUS .
-
-    IDENTIFIER      reduce using rule 40 (factor1 -> MINUS .)
-    CTEINT          reduce using rule 40 (factor1 -> MINUS .)
-    CTEFLOAT        reduce using rule 40 (factor1 -> MINUS .)
-
-
-state 31
-
-    (28) exp -> termino . exp1
-    (29) exp1 -> . empty
-    (30) exp1 -> . PLUS termino exp1
-    (31) exp1 -> . MINUS termino exp1
-    (44) empty -> .
-
-    PLUS            shift and go to state 49
-    MINUS           shift and go to state 48
-    LTHAN           reduce using rule 44 (empty -> .)
-    GTHAN           reduce using rule 44 (empty -> .)
-    NOTEQUAL        reduce using rule 44 (empty -> .)
-    SEMICOLON       reduce using rule 44 (empty -> .)
-    COMMA           reduce using rule 44 (empty -> .)
-    RPARENTHESES    reduce using rule 44 (empty -> .)
-
-    empty                          shift and go to state 50
-    exp1                           shift and go to state 51
-
-state 32
-
-    (38) factor1 -> empty .
-
-    IDENTIFIER      reduce using rule 38 (factor1 -> empty .)
-    CTEINT          reduce using rule 38 (factor1 -> empty .)
-    CTEFLOAT        reduce using rule 38 (factor1 -> empty .)
-
-
-state 33
-
-    (39) factor1 -> PLUS .
-
-    IDENTIFIER      reduce using rule 39 (factor1 -> PLUS .)
-    CTEINT          reduce using rule 39 (factor1 -> PLUS .)
-    CTEFLOAT        reduce using rule 39 (factor1 -> PLUS .)
-
-
-state 34
-
-    (24) expresion -> exp .
-    (25) expresion -> exp . LTHAN exp
-    (26) expresion -> exp . GTHAN exp
-    (27) expresion -> exp . NOTEQUAL exp
-
-    COMMA           reduce using rule 24 (expresion -> exp .)
-    RPARENTHESES    reduce using rule 24 (expresion -> exp .)
-    SEMICOLON       reduce using rule 24 (expresion -> exp .)
-    LTHAN           shift and go to state 54
-    GTHAN           shift and go to state 53
-    NOTEQUAL        shift and go to state 52
-
-
-state 35
-
-    (16) asignacion -> IDENTIFIER EQUAL expresion . SEMICOLON
-
-    SEMICOLON       shift and go to state 55
-
-
-state 36
-
-    (37) factor -> factor1 . varcte
-    (41) varcte -> . IDENTIFIER
-    (42) varcte -> . CTEINT
-    (43) varcte -> . CTEFLOAT
-
-    IDENTIFIER      shift and go to state 57
-    CTEINT          shift and go to state 56
-    CTEFLOAT        shift and go to state 59
-
-    varcte                         shift and go to state 58
-
-state 37
-
     (36) factor -> LPARENTHESES . expresion RPARENTHESES
     (24) expresion -> . exp
     (25) expresion -> . exp LTHAN exp
@@ -575,60 +528,164 @@ state 37
     (40) factor1 -> . MINUS
     (44) empty -> .
 
-    LPARENTHESES    shift and go to state 37
-    PLUS            shift and go to state 33
+    LPARENTHESES    shift and go to state 29
+    PLUS            shift and go to state 37
     MINUS           shift and go to state 30
     IDENTIFIER      reduce using rule 44 (empty -> .)
     CTEINT          reduce using rule 44 (empty -> .)
     CTEFLOAT        reduce using rule 44 (empty -> .)
 
-    expresion                      shift and go to state 60
-    factor                         shift and go to state 29
+    expresion                      shift and go to state 44
+    empty                          shift and go to state 34
+    termino                        shift and go to state 35
+    factor                         shift and go to state 31
     factor1                        shift and go to state 36
-    termino                        shift and go to state 31
-    empty                          shift and go to state 32
-    exp                            shift and go to state 34
+    exp                            shift and go to state 32
+
+state 30
+
+    (40) factor1 -> MINUS .
+
+    IDENTIFIER      reduce using rule 40 (factor1 -> MINUS .)
+    CTEINT          reduce using rule 40 (factor1 -> MINUS .)
+    CTEFLOAT        reduce using rule 40 (factor1 -> MINUS .)
+
+
+state 31
+
+    (32) termino -> factor . termino1
+    (33) termino1 -> . empty
+    (34) termino1 -> . MULTI factor termino1
+    (35) termino1 -> . DIVIDE factor termino1
+    (44) empty -> .
+
+    MULTI           shift and go to state 45
+    DIVIDE          shift and go to state 46
+    PLUS            reduce using rule 44 (empty -> .)
+    MINUS           reduce using rule 44 (empty -> .)
+    LTHAN           reduce using rule 44 (empty -> .)
+    GTHAN           reduce using rule 44 (empty -> .)
+    NOTEQUAL        reduce using rule 44 (empty -> .)
+    RPARENTHESES    reduce using rule 44 (empty -> .)
+    SEMICOLON       reduce using rule 44 (empty -> .)
+    COMMA           reduce using rule 44 (empty -> .)
+
+    empty                          shift and go to state 47
+    termino1                       shift and go to state 48
+
+state 32
+
+    (24) expresion -> exp .
+    (25) expresion -> exp . LTHAN exp
+    (26) expresion -> exp . GTHAN exp
+    (27) expresion -> exp . NOTEQUAL exp
+
+    SEMICOLON       reduce using rule 24 (expresion -> exp .)
+    COMMA           reduce using rule 24 (expresion -> exp .)
+    RPARENTHESES    reduce using rule 24 (expresion -> exp .)
+    LTHAN           shift and go to state 49
+    GTHAN           shift and go to state 51
+    NOTEQUAL        shift and go to state 50
+
+
+state 33
+
+    (22) condicion -> IF LPARENTHESES expresion . RPARENTHESES bloque SEMICOLON
+    (23) condicion -> IF LPARENTHESES expresion . RPARENTHESES bloque ELSE bloque SEMICOLON
+
+    RPARENTHESES    shift and go to state 52
+
+
+state 34
+
+    (38) factor1 -> empty .
+
+    IDENTIFIER      reduce using rule 38 (factor1 -> empty .)
+    CTEINT          reduce using rule 38 (factor1 -> empty .)
+    CTEFLOAT        reduce using rule 38 (factor1 -> empty .)
+
+
+state 35
+
+    (28) exp -> termino . exp1
+    (29) exp1 -> . empty
+    (30) exp1 -> . PLUS termino exp1
+    (31) exp1 -> . MINUS termino exp1
+    (44) empty -> .
+
+    PLUS            shift and go to state 56
+    MINUS           shift and go to state 54
+    LTHAN           reduce using rule 44 (empty -> .)
+    GTHAN           reduce using rule 44 (empty -> .)
+    NOTEQUAL        reduce using rule 44 (empty -> .)
+    RPARENTHESES    reduce using rule 44 (empty -> .)
+    SEMICOLON       reduce using rule 44 (empty -> .)
+    COMMA           reduce using rule 44 (empty -> .)
+
+    exp1                           shift and go to state 53
+    empty                          shift and go to state 55
+
+state 36
+
+    (37) factor -> factor1 . varcte
+    (41) varcte -> . IDENTIFIER
+    (42) varcte -> . CTEINT
+    (43) varcte -> . CTEFLOAT
+
+    IDENTIFIER      shift and go to state 58
+    CTEINT          shift and go to state 60
+    CTEFLOAT        shift and go to state 59
+
+    varcte                         shift and go to state 57
+
+state 37
+
+    (39) factor1 -> PLUS .
+
+    IDENTIFIER      reduce using rule 39 (factor1 -> PLUS .)
+    CTEINT          reduce using rule 39 (factor1 -> PLUS .)
+    CTEFLOAT        reduce using rule 39 (factor1 -> PLUS .)
+
 
 state 38
+
+    (16) asignacion -> IDENTIFIER EQUAL expresion . SEMICOLON
+
+    SEMICOLON       shift and go to state 61
+
+
+state 39
+
+    (17) escritura -> PRINT LPARENTHESES escritura1 . RPARENTHESES SEMICOLON
+
+    RPARENTHESES    shift and go to state 62
+
+
+state 40
 
     (19) escritura1 -> STRING . escritura2
     (20) escritura2 -> . empty
     (21) escritura2 -> . COMMA escritura1
     (44) empty -> .
 
-    COMMA           shift and go to state 62
+    COMMA           shift and go to state 63
     RPARENTHESES    reduce using rule 44 (empty -> .)
 
-    escritura2                     shift and go to state 61
-    empty                          shift and go to state 63
+    empty                          shift and go to state 65
+    escritura2                     shift and go to state 64
 
-state 39
+state 41
 
     (18) escritura1 -> expresion . escritura2
     (20) escritura2 -> . empty
     (21) escritura2 -> . COMMA escritura1
     (44) empty -> .
 
-    COMMA           shift and go to state 62
+    COMMA           shift and go to state 63
     RPARENTHESES    reduce using rule 44 (empty -> .)
 
-    escritura2                     shift and go to state 64
-    empty                          shift and go to state 63
-
-state 40
-
-    (17) escritura -> PRINT LPARENTHESES escritura1 . RPARENTHESES SEMICOLON
-
-    RPARENTHESES    shift and go to state 65
-
-
-state 41
-
-    (22) condicion -> IF LPARENTHESES expresion . RPARENTHESES bloque SEMICOLON
-    (23) condicion -> IF LPARENTHESES expresion . RPARENTHESES bloque ELSE bloque SEMICOLON
-
-    RPARENTHESES    shift and go to state 66
-
+    empty                          shift and go to state 65
+    escritura2                     shift and go to state 66
 
 state 42
 
@@ -657,6 +714,13 @@ state 43
 
 state 44
 
+    (36) factor -> LPARENTHESES expresion . RPARENTHESES
+
+    RPARENTHESES    shift and go to state 71
+
+
+state 45
+
     (34) termino1 -> MULTI . factor termino1
     (36) factor -> . LPARENTHESES expresion RPARENTHESES
     (37) factor -> . factor1 varcte
@@ -665,18 +729,53 @@ state 44
     (40) factor1 -> . MINUS
     (44) empty -> .
 
-    LPARENTHESES    shift and go to state 37
-    PLUS            shift and go to state 33
+    LPARENTHESES    shift and go to state 29
+    PLUS            shift and go to state 37
     MINUS           shift and go to state 30
     IDENTIFIER      reduce using rule 44 (empty -> .)
     CTEINT          reduce using rule 44 (empty -> .)
     CTEFLOAT        reduce using rule 44 (empty -> .)
 
-    factor                         shift and go to state 71
-    empty                          shift and go to state 32
+    empty                          shift and go to state 34
+    factor                         shift and go to state 72
     factor1                        shift and go to state 36
 
-state 45
+state 46
+
+    (35) termino1 -> DIVIDE . factor termino1
+    (36) factor -> . LPARENTHESES expresion RPARENTHESES
+    (37) factor -> . factor1 varcte
+    (38) factor1 -> . empty
+    (39) factor1 -> . PLUS
+    (40) factor1 -> . MINUS
+    (44) empty -> .
+
+    LPARENTHESES    shift and go to state 29
+    PLUS            shift and go to state 37
+    MINUS           shift and go to state 30
+    IDENTIFIER      reduce using rule 44 (empty -> .)
+    CTEINT          reduce using rule 44 (empty -> .)
+    CTEFLOAT        reduce using rule 44 (empty -> .)
+
+    empty                          shift and go to state 34
+    factor                         shift and go to state 73
+    factor1                        shift and go to state 36
+
+state 47
+
+    (33) termino1 -> empty .
+
+    PLUS            reduce using rule 33 (termino1 -> empty .)
+    MINUS           reduce using rule 33 (termino1 -> empty .)
+    LTHAN           reduce using rule 33 (termino1 -> empty .)
+    GTHAN           reduce using rule 33 (termino1 -> empty .)
+    NOTEQUAL        reduce using rule 33 (termino1 -> empty .)
+    RPARENTHESES    reduce using rule 33 (termino1 -> empty .)
+    SEMICOLON       reduce using rule 33 (termino1 -> empty .)
+    COMMA           reduce using rule 33 (termino1 -> empty .)
+
+
+state 48
 
     (32) termino -> factor termino1 .
 
@@ -690,162 +789,7 @@ state 45
     SEMICOLON       reduce using rule 32 (termino -> factor termino1 .)
 
 
-state 46
-
-    (33) termino1 -> empty .
-
-    PLUS            reduce using rule 33 (termino1 -> empty .)
-    MINUS           reduce using rule 33 (termino1 -> empty .)
-    LTHAN           reduce using rule 33 (termino1 -> empty .)
-    GTHAN           reduce using rule 33 (termino1 -> empty .)
-    NOTEQUAL        reduce using rule 33 (termino1 -> empty .)
-    SEMICOLON       reduce using rule 33 (termino1 -> empty .)
-    COMMA           reduce using rule 33 (termino1 -> empty .)
-    RPARENTHESES    reduce using rule 33 (termino1 -> empty .)
-
-
-state 47
-
-    (35) termino1 -> DIVIDE . factor termino1
-    (36) factor -> . LPARENTHESES expresion RPARENTHESES
-    (37) factor -> . factor1 varcte
-    (38) factor1 -> . empty
-    (39) factor1 -> . PLUS
-    (40) factor1 -> . MINUS
-    (44) empty -> .
-
-    LPARENTHESES    shift and go to state 37
-    PLUS            shift and go to state 33
-    MINUS           shift and go to state 30
-    IDENTIFIER      reduce using rule 44 (empty -> .)
-    CTEINT          reduce using rule 44 (empty -> .)
-    CTEFLOAT        reduce using rule 44 (empty -> .)
-
-    factor                         shift and go to state 72
-    empty                          shift and go to state 32
-    factor1                        shift and go to state 36
-
-state 48
-
-    (31) exp1 -> MINUS . termino exp1
-    (32) termino -> . factor termino1
-    (36) factor -> . LPARENTHESES expresion RPARENTHESES
-    (37) factor -> . factor1 varcte
-    (38) factor1 -> . empty
-    (39) factor1 -> . PLUS
-    (40) factor1 -> . MINUS
-    (44) empty -> .
-
-    LPARENTHESES    shift and go to state 37
-    PLUS            shift and go to state 33
-    MINUS           shift and go to state 30
-    IDENTIFIER      reduce using rule 44 (empty -> .)
-    CTEINT          reduce using rule 44 (empty -> .)
-    CTEFLOAT        reduce using rule 44 (empty -> .)
-
-    factor                         shift and go to state 29
-    termino                        shift and go to state 73
-    empty                          shift and go to state 32
-    factor1                        shift and go to state 36
-
 state 49
-
-    (30) exp1 -> PLUS . termino exp1
-    (32) termino -> . factor termino1
-    (36) factor -> . LPARENTHESES expresion RPARENTHESES
-    (37) factor -> . factor1 varcte
-    (38) factor1 -> . empty
-    (39) factor1 -> . PLUS
-    (40) factor1 -> . MINUS
-    (44) empty -> .
-
-    LPARENTHESES    shift and go to state 37
-    PLUS            shift and go to state 33
-    MINUS           shift and go to state 30
-    IDENTIFIER      reduce using rule 44 (empty -> .)
-    CTEINT          reduce using rule 44 (empty -> .)
-    CTEFLOAT        reduce using rule 44 (empty -> .)
-
-    factor                         shift and go to state 29
-    termino                        shift and go to state 74
-    empty                          shift and go to state 32
-    factor1                        shift and go to state 36
-
-state 50
-
-    (29) exp1 -> empty .
-
-    LTHAN           reduce using rule 29 (exp1 -> empty .)
-    GTHAN           reduce using rule 29 (exp1 -> empty .)
-    NOTEQUAL        reduce using rule 29 (exp1 -> empty .)
-    SEMICOLON       reduce using rule 29 (exp1 -> empty .)
-    COMMA           reduce using rule 29 (exp1 -> empty .)
-    RPARENTHESES    reduce using rule 29 (exp1 -> empty .)
-
-
-state 51
-
-    (28) exp -> termino exp1 .
-
-    LTHAN           reduce using rule 28 (exp -> termino exp1 .)
-    GTHAN           reduce using rule 28 (exp -> termino exp1 .)
-    NOTEQUAL        reduce using rule 28 (exp -> termino exp1 .)
-    SEMICOLON       reduce using rule 28 (exp -> termino exp1 .)
-    RPARENTHESES    reduce using rule 28 (exp -> termino exp1 .)
-    COMMA           reduce using rule 28 (exp -> termino exp1 .)
-
-
-state 52
-
-    (27) expresion -> exp NOTEQUAL . exp
-    (28) exp -> . termino exp1
-    (32) termino -> . factor termino1
-    (36) factor -> . LPARENTHESES expresion RPARENTHESES
-    (37) factor -> . factor1 varcte
-    (38) factor1 -> . empty
-    (39) factor1 -> . PLUS
-    (40) factor1 -> . MINUS
-    (44) empty -> .
-
-    LPARENTHESES    shift and go to state 37
-    PLUS            shift and go to state 33
-    MINUS           shift and go to state 30
-    IDENTIFIER      reduce using rule 44 (empty -> .)
-    CTEINT          reduce using rule 44 (empty -> .)
-    CTEFLOAT        reduce using rule 44 (empty -> .)
-
-    factor                         shift and go to state 29
-    factor1                        shift and go to state 36
-    termino                        shift and go to state 31
-    empty                          shift and go to state 32
-    exp                            shift and go to state 75
-
-state 53
-
-    (26) expresion -> exp GTHAN . exp
-    (28) exp -> . termino exp1
-    (32) termino -> . factor termino1
-    (36) factor -> . LPARENTHESES expresion RPARENTHESES
-    (37) factor -> . factor1 varcte
-    (38) factor1 -> . empty
-    (39) factor1 -> . PLUS
-    (40) factor1 -> . MINUS
-    (44) empty -> .
-
-    LPARENTHESES    shift and go to state 37
-    PLUS            shift and go to state 33
-    MINUS           shift and go to state 30
-    IDENTIFIER      reduce using rule 44 (empty -> .)
-    CTEINT          reduce using rule 44 (empty -> .)
-    CTEFLOAT        reduce using rule 44 (empty -> .)
-
-    factor                         shift and go to state 29
-    factor1                        shift and go to state 36
-    termino                        shift and go to state 31
-    empty                          shift and go to state 32
-    exp                            shift and go to state 76
-
-state 54
 
     (25) expresion -> exp LTHAN . exp
     (28) exp -> . termino exp1
@@ -857,46 +801,166 @@ state 54
     (40) factor1 -> . MINUS
     (44) empty -> .
 
-    LPARENTHESES    shift and go to state 37
-    PLUS            shift and go to state 33
+    LPARENTHESES    shift and go to state 29
+    PLUS            shift and go to state 37
     MINUS           shift and go to state 30
     IDENTIFIER      reduce using rule 44 (empty -> .)
     CTEINT          reduce using rule 44 (empty -> .)
     CTEFLOAT        reduce using rule 44 (empty -> .)
 
-    factor                         shift and go to state 29
+    empty                          shift and go to state 34
+    termino                        shift and go to state 35
+    factor                         shift and go to state 31
     factor1                        shift and go to state 36
-    termino                        shift and go to state 31
-    empty                          shift and go to state 32
-    exp                            shift and go to state 77
+    exp                            shift and go to state 74
+
+state 50
+
+    (27) expresion -> exp NOTEQUAL . exp
+    (28) exp -> . termino exp1
+    (32) termino -> . factor termino1
+    (36) factor -> . LPARENTHESES expresion RPARENTHESES
+    (37) factor -> . factor1 varcte
+    (38) factor1 -> . empty
+    (39) factor1 -> . PLUS
+    (40) factor1 -> . MINUS
+    (44) empty -> .
+
+    LPARENTHESES    shift and go to state 29
+    PLUS            shift and go to state 37
+    MINUS           shift and go to state 30
+    IDENTIFIER      reduce using rule 44 (empty -> .)
+    CTEINT          reduce using rule 44 (empty -> .)
+    CTEFLOAT        reduce using rule 44 (empty -> .)
+
+    empty                          shift and go to state 34
+    termino                        shift and go to state 35
+    factor                         shift and go to state 31
+    factor1                        shift and go to state 36
+    exp                            shift and go to state 75
+
+state 51
+
+    (26) expresion -> exp GTHAN . exp
+    (28) exp -> . termino exp1
+    (32) termino -> . factor termino1
+    (36) factor -> . LPARENTHESES expresion RPARENTHESES
+    (37) factor -> . factor1 varcte
+    (38) factor1 -> . empty
+    (39) factor1 -> . PLUS
+    (40) factor1 -> . MINUS
+    (44) empty -> .
+
+    LPARENTHESES    shift and go to state 29
+    PLUS            shift and go to state 37
+    MINUS           shift and go to state 30
+    IDENTIFIER      reduce using rule 44 (empty -> .)
+    CTEINT          reduce using rule 44 (empty -> .)
+    CTEFLOAT        reduce using rule 44 (empty -> .)
+
+    empty                          shift and go to state 34
+    termino                        shift and go to state 35
+    factor                         shift and go to state 31
+    factor1                        shift and go to state 36
+    exp                            shift and go to state 76
+
+state 52
+
+    (22) condicion -> IF LPARENTHESES expresion RPARENTHESES . bloque SEMICOLON
+    (23) condicion -> IF LPARENTHESES expresion RPARENTHESES . bloque ELSE bloque SEMICOLON
+    (10) bloque -> . LBRACE bloque1 RBRACE
+
+    LBRACE          shift and go to state 7
+
+    bloque                         shift and go to state 77
+
+state 53
+
+    (28) exp -> termino exp1 .
+
+    LTHAN           reduce using rule 28 (exp -> termino exp1 .)
+    GTHAN           reduce using rule 28 (exp -> termino exp1 .)
+    NOTEQUAL        reduce using rule 28 (exp -> termino exp1 .)
+    COMMA           reduce using rule 28 (exp -> termino exp1 .)
+    RPARENTHESES    reduce using rule 28 (exp -> termino exp1 .)
+    SEMICOLON       reduce using rule 28 (exp -> termino exp1 .)
+
+
+state 54
+
+    (31) exp1 -> MINUS . termino exp1
+    (32) termino -> . factor termino1
+    (36) factor -> . LPARENTHESES expresion RPARENTHESES
+    (37) factor -> . factor1 varcte
+    (38) factor1 -> . empty
+    (39) factor1 -> . PLUS
+    (40) factor1 -> . MINUS
+    (44) empty -> .
+
+    LPARENTHESES    shift and go to state 29
+    PLUS            shift and go to state 37
+    MINUS           shift and go to state 30
+    IDENTIFIER      reduce using rule 44 (empty -> .)
+    CTEINT          reduce using rule 44 (empty -> .)
+    CTEFLOAT        reduce using rule 44 (empty -> .)
+
+    empty                          shift and go to state 34
+    termino                        shift and go to state 78
+    factor                         shift and go to state 31
+    factor1                        shift and go to state 36
 
 state 55
 
-    (16) asignacion -> IDENTIFIER EQUAL expresion SEMICOLON .
+    (29) exp1 -> empty .
 
-    IDENTIFIER      reduce using rule 16 (asignacion -> IDENTIFIER EQUAL expresion SEMICOLON .)
-    IF              reduce using rule 16 (asignacion -> IDENTIFIER EQUAL expresion SEMICOLON .)
-    PRINT           reduce using rule 16 (asignacion -> IDENTIFIER EQUAL expresion SEMICOLON .)
-    RBRACE          reduce using rule 16 (asignacion -> IDENTIFIER EQUAL expresion SEMICOLON .)
+    LTHAN           reduce using rule 29 (exp1 -> empty .)
+    GTHAN           reduce using rule 29 (exp1 -> empty .)
+    NOTEQUAL        reduce using rule 29 (exp1 -> empty .)
+    RPARENTHESES    reduce using rule 29 (exp1 -> empty .)
+    SEMICOLON       reduce using rule 29 (exp1 -> empty .)
+    COMMA           reduce using rule 29 (exp1 -> empty .)
 
 
 state 56
 
-    (42) varcte -> CTEINT .
+    (30) exp1 -> PLUS . termino exp1
+    (32) termino -> . factor termino1
+    (36) factor -> . LPARENTHESES expresion RPARENTHESES
+    (37) factor -> . factor1 varcte
+    (38) factor1 -> . empty
+    (39) factor1 -> . PLUS
+    (40) factor1 -> . MINUS
+    (44) empty -> .
 
-    MULTI           reduce using rule 42 (varcte -> CTEINT .)
-    DIVIDE          reduce using rule 42 (varcte -> CTEINT .)
-    PLUS            reduce using rule 42 (varcte -> CTEINT .)
-    MINUS           reduce using rule 42 (varcte -> CTEINT .)
-    LTHAN           reduce using rule 42 (varcte -> CTEINT .)
-    GTHAN           reduce using rule 42 (varcte -> CTEINT .)
-    NOTEQUAL        reduce using rule 42 (varcte -> CTEINT .)
-    SEMICOLON       reduce using rule 42 (varcte -> CTEINT .)
-    COMMA           reduce using rule 42 (varcte -> CTEINT .)
-    RPARENTHESES    reduce using rule 42 (varcte -> CTEINT .)
+    LPARENTHESES    shift and go to state 29
+    PLUS            shift and go to state 37
+    MINUS           shift and go to state 30
+    IDENTIFIER      reduce using rule 44 (empty -> .)
+    CTEINT          reduce using rule 44 (empty -> .)
+    CTEFLOAT        reduce using rule 44 (empty -> .)
 
+    empty                          shift and go to state 34
+    termino                        shift and go to state 79
+    factor                         shift and go to state 31
+    factor1                        shift and go to state 36
 
 state 57
+
+    (37) factor -> factor1 varcte .
+
+    MULTI           reduce using rule 37 (factor -> factor1 varcte .)
+    DIVIDE          reduce using rule 37 (factor -> factor1 varcte .)
+    PLUS            reduce using rule 37 (factor -> factor1 varcte .)
+    MINUS           reduce using rule 37 (factor -> factor1 varcte .)
+    LTHAN           reduce using rule 37 (factor -> factor1 varcte .)
+    GTHAN           reduce using rule 37 (factor -> factor1 varcte .)
+    NOTEQUAL        reduce using rule 37 (factor -> factor1 varcte .)
+    RPARENTHESES    reduce using rule 37 (factor -> factor1 varcte .)
+    SEMICOLON       reduce using rule 37 (factor -> factor1 varcte .)
+    COMMA           reduce using rule 37 (factor -> factor1 varcte .)
+
+
+state 58
 
     (41) varcte -> IDENTIFIER .
 
@@ -907,25 +971,9 @@ state 57
     LTHAN           reduce using rule 41 (varcte -> IDENTIFIER .)
     GTHAN           reduce using rule 41 (varcte -> IDENTIFIER .)
     NOTEQUAL        reduce using rule 41 (varcte -> IDENTIFIER .)
+    RPARENTHESES    reduce using rule 41 (varcte -> IDENTIFIER .)
     SEMICOLON       reduce using rule 41 (varcte -> IDENTIFIER .)
     COMMA           reduce using rule 41 (varcte -> IDENTIFIER .)
-    RPARENTHESES    reduce using rule 41 (varcte -> IDENTIFIER .)
-
-
-state 58
-
-    (37) factor -> factor1 varcte .
-
-    MULTI           reduce using rule 37 (factor -> factor1 varcte .)
-    DIVIDE          reduce using rule 37 (factor -> factor1 varcte .)
-    PLUS            reduce using rule 37 (factor -> factor1 varcte .)
-    MINUS           reduce using rule 37 (factor -> factor1 varcte .)
-    SEMICOLON       reduce using rule 37 (factor -> factor1 varcte .)
-    COMMA           reduce using rule 37 (factor -> factor1 varcte .)
-    RPARENTHESES    reduce using rule 37 (factor -> factor1 varcte .)
-    LTHAN           reduce using rule 37 (factor -> factor1 varcte .)
-    GTHAN           reduce using rule 37 (factor -> factor1 varcte .)
-    NOTEQUAL        reduce using rule 37 (factor -> factor1 varcte .)
 
 
 state 59
@@ -939,26 +987,45 @@ state 59
     LTHAN           reduce using rule 43 (varcte -> CTEFLOAT .)
     GTHAN           reduce using rule 43 (varcte -> CTEFLOAT .)
     NOTEQUAL        reduce using rule 43 (varcte -> CTEFLOAT .)
+    RPARENTHESES    reduce using rule 43 (varcte -> CTEFLOAT .)
     SEMICOLON       reduce using rule 43 (varcte -> CTEFLOAT .)
     COMMA           reduce using rule 43 (varcte -> CTEFLOAT .)
-    RPARENTHESES    reduce using rule 43 (varcte -> CTEFLOAT .)
 
 
 state 60
 
-    (36) factor -> LPARENTHESES expresion . RPARENTHESES
+    (42) varcte -> CTEINT .
 
-    RPARENTHESES    shift and go to state 78
+    MULTI           reduce using rule 42 (varcte -> CTEINT .)
+    DIVIDE          reduce using rule 42 (varcte -> CTEINT .)
+    PLUS            reduce using rule 42 (varcte -> CTEINT .)
+    MINUS           reduce using rule 42 (varcte -> CTEINT .)
+    LTHAN           reduce using rule 42 (varcte -> CTEINT .)
+    GTHAN           reduce using rule 42 (varcte -> CTEINT .)
+    NOTEQUAL        reduce using rule 42 (varcte -> CTEINT .)
+    RPARENTHESES    reduce using rule 42 (varcte -> CTEINT .)
+    SEMICOLON       reduce using rule 42 (varcte -> CTEINT .)
+    COMMA           reduce using rule 42 (varcte -> CTEINT .)
 
 
 state 61
 
-    (19) escritura1 -> STRING escritura2 .
+    (16) asignacion -> IDENTIFIER EQUAL expresion SEMICOLON .
 
-    RPARENTHESES    reduce using rule 19 (escritura1 -> STRING escritura2 .)
+    IDENTIFIER      reduce using rule 16 (asignacion -> IDENTIFIER EQUAL expresion SEMICOLON .)
+    IF              reduce using rule 16 (asignacion -> IDENTIFIER EQUAL expresion SEMICOLON .)
+    PRINT           reduce using rule 16 (asignacion -> IDENTIFIER EQUAL expresion SEMICOLON .)
+    RBRACE          reduce using rule 16 (asignacion -> IDENTIFIER EQUAL expresion SEMICOLON .)
 
 
 state 62
+
+    (17) escritura -> PRINT LPARENTHESES escritura1 RPARENTHESES . SEMICOLON
+
+    SEMICOLON       shift and go to state 80
+
+
+state 63
 
     (21) escritura2 -> COMMA . escritura1
     (18) escritura1 -> . expresion escritura2
@@ -976,52 +1043,42 @@ state 62
     (40) factor1 -> . MINUS
     (44) empty -> .
 
-    STRING          shift and go to state 38
-    LPARENTHESES    shift and go to state 37
-    PLUS            shift and go to state 33
+    STRING          shift and go to state 40
+    LPARENTHESES    shift and go to state 29
+    PLUS            shift and go to state 37
     MINUS           shift and go to state 30
     IDENTIFIER      reduce using rule 44 (empty -> .)
     CTEINT          reduce using rule 44 (empty -> .)
     CTEFLOAT        reduce using rule 44 (empty -> .)
 
-    expresion                      shift and go to state 39
-    factor                         shift and go to state 29
+    expresion                      shift and go to state 41
+    escritura1                     shift and go to state 81
+    termino                        shift and go to state 35
+    factor                         shift and go to state 31
     factor1                        shift and go to state 36
-    termino                        shift and go to state 31
-    empty                          shift and go to state 32
-    exp                            shift and go to state 34
-    escritura1                     shift and go to state 79
+    exp                            shift and go to state 32
+    empty                          shift and go to state 34
 
-state 63
+state 64
+
+    (19) escritura1 -> STRING escritura2 .
+
+    RPARENTHESES    reduce using rule 19 (escritura1 -> STRING escritura2 .)
+
+
+state 65
 
     (20) escritura2 -> empty .
 
     RPARENTHESES    reduce using rule 20 (escritura2 -> empty .)
 
 
-state 64
+state 66
 
     (18) escritura1 -> expresion escritura2 .
 
     RPARENTHESES    reduce using rule 18 (escritura1 -> expresion escritura2 .)
 
-
-state 65
-
-    (17) escritura -> PRINT LPARENTHESES escritura1 RPARENTHESES . SEMICOLON
-
-    SEMICOLON       shift and go to state 80
-
-
-state 66
-
-    (22) condicion -> IF LPARENTHESES expresion RPARENTHESES . bloque SEMICOLON
-    (23) condicion -> IF LPARENTHESES expresion RPARENTHESES . bloque ELSE bloque SEMICOLON
-    (10) bloque -> . LBRACE bloque1 RBRACE
-
-    LBRACE          shift and go to state 5
-
-    bloque                         shift and go to state 81
 
 state 67
 
@@ -1054,27 +1111,43 @@ state 70
 
 state 71
 
+    (36) factor -> LPARENTHESES expresion RPARENTHESES .
+
+    MULTI           reduce using rule 36 (factor -> LPARENTHESES expresion RPARENTHESES .)
+    DIVIDE          reduce using rule 36 (factor -> LPARENTHESES expresion RPARENTHESES .)
+    PLUS            reduce using rule 36 (factor -> LPARENTHESES expresion RPARENTHESES .)
+    MINUS           reduce using rule 36 (factor -> LPARENTHESES expresion RPARENTHESES .)
+    LTHAN           reduce using rule 36 (factor -> LPARENTHESES expresion RPARENTHESES .)
+    GTHAN           reduce using rule 36 (factor -> LPARENTHESES expresion RPARENTHESES .)
+    NOTEQUAL        reduce using rule 36 (factor -> LPARENTHESES expresion RPARENTHESES .)
+    RPARENTHESES    reduce using rule 36 (factor -> LPARENTHESES expresion RPARENTHESES .)
+    SEMICOLON       reduce using rule 36 (factor -> LPARENTHESES expresion RPARENTHESES .)
+    COMMA           reduce using rule 36 (factor -> LPARENTHESES expresion RPARENTHESES .)
+
+
+state 72
+
     (34) termino1 -> MULTI factor . termino1
     (33) termino1 -> . empty
     (34) termino1 -> . MULTI factor termino1
     (35) termino1 -> . DIVIDE factor termino1
     (44) empty -> .
 
-    MULTI           shift and go to state 44
-    DIVIDE          shift and go to state 47
+    MULTI           shift and go to state 45
+    DIVIDE          shift and go to state 46
     PLUS            reduce using rule 44 (empty -> .)
     MINUS           reduce using rule 44 (empty -> .)
     LTHAN           reduce using rule 44 (empty -> .)
     GTHAN           reduce using rule 44 (empty -> .)
     NOTEQUAL        reduce using rule 44 (empty -> .)
+    RPARENTHESES    reduce using rule 44 (empty -> .)
     SEMICOLON       reduce using rule 44 (empty -> .)
     COMMA           reduce using rule 44 (empty -> .)
-    RPARENTHESES    reduce using rule 44 (empty -> .)
 
+    empty                          shift and go to state 47
     termino1                       shift and go to state 83
-    empty                          shift and go to state 46
 
-state 72
+state 73
 
     (35) termino1 -> DIVIDE factor . termino1
     (33) termino1 -> . empty
@@ -1082,21 +1155,57 @@ state 72
     (35) termino1 -> . DIVIDE factor termino1
     (44) empty -> .
 
-    MULTI           shift and go to state 44
-    DIVIDE          shift and go to state 47
+    MULTI           shift and go to state 45
+    DIVIDE          shift and go to state 46
     PLUS            reduce using rule 44 (empty -> .)
     MINUS           reduce using rule 44 (empty -> .)
     LTHAN           reduce using rule 44 (empty -> .)
     GTHAN           reduce using rule 44 (empty -> .)
     NOTEQUAL        reduce using rule 44 (empty -> .)
+    RPARENTHESES    reduce using rule 44 (empty -> .)
     SEMICOLON       reduce using rule 44 (empty -> .)
     COMMA           reduce using rule 44 (empty -> .)
-    RPARENTHESES    reduce using rule 44 (empty -> .)
 
+    empty                          shift and go to state 47
     termino1                       shift and go to state 84
-    empty                          shift and go to state 46
 
-state 73
+state 74
+
+    (25) expresion -> exp LTHAN exp .
+
+    SEMICOLON       reduce using rule 25 (expresion -> exp LTHAN exp .)
+    COMMA           reduce using rule 25 (expresion -> exp LTHAN exp .)
+    RPARENTHESES    reduce using rule 25 (expresion -> exp LTHAN exp .)
+
+
+state 75
+
+    (27) expresion -> exp NOTEQUAL exp .
+
+    SEMICOLON       reduce using rule 27 (expresion -> exp NOTEQUAL exp .)
+    COMMA           reduce using rule 27 (expresion -> exp NOTEQUAL exp .)
+    RPARENTHESES    reduce using rule 27 (expresion -> exp NOTEQUAL exp .)
+
+
+state 76
+
+    (26) expresion -> exp GTHAN exp .
+
+    SEMICOLON       reduce using rule 26 (expresion -> exp GTHAN exp .)
+    COMMA           reduce using rule 26 (expresion -> exp GTHAN exp .)
+    RPARENTHESES    reduce using rule 26 (expresion -> exp GTHAN exp .)
+
+
+state 77
+
+    (22) condicion -> IF LPARENTHESES expresion RPARENTHESES bloque . SEMICOLON
+    (23) condicion -> IF LPARENTHESES expresion RPARENTHESES bloque . ELSE bloque SEMICOLON
+
+    SEMICOLON       shift and go to state 85
+    ELSE            shift and go to state 86
+
+
+state 78
 
     (31) exp1 -> MINUS termino . exp1
     (29) exp1 -> . empty
@@ -1104,19 +1213,19 @@ state 73
     (31) exp1 -> . MINUS termino exp1
     (44) empty -> .
 
-    PLUS            shift and go to state 49
-    MINUS           shift and go to state 48
+    PLUS            shift and go to state 56
+    MINUS           shift and go to state 54
     LTHAN           reduce using rule 44 (empty -> .)
     GTHAN           reduce using rule 44 (empty -> .)
     NOTEQUAL        reduce using rule 44 (empty -> .)
+    RPARENTHESES    reduce using rule 44 (empty -> .)
     SEMICOLON       reduce using rule 44 (empty -> .)
     COMMA           reduce using rule 44 (empty -> .)
-    RPARENTHESES    reduce using rule 44 (empty -> .)
 
-    empty                          shift and go to state 50
-    exp1                           shift and go to state 85
+    exp1                           shift and go to state 87
+    empty                          shift and go to state 55
 
-state 74
+state 79
 
     (30) exp1 -> PLUS termino . exp1
     (29) exp1 -> . empty
@@ -1124,67 +1233,17 @@ state 74
     (31) exp1 -> . MINUS termino exp1
     (44) empty -> .
 
-    PLUS            shift and go to state 49
-    MINUS           shift and go to state 48
+    PLUS            shift and go to state 56
+    MINUS           shift and go to state 54
     LTHAN           reduce using rule 44 (empty -> .)
     GTHAN           reduce using rule 44 (empty -> .)
     NOTEQUAL        reduce using rule 44 (empty -> .)
+    RPARENTHESES    reduce using rule 44 (empty -> .)
     SEMICOLON       reduce using rule 44 (empty -> .)
     COMMA           reduce using rule 44 (empty -> .)
-    RPARENTHESES    reduce using rule 44 (empty -> .)
 
-    empty                          shift and go to state 50
-    exp1                           shift and go to state 86
-
-state 75
-
-    (27) expresion -> exp NOTEQUAL exp .
-
-    COMMA           reduce using rule 27 (expresion -> exp NOTEQUAL exp .)
-    RPARENTHESES    reduce using rule 27 (expresion -> exp NOTEQUAL exp .)
-    SEMICOLON       reduce using rule 27 (expresion -> exp NOTEQUAL exp .)
-
-
-state 76
-
-    (26) expresion -> exp GTHAN exp .
-
-    COMMA           reduce using rule 26 (expresion -> exp GTHAN exp .)
-    RPARENTHESES    reduce using rule 26 (expresion -> exp GTHAN exp .)
-    SEMICOLON       reduce using rule 26 (expresion -> exp GTHAN exp .)
-
-
-state 77
-
-    (25) expresion -> exp LTHAN exp .
-
-    COMMA           reduce using rule 25 (expresion -> exp LTHAN exp .)
-    RPARENTHESES    reduce using rule 25 (expresion -> exp LTHAN exp .)
-    SEMICOLON       reduce using rule 25 (expresion -> exp LTHAN exp .)
-
-
-state 78
-
-    (36) factor -> LPARENTHESES expresion RPARENTHESES .
-
-    MULTI           reduce using rule 36 (factor -> LPARENTHESES expresion RPARENTHESES .)
-    DIVIDE          reduce using rule 36 (factor -> LPARENTHESES expresion RPARENTHESES .)
-    PLUS            reduce using rule 36 (factor -> LPARENTHESES expresion RPARENTHESES .)
-    MINUS           reduce using rule 36 (factor -> LPARENTHESES expresion RPARENTHESES .)
-    SEMICOLON       reduce using rule 36 (factor -> LPARENTHESES expresion RPARENTHESES .)
-    COMMA           reduce using rule 36 (factor -> LPARENTHESES expresion RPARENTHESES .)
-    RPARENTHESES    reduce using rule 36 (factor -> LPARENTHESES expresion RPARENTHESES .)
-    LTHAN           reduce using rule 36 (factor -> LPARENTHESES expresion RPARENTHESES .)
-    GTHAN           reduce using rule 36 (factor -> LPARENTHESES expresion RPARENTHESES .)
-    NOTEQUAL        reduce using rule 36 (factor -> LPARENTHESES expresion RPARENTHESES .)
-
-
-state 79
-
-    (21) escritura2 -> COMMA escritura1 .
-
-    RPARENTHESES    reduce using rule 21 (escritura2 -> COMMA escritura1 .)
-
+    exp1                           shift and go to state 88
+    empty                          shift and go to state 55
 
 state 80
 
@@ -1198,11 +1257,9 @@ state 80
 
 state 81
 
-    (22) condicion -> IF LPARENTHESES expresion RPARENTHESES bloque . SEMICOLON
-    (23) condicion -> IF LPARENTHESES expresion RPARENTHESES bloque . ELSE bloque SEMICOLON
+    (21) escritura2 -> COMMA escritura1 .
 
-    SEMICOLON       shift and go to state 88
-    ELSE            shift and go to state 87
+    RPARENTHESES    reduce using rule 21 (escritura2 -> COMMA escritura1 .)
 
 
 state 82
@@ -1226,9 +1283,9 @@ state 83
     LTHAN           reduce using rule 34 (termino1 -> MULTI factor termino1 .)
     GTHAN           reduce using rule 34 (termino1 -> MULTI factor termino1 .)
     NOTEQUAL        reduce using rule 34 (termino1 -> MULTI factor termino1 .)
+    RPARENTHESES    reduce using rule 34 (termino1 -> MULTI factor termino1 .)
     SEMICOLON       reduce using rule 34 (termino1 -> MULTI factor termino1 .)
     COMMA           reduce using rule 34 (termino1 -> MULTI factor termino1 .)
-    RPARENTHESES    reduce using rule 34 (termino1 -> MULTI factor termino1 .)
 
 
 state 84
@@ -1240,45 +1297,12 @@ state 84
     LTHAN           reduce using rule 35 (termino1 -> DIVIDE factor termino1 .)
     GTHAN           reduce using rule 35 (termino1 -> DIVIDE factor termino1 .)
     NOTEQUAL        reduce using rule 35 (termino1 -> DIVIDE factor termino1 .)
+    RPARENTHESES    reduce using rule 35 (termino1 -> DIVIDE factor termino1 .)
     SEMICOLON       reduce using rule 35 (termino1 -> DIVIDE factor termino1 .)
     COMMA           reduce using rule 35 (termino1 -> DIVIDE factor termino1 .)
-    RPARENTHESES    reduce using rule 35 (termino1 -> DIVIDE factor termino1 .)
 
 
 state 85
-
-    (31) exp1 -> MINUS termino exp1 .
-
-    LTHAN           reduce using rule 31 (exp1 -> MINUS termino exp1 .)
-    GTHAN           reduce using rule 31 (exp1 -> MINUS termino exp1 .)
-    NOTEQUAL        reduce using rule 31 (exp1 -> MINUS termino exp1 .)
-    SEMICOLON       reduce using rule 31 (exp1 -> MINUS termino exp1 .)
-    COMMA           reduce using rule 31 (exp1 -> MINUS termino exp1 .)
-    RPARENTHESES    reduce using rule 31 (exp1 -> MINUS termino exp1 .)
-
-
-state 86
-
-    (30) exp1 -> PLUS termino exp1 .
-
-    LTHAN           reduce using rule 30 (exp1 -> PLUS termino exp1 .)
-    GTHAN           reduce using rule 30 (exp1 -> PLUS termino exp1 .)
-    NOTEQUAL        reduce using rule 30 (exp1 -> PLUS termino exp1 .)
-    SEMICOLON       reduce using rule 30 (exp1 -> PLUS termino exp1 .)
-    COMMA           reduce using rule 30 (exp1 -> PLUS termino exp1 .)
-    RPARENTHESES    reduce using rule 30 (exp1 -> PLUS termino exp1 .)
-
-
-state 87
-
-    (23) condicion -> IF LPARENTHESES expresion RPARENTHESES bloque ELSE . bloque SEMICOLON
-    (10) bloque -> . LBRACE bloque1 RBRACE
-
-    LBRACE          shift and go to state 5
-
-    bloque                         shift and go to state 90
-
-state 88
 
     (22) condicion -> IF LPARENTHESES expresion RPARENTHESES bloque SEMICOLON .
 
@@ -1286,6 +1310,39 @@ state 88
     IF              reduce using rule 22 (condicion -> IF LPARENTHESES expresion RPARENTHESES bloque SEMICOLON .)
     PRINT           reduce using rule 22 (condicion -> IF LPARENTHESES expresion RPARENTHESES bloque SEMICOLON .)
     RBRACE          reduce using rule 22 (condicion -> IF LPARENTHESES expresion RPARENTHESES bloque SEMICOLON .)
+
+
+state 86
+
+    (23) condicion -> IF LPARENTHESES expresion RPARENTHESES bloque ELSE . bloque SEMICOLON
+    (10) bloque -> . LBRACE bloque1 RBRACE
+
+    LBRACE          shift and go to state 7
+
+    bloque                         shift and go to state 90
+
+state 87
+
+    (31) exp1 -> MINUS termino exp1 .
+
+    LTHAN           reduce using rule 31 (exp1 -> MINUS termino exp1 .)
+    GTHAN           reduce using rule 31 (exp1 -> MINUS termino exp1 .)
+    NOTEQUAL        reduce using rule 31 (exp1 -> MINUS termino exp1 .)
+    RPARENTHESES    reduce using rule 31 (exp1 -> MINUS termino exp1 .)
+    SEMICOLON       reduce using rule 31 (exp1 -> MINUS termino exp1 .)
+    COMMA           reduce using rule 31 (exp1 -> MINUS termino exp1 .)
+
+
+state 88
+
+    (30) exp1 -> PLUS termino exp1 .
+
+    LTHAN           reduce using rule 30 (exp1 -> PLUS termino exp1 .)
+    GTHAN           reduce using rule 30 (exp1 -> PLUS termino exp1 .)
+    NOTEQUAL        reduce using rule 30 (exp1 -> PLUS termino exp1 .)
+    RPARENTHESES    reduce using rule 30 (exp1 -> PLUS termino exp1 .)
+    SEMICOLON       reduce using rule 30 (exp1 -> PLUS termino exp1 .)
+    COMMA           reduce using rule 30 (exp1 -> PLUS termino exp1 .)
 
 
 state 89

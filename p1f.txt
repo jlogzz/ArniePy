@@ -1,6 +1,7 @@
-program p1;
-var b: int;
-var a: floa;
-{
+ITS SHOWTIME
 
-}
+  STICK AROUND NO PROBLEMO
+    TALK TO THE HAND "Hasta la vista Baby"
+  CHILL
+
+YOU HAVE BEEN TERMINATED

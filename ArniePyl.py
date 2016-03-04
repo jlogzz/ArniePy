@@ -2,6 +2,8 @@ import ply.lex as lex
 
 # List of reserved word that are going to be added to the tokens
 reserved = {
+  'I LIED' : 'FALSE',
+  'NO PROBLEMO' : 'TRUE',
   'ITS SHOWTIME' : 'PROGRAM',
   'YOU HAVE BEEN TERMINATED' : 'ENDPROGRAM',
   'WHO ARE YOU' : 'VAR',
@@ -26,7 +28,6 @@ reserved = {
   'int' : 'INT',
   'float' : 'FLOAT',
   'bool' : 'BOOL',
-  'string' : 'STRING',
   'HEY CHRISTMAS TREE' : 'HASH',
 }
 
@@ -45,6 +46,7 @@ tokens = [
   'CTEFLOAT',
   'STRING',
   'EQUAL',
+  'EQUALTO',
   'GTHAN',
   'GTHANEQ',
   'LTHAN',
@@ -77,10 +79,10 @@ t_EQUALTO    = r'=='
 t_GTHAN      = r'>'
 t_GTHANEQ    = r'>='
 t_LTHAN      = r'<'
-t_LTHENEQ    = r'<='
+t_LTHANEQ    = r'<='
 t_NOTEQUAL   = r'!='
 t_COMMA      = r'\,'
-t_OR         = r'||'
+t_OR         = r'\|\|'
 t_AND        = r'&&'
 t_COLON      = r':'
 t_SEMICOLON  = r';'
@@ -94,7 +96,7 @@ def t_IDENTIFIER(t):
 
     # A regular expression rule with some action code
 def t_REFERENCIA(t):
-  r'\&[a-zA-Z][a-zA-Z0-9]*'
+  r'&[a-zA-Z][a-zA-Z0-9]*'
   t.type = reserved.get(t.value, 'REFERENCIA')
   return t
 

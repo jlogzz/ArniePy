@@ -5,9 +5,9 @@ _tabversion = '3.8'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'CADE4B00558CB64E93E7121CACEFA411'
+_lr_signature = '600A38A34BC47372D3866BA0E1D8F008'
     
-_lr_action_items = {'MULTI':([29,56,57,58,59,71,72,78,],[44,-42,-41,-37,-43,44,44,-36,]),'STRING':([22,62,],[38,38,]),'PRINT':([5,13,14,15,16,55,80,88,91,],[11,11,-14,-15,-13,-16,-17,-22,-23,]),'MINUS':([21,22,23,29,31,37,44,45,46,47,48,49,52,53,54,56,57,58,59,62,71,72,73,74,78,83,84,],[30,30,30,-44,48,30,30,-32,-33,30,30,30,30,30,30,-42,-41,-37,-43,30,-44,-44,48,48,-36,-34,-35,]),'INT':([42,],[68,]),'COLON':([19,26,27,43,70,],[-44,-6,42,-44,-7,]),'FLOAT':([42,],[67,]),'LPARENTHESES':([11,12,21,22,23,37,44,47,48,49,52,53,54,62,],[22,23,37,37,37,37,37,37,37,37,37,37,37,37,]),'SEMICOLON':([3,25,29,31,34,35,45,46,50,51,56,57,58,59,65,67,68,69,71,72,73,74,75,76,77,78,81,83,84,85,86,90,],[4,-10,-44,-44,-24,55,-32,-33,-29,-28,-42,-41,-37,-43,80,-9,-8,82,-44,-44,-44,-44,-27,-26,-25,-36,88,-34,-35,-31,-30,91,]),'GTHAN':([29,31,34,45,46,50,51,56,57,58,59,71,72,73,74,78,83,84,85,86,],[-44,-44,53,-32,-33,-29,-28,-42,-41,-37,-43,-44,-44,-44,-44,-36,-34,-35,-31,-30,]),'DIVIDE':([29,56,57,58,59,71,72,78,],[47,-42,-41,-37,-43,47,47,-36,]),'RBRACE':([5,10,13,14,15,16,17,24,55,80,88,91,],[-44,-11,-44,-14,-15,-13,25,-12,-16,-17,-22,-23,]),'IDENTIFIER':([2,5,8,13,14,15,16,21,22,23,28,30,32,33,36,37,44,47,48,49,52,53,54,55,62,80,82,88,91,],[3,9,19,9,-14,-15,-13,-44,-44,-44,43,-40,-38,-39,57,-44,-44,-44,-44,-44,-44,-44,-44,-16,-44,-17,19,-22,-23,]),'$end':([1,6,18,25,],[0,-2,-1,-10,]),'EQUAL':([9,],[21,]),'PLUS':([21,22,23,29,31,37,44,45,46,47,48,49,52,53,54,56,57,58,59,62,71,72,73,74,78,83,84,],[33,33,33,-44,49,33,33,-32,-33,33,33,33,33,33,33,-42,-41,-37,-43,33,-44,-44,49,49,-36,-34,-35,]),'CTEINT':([21,22,23,30,32,33,36,37,44,47,48,49,52,53,54,62,],[-44,-44,-44,-40,-38,-39,56,-44,-44,-44,-44,-44,-44,-44,-44,-44,]),'IF':([5,13,14,15,16,55,80,88,91,],[12,12,-14,-15,-13,-16,-17,-22,-23,]),'LTHAN':([29,31,34,45,46,50,51,56,57,58,59,71,72,73,74,78,83,84,85,86,],[-44,-44,54,-32,-33,-29,-28,-42,-41,-37,-43,-44,-44,-44,-44,-36,-34,-35,-31,-30,]),'LBRACE':([4,7,20,66,82,87,89,],[5,5,-3,5,-5,5,-4,]),'CTEFLOAT':([21,22,23,30,32,33,36,37,44,47,48,49,52,53,54,62,],[-44,-44,-44,-40,-38,-39,59,-44,-44,-44,-44,-44,-44,-44,-44,-44,]),'VAR':([4,],[8,]),'ELSE':([25,81,],[-10,87,]),'COMMA':([19,29,31,34,38,39,43,45,46,50,51,56,57,58,59,71,72,73,74,75,76,77,78,83,84,85,86,],[28,-44,-44,-24,62,62,28,-32,-33,-29,-28,-42,-41,-37,-43,-44,-44,-44,-44,-27,-26,-25,-36,-34,-35,-31,-30,]),'NOTEQUAL':([29,31,34,45,46,50,51,56,57,58,59,71,72,73,74,78,83,84,85,86,],[-44,-44,52,-32,-33,-29,-28,-42,-41,-37,-43,-44,-44,-44,-44,-36,-34,-35,-31,-30,]),'RPARENTHESES':([29,31,34,38,39,40,41,45,46,50,51,56,57,58,59,60,61,63,64,71,72,73,74,75,76,77,78,79,83,84,85,86,],[-44,-44,-24,-44,-44,65,66,-32,-33,-29,-28,-42,-41,-37,-43,78,-19,-20,-18,-44,-44,-44,-44,-27,-26,-25,-36,-21,-34,-35,-31,-30,]),'PROGRAM':([0,],[2,]),}
+_lr_action_items = {'LTHAN':([31,32,35,47,48,53,55,57,58,59,60,71,72,73,78,79,83,84,87,88,],[-44,49,-44,-33,-32,-28,-29,-37,-41,-43,-42,-36,-44,-44,-44,-44,-34,-35,-31,-30,]),'SEMICOLON':([3,25,31,32,35,38,47,48,53,55,57,58,59,60,62,67,68,69,71,72,73,74,75,76,77,78,79,83,84,87,88,90,],[4,-10,-44,-24,-44,61,-33,-32,-28,-29,-37,-41,-43,-42,80,-9,-8,82,-36,-44,-44,-25,-27,-26,85,-44,-44,-34,-35,-31,-30,91,]),'ELSE':([25,77,],[-10,86,]),'DIVIDE':([31,57,58,59,60,71,72,73,],[46,-37,-41,-43,-42,-36,46,46,]),'MINUS':([21,22,23,29,31,35,45,46,47,48,49,50,51,54,56,57,58,59,60,63,71,72,73,78,79,83,84,],[30,30,30,30,-44,54,30,30,-33,-32,30,30,30,30,30,-37,-41,-43,-42,30,-36,-44,-44,54,54,-34,-35,]),'INT':([42,],[68,]),'CTEFLOAT':([21,22,23,29,30,34,36,37,45,46,49,50,51,54,56,63,],[-44,-44,-44,-44,-40,-38,59,-39,-44,-44,-44,-44,-44,-44,-44,-44,]),'NOTEQUAL':([31,32,35,47,48,53,55,57,58,59,60,71,72,73,78,79,83,84,87,88,],[-44,50,-44,-33,-32,-28,-29,-37,-41,-43,-42,-36,-44,-44,-44,-44,-34,-35,-31,-30,]),'VAR':([4,],[8,]),'COLON':([19,26,27,43,70,],[-44,-6,42,-44,-7,]),'MULTI':([31,57,58,59,60,71,72,73,],[45,-37,-41,-43,-42,-36,45,45,]),'COMMA':([19,31,32,35,40,41,43,47,48,53,55,57,58,59,60,71,72,73,74,75,76,78,79,83,84,87,88,],[28,-44,-24,-44,63,63,28,-33,-32,-28,-29,-37,-41,-43,-42,-36,-44,-44,-25,-27,-26,-44,-44,-34,-35,-31,-30,]),'GTHAN':([31,32,35,47,48,53,55,57,58,59,60,71,72,73,78,79,83,84,87,88,],[-44,51,-44,-33,-32,-28,-29,-37,-41,-43,-42,-36,-44,-44,-44,-44,-34,-35,-31,-30,]),'FLOAT':([42,],[67,]),'CTEINT':([21,22,23,29,30,34,36,37,45,46,49,50,51,54,56,63,],[-44,-44,-44,-44,-40,-38,60,-39,-44,-44,-44,-44,-44,-44,-44,-44,]),'RBRACE':([7,11,14,15,16,17,18,24,61,80,85,91,],[-44,-15,-44,-11,25,-13,-14,-12,-16,-17,-22,-23,]),'LBRACE':([4,6,20,52,82,86,89,],[7,7,-3,7,-5,7,-4,]),'PLUS':([21,22,23,29,31,35,45,46,47,48,49,50,51,54,56,57,58,59,60,63,71,72,73,78,79,83,84,],[37,37,37,37,-44,56,37,37,-33,-32,37,37,37,37,37,-37,-41,-43,-42,37,-36,-44,-44,56,56,-34,-35,]),'LPARENTHESES':([10,13,21,22,23,29,45,46,49,50,51,54,56,63,],[21,23,29,29,29,29,29,29,29,29,29,29,29,29,]),'PRINT':([7,11,14,17,18,61,80,85,91,],[13,-15,13,-13,-14,-16,-17,-22,-23,]),'IDENTIFIER':([2,7,8,11,14,17,18,21,22,23,28,29,30,34,36,37,45,46,49,50,51,54,56,61,63,80,82,85,91,],[3,12,19,-15,12,-13,-14,-44,-44,-44,43,-44,-40,-38,58,-39,-44,-44,-44,-44,-44,-44,-44,-16,-44,-17,19,-22,-23,]),'STRING':([23,63,],[40,40,]),'IF':([7,11,14,17,18,61,80,85,91,],[10,-15,10,-13,-14,-16,-17,-22,-23,]),'RPARENTHESES':([31,32,33,35,39,40,41,44,47,48,53,55,57,58,59,60,64,65,66,71,72,73,74,75,76,78,79,81,83,84,87,88,],[-44,-24,52,-44,62,-44,-44,71,-33,-32,-28,-29,-37,-41,-43,-42,-19,-20,-18,-36,-44,-44,-25,-27,-26,-44,-44,-21,-34,-35,-31,-30,]),'EQUAL':([12,],[22,]),'$end':([1,5,9,25,],[0,-2,-1,-10,]),'PROGRAM':([0,],[2,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -16,7 +16,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'programa':([0,],[1,]),'termino':([21,22,23,37,48,49,52,53,54,62,],[31,31,31,31,73,74,31,31,31,31,]),'empty':([5,13,19,21,22,23,29,31,37,38,39,43,44,47,48,49,52,53,54,62,71,72,73,74,],[10,10,26,32,32,32,46,50,32,63,63,26,32,32,32,32,32,32,32,32,46,46,50,50,]),'vars':([4,],[7,]),'factor1':([21,22,23,37,44,47,48,49,52,53,54,62,],[36,36,36,36,36,36,36,36,36,36,36,36,]),'escritura2':([38,39,],[61,64,]),'exp1':([31,73,74,],[51,85,86,]),'estatuto':([5,13,],[13,13,]),'vars1':([8,82,],[20,89,]),'asignacion':([5,13,],[16,16,]),'bloque1':([5,13,],[17,24,]),'factor':([21,22,23,37,44,47,48,49,52,53,54,62,],[29,29,29,29,71,72,29,29,29,29,29,29,]),'escritura':([5,13,],[15,15,]),'bloque':([4,7,66,87,],[6,18,81,90,]),'exp':([21,22,23,37,52,53,54,62,],[34,34,34,34,75,76,77,34,]),'vars2':([19,43,],[27,70,]),'varcte':([36,],[58,]),'expresion':([21,22,23,37,62,],[35,39,41,60,39,]),'condicion':([5,13,],[14,14,]),'termino1':([29,71,72,],[45,83,84,]),'tipo':([42,],[69,]),'escritura1':([22,62,],[40,79,]),}
+_lr_goto_items = {'termino1':([31,72,73,],[48,83,84,]),'escritura1':([23,63,],[39,81,]),'exp1':([35,78,79,],[53,87,88,]),'factor':([21,22,23,29,45,46,49,50,51,54,56,63,],[31,31,31,31,72,73,31,31,31,31,31,31,]),'exp':([21,22,23,29,49,50,51,63,],[32,32,32,32,74,75,76,32,]),'tipo':([42,],[69,]),'bloque1':([7,14,],[16,24,]),'programa':([0,],[1,]),'termino':([21,22,23,29,49,50,51,54,56,63,],[35,35,35,35,35,35,35,78,79,35,]),'vars2':([19,43,],[27,70,]),'factor1':([21,22,23,29,45,46,49,50,51,54,56,63,],[36,36,36,36,36,36,36,36,36,36,36,36,]),'vars':([4,],[6,]),'bloque':([4,6,52,86,],[5,9,77,90,]),'escritura':([7,14,],[11,11,]),'estatuto':([7,14,],[14,14,]),'expresion':([21,22,23,29,63,],[33,38,41,44,41,]),'empty':([7,14,19,21,22,23,29,31,35,40,41,43,45,46,49,50,51,54,56,63,72,73,78,79,],[15,15,26,34,34,34,34,47,55,65,65,26,34,34,34,34,34,34,34,34,47,47,55,55,]),'varcte':([36,],[57,]),'condicion':([7,14,],[18,18,]),'vars1':([8,82,],[20,89,]),'escritura2':([40,41,],[64,66,]),'asignacion':([7,14,],[17,17,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -26,48 +26,48 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> programa","S'",1,None,None,None),
-  ('programa -> PROGRAM IDENTIFIER SEMICOLON vars bloque','programa',5,'p_programa','MyLittleDucky.py',10),
-  ('programa -> PROGRAM IDENTIFIER SEMICOLON bloque','programa',4,'p_programa','MyLittleDucky.py',11),
-  ('vars -> VAR vars1','vars',2,'p_vars','MyLittleDucky.py',14),
-  ('vars1 -> IDENTIFIER vars2 COLON tipo SEMICOLON vars1','vars1',6,'p_vars1','MyLittleDucky.py',17),
-  ('vars1 -> IDENTIFIER vars2 COLON tipo SEMICOLON','vars1',5,'p_vars1','MyLittleDucky.py',18),
-  ('vars2 -> empty','vars2',1,'p_vars2','MyLittleDucky.py',21),
-  ('vars2 -> COMMA IDENTIFIER vars2','vars2',3,'p_vars2','MyLittleDucky.py',22),
-  ('tipo -> INT','tipo',1,'p_tipo','MyLittleDucky.py',25),
-  ('tipo -> FLOAT','tipo',1,'p_tipo','MyLittleDucky.py',26),
-  ('bloque -> LBRACE bloque1 RBRACE','bloque',3,'p_bloque','MyLittleDucky.py',29),
-  ('bloque1 -> empty','bloque1',1,'p_bloque1','MyLittleDucky.py',32),
-  ('bloque1 -> estatuto bloque1','bloque1',2,'p_bloque1','MyLittleDucky.py',33),
-  ('estatuto -> asignacion','estatuto',1,'p_estatuto','MyLittleDucky.py',36),
-  ('estatuto -> condicion','estatuto',1,'p_estatuto','MyLittleDucky.py',37),
-  ('estatuto -> escritura','estatuto',1,'p_estatuto','MyLittleDucky.py',38),
-  ('asignacion -> IDENTIFIER EQUAL expresion SEMICOLON','asignacion',4,'p_asignacion','MyLittleDucky.py',41),
-  ('escritura -> PRINT LPARENTHESES escritura1 RPARENTHESES SEMICOLON','escritura',5,'p_escritura','MyLittleDucky.py',44),
-  ('escritura1 -> expresion escritura2','escritura1',2,'p_escritura1','MyLittleDucky.py',47),
-  ('escritura1 -> STRING escritura2','escritura1',2,'p_escritura1','MyLittleDucky.py',48),
-  ('escritura2 -> empty','escritura2',1,'p_escritura2','MyLittleDucky.py',51),
-  ('escritura2 -> COMMA escritura1','escritura2',2,'p_escritura2','MyLittleDucky.py',52),
-  ('condicion -> IF LPARENTHESES expresion RPARENTHESES bloque SEMICOLON','condicion',6,'p_condicion','MyLittleDucky.py',55),
-  ('condicion -> IF LPARENTHESES expresion RPARENTHESES bloque ELSE bloque SEMICOLON','condicion',8,'p_condicion','MyLittleDucky.py',56),
-  ('expresion -> exp','expresion',1,'p_expresion','MyLittleDucky.py',59),
-  ('expresion -> exp LTHAN exp','expresion',3,'p_expresion','MyLittleDucky.py',60),
-  ('expresion -> exp GTHAN exp','expresion',3,'p_expresion','MyLittleDucky.py',61),
-  ('expresion -> exp NOTEQUAL exp','expresion',3,'p_expresion','MyLittleDucky.py',62),
-  ('exp -> termino exp1','exp',2,'p_exp','MyLittleDucky.py',65),
-  ('exp1 -> empty','exp1',1,'p_exp1','MyLittleDucky.py',68),
-  ('exp1 -> PLUS termino exp1','exp1',3,'p_exp1','MyLittleDucky.py',69),
-  ('exp1 -> MINUS termino exp1','exp1',3,'p_exp1','MyLittleDucky.py',70),
-  ('termino -> factor termino1','termino',2,'p_termino','MyLittleDucky.py',73),
-  ('termino1 -> empty','termino1',1,'p_termino1','MyLittleDucky.py',76),
-  ('termino1 -> MULTI factor termino1','termino1',3,'p_termino1','MyLittleDucky.py',77),
-  ('termino1 -> DIVIDE factor termino1','termino1',3,'p_termino1','MyLittleDucky.py',78),
-  ('factor -> LPARENTHESES expresion RPARENTHESES','factor',3,'p_factor','MyLittleDucky.py',81),
-  ('factor -> factor1 varcte','factor',2,'p_factor','MyLittleDucky.py',82),
-  ('factor1 -> empty','factor1',1,'p_factor1','MyLittleDucky.py',85),
-  ('factor1 -> PLUS','factor1',1,'p_factor1','MyLittleDucky.py',86),
-  ('factor1 -> MINUS','factor1',1,'p_factor1','MyLittleDucky.py',87),
-  ('varcte -> IDENTIFIER','varcte',1,'p_varcte','MyLittleDucky.py',90),
-  ('varcte -> CTEINT','varcte',1,'p_varcte','MyLittleDucky.py',91),
-  ('varcte -> CTEFLOAT','varcte',1,'p_varcte','MyLittleDucky.py',92),
-  ('empty -> <empty>','empty',0,'p_empty','MyLittleDucky.py',95),
+  ('programa -> PROGRAM IDENTIFIER SEMICOLON vars bloque','programa',5,'p_programa','ArniePyy.py',10),
+  ('programa -> PROGRAM IDENTIFIER SEMICOLON bloque','programa',4,'p_programa','ArniePyy.py',11),
+  ('vars -> VAR vars1','vars',2,'p_vars','ArniePyy.py',14),
+  ('vars1 -> IDENTIFIER vars2 COLON tipo SEMICOLON vars1','vars1',6,'p_vars1','ArniePyy.py',17),
+  ('vars1 -> IDENTIFIER vars2 COLON tipo SEMICOLON','vars1',5,'p_vars1','ArniePyy.py',18),
+  ('vars2 -> empty','vars2',1,'p_vars2','ArniePyy.py',21),
+  ('vars2 -> COMMA IDENTIFIER vars2','vars2',3,'p_vars2','ArniePyy.py',22),
+  ('tipo -> INT','tipo',1,'p_tipo','ArniePyy.py',25),
+  ('tipo -> FLOAT','tipo',1,'p_tipo','ArniePyy.py',26),
+  ('bloque -> LBRACE bloque1 RBRACE','bloque',3,'p_bloque','ArniePyy.py',29),
+  ('bloque1 -> empty','bloque1',1,'p_bloque1','ArniePyy.py',32),
+  ('bloque1 -> estatuto bloque1','bloque1',2,'p_bloque1','ArniePyy.py',33),
+  ('estatuto -> asignacion','estatuto',1,'p_estatuto','ArniePyy.py',36),
+  ('estatuto -> condicion','estatuto',1,'p_estatuto','ArniePyy.py',37),
+  ('estatuto -> escritura','estatuto',1,'p_estatuto','ArniePyy.py',38),
+  ('asignacion -> IDENTIFIER EQUAL expresion SEMICOLON','asignacion',4,'p_asignacion','ArniePyy.py',41),
+  ('escritura -> PRINT LPARENTHESES escritura1 RPARENTHESES SEMICOLON','escritura',5,'p_escritura','ArniePyy.py',44),
+  ('escritura1 -> expresion escritura2','escritura1',2,'p_escritura1','ArniePyy.py',47),
+  ('escritura1 -> STRING escritura2','escritura1',2,'p_escritura1','ArniePyy.py',48),
+  ('escritura2 -> empty','escritura2',1,'p_escritura2','ArniePyy.py',51),
+  ('escritura2 -> COMMA escritura1','escritura2',2,'p_escritura2','ArniePyy.py',52),
+  ('condicion -> IF LPARENTHESES expresion RPARENTHESES bloque SEMICOLON','condicion',6,'p_condicion','ArniePyy.py',55),
+  ('condicion -> IF LPARENTHESES expresion RPARENTHESES bloque ELSE bloque SEMICOLON','condicion',8,'p_condicion','ArniePyy.py',56),
+  ('expresion -> exp','expresion',1,'p_expresion','ArniePyy.py',59),
+  ('expresion -> exp LTHAN exp','expresion',3,'p_expresion','ArniePyy.py',60),
+  ('expresion -> exp GTHAN exp','expresion',3,'p_expresion','ArniePyy.py',61),
+  ('expresion -> exp NOTEQUAL exp','expresion',3,'p_expresion','ArniePyy.py',62),
+  ('exp -> termino exp1','exp',2,'p_exp','ArniePyy.py',65),
+  ('exp1 -> empty','exp1',1,'p_exp1','ArniePyy.py',68),
+  ('exp1 -> PLUS termino exp1','exp1',3,'p_exp1','ArniePyy.py',69),
+  ('exp1 -> MINUS termino exp1','exp1',3,'p_exp1','ArniePyy.py',70),
+  ('termino -> factor termino1','termino',2,'p_termino','ArniePyy.py',73),
+  ('termino1 -> empty','termino1',1,'p_termino1','ArniePyy.py',76),
+  ('termino1 -> MULTI factor termino1','termino1',3,'p_termino1','ArniePyy.py',77),
+  ('termino1 -> DIVIDE factor termino1','termino1',3,'p_termino1','ArniePyy.py',78),
+  ('factor -> LPARENTHESES expresion RPARENTHESES','factor',3,'p_factor','ArniePyy.py',81),
+  ('factor -> factor1 varcte','factor',2,'p_factor','ArniePyy.py',82),
+  ('factor1 -> empty','factor1',1,'p_factor1','ArniePyy.py',85),
+  ('factor1 -> PLUS','factor1',1,'p_factor1','ArniePyy.py',86),
+  ('factor1 -> MINUS','factor1',1,'p_factor1','ArniePyy.py',87),
+  ('varcte -> IDENTIFIER','varcte',1,'p_varcte','ArniePyy.py',90),
+  ('varcte -> CTEINT','varcte',1,'p_varcte','ArniePyy.py',91),
+  ('varcte -> CTEFLOAT','varcte',1,'p_varcte','ArniePyy.py',92),
+  ('empty -> <empty>','empty',0,'p_empty','ArniePyy.py',95),
 ]

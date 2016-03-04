@@ -1,12 +1,12 @@
 # Yacc example
 
 import ply.yacc as yacc
-import MyLittleDuckl
-#import sys 
+import ArniePyl
+#import sys
 # Get the token map from the lexer.  This is required.
-from MyLittleDuckl import tokens
+from ArniePyl import tokens
 
-def p_programa(p): 
+def p_programa(p):
     '''programa : PROGRAM IDENTIFIER SEMICOLON vars bloque
     | PROGRAM IDENTIFIER SEMICOLON bloque'''
 
@@ -34,7 +34,7 @@ def p_bloque1(p):
 
 def p_estatuto(p):
     '''estatuto : asignacion
-    | condicion 
+    | condicion
     | escritura'''
 
 def p_asignacion(p):
