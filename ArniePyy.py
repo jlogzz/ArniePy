@@ -12,8 +12,13 @@ def p_programa(p):
     | PROGRAM bloque ENDPROGRAM funciones
     | global PROGRAM bloque ENDPROGRAM funciones'''
 
+def p_funciones(p):
+    '''funciones : func funciones
+    | voidfunc funciones
+    | empty'''
+
 def p_vars(p):
-    '''vars: VAR vars1 ENDVAR'''
+    '''vars : VAR vars1 ENDVAR'''
 
 def p_global(p):
     '''global : GLOBAL vars1 ENDGLOBAL'''
@@ -30,7 +35,7 @@ def p_tipo(p):
       | FLOAT
       | STRING
       | BOOL
-      | HEY CHRISTMAS TREE'''
+      | HASH'''
 
 def p_bloque(p):
     '''bloque : empty
@@ -42,7 +47,9 @@ def p_estatuto(p):
     | escritura
     | lectura
     | while
-    | for'''
+    | for
+    | vars
+    | empty'''
 
 def p_asignacion(p):
     '''asignacion : IDENTIFIER EQUAL expresion'''
@@ -57,22 +64,36 @@ def p_escritura2(p):
     '''escritura2 : empty
     | COMMA escritura1'''
 
+def p_lectura(p):
+    '''lectura : READ IDENTIFIER'''
+
 def p_condicion(p):
     '''condicion : IF expresion bloque condicion1 ENDIF
     | IF expresion bloque condicion1 ELSE bloque ENDIF'''
 
 def p_condicion1(p):
-    '''condicion1: empty
+    '''condicion1 : empty
     | ELSEIF expresion bloque condicion1'''
+
+def p_while(p):
+    '''while : WHILE expresion bloque ENDWHILE'''
+
+def p_for(p):
+    '''for : FOR CTEINT bloque ENDFOR'''
 
 def p_expresion(p):
     '''expresion : exp
-    | exp LTHAN exp
-    | exp GTHAN exp
-    | exp EQUALTO exp
-    | exp GTHANEQ exp
-    | exp LTHANEQ exp
-    | exp NOTEQUAL exp '''
+    | exp expresion1 exp'''
+
+def p_expresion1(p):
+    '''expresion1 : LTHAN
+    | GTHAN
+    | EQUALTO
+    | GTHANEQ
+    | LTHANEQ
+    | NOTEQUAL
+    | AND
+    | OR'''
 
 def p_exp(p):
     '''exp : termino exp1'''
@@ -103,6 +124,8 @@ def p_varcte(p):
     '''varcte : IDENTIFIER
     | CTEINT
     | CTEFLOAT
+    | TRUE
+    | FALSE
     | llamarfun'''
 
 def p_func(p):
@@ -112,9 +135,14 @@ def p_voidfunc(p):
     '''voidfunc : METHOD VOID IDENTIFIER func1 bloque ENDMETHOD'''
 
 def p_func1(p):
-    '''func1 : tipo expresion
-    | tipo expresion COMMA func1
+    '''func1 : tipo func2
+    | tipo func2 COMMA func1
     | empty'''
+
+def p_func2(p):
+    '''func2 : IDENTIFIER
+    | REFERENCIA
+    | VALOR'''
 
 def p_llamarfun(p):
     '''llamarfun : CALLMETHOD IDENTIFIER llamarfun1'''

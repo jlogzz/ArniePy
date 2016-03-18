@@ -40,8 +40,6 @@ tokens = [
   'DIVIDE',
   'LPARENTHESES',
   'RPARENTHESES',
-  'LBRACE',
-  'RBRACE',
   'CTEINT',
   'CTEFLOAT',
   'STRING',
@@ -55,8 +53,6 @@ tokens = [
   'COMMA',
   'OR',
   'AND',
-  'COLON',
-  'SEMICOLON',
   'REFERENCIA',
   'VALOR'
 ] + list(reserved.values())
@@ -72,8 +68,6 @@ t_MULTI      = r'\*'
 t_DIVIDE     = r'/'
 t_LPARENTHESES    = r'\('
 t_RPARENTHESES    = r'\)'
-t_LBRACE     = r'\{'
-t_RBRACE     = r'\}'
 t_EQUAL      = r'='
 t_EQUALTO    = r'=='
 t_GTHAN      = r'>'
@@ -84,8 +78,6 @@ t_NOTEQUAL   = r'!='
 t_COMMA      = r'\,'
 t_OR         = r'\|\|'
 t_AND        = r'&&'
-t_COLON      = r':'
-t_SEMICOLON  = r';'
 t_ignore     = ' \t'
 
     # A regular expression rule with some action code
