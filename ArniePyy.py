@@ -105,6 +105,25 @@ def p_varcte(p):
     | CTEFLOAT
     | llamarfun'''
 
+def p_func(p):
+    '''func : METHOD tipo IDENTIFIER func1 bloque RETURN IDENTIFIER ENDMETHOD'''
+
+def p_voidfunc(p):
+    '''voidfunc : METHOD VOID IDENTIFIER func1 bloque ENDMETHOD'''
+
+def p_func1(p):
+    '''func1 : tipo expresion
+    | tipo expresion COMMA func1
+    | empty'''
+
+def p_llamarfun(p):
+    '''llamarfun : CALLMETHOD IDENTIFIER llamarfun1'''
+
+def p_llamarfun1(p):
+    '''llamarfun1 : expresion
+    | expresion COMMA llamarfun1
+    | empty'''
+
 def p_empty(p):
   '''empty : '''
 
