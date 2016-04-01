@@ -16,7 +16,7 @@ reserved = {
   'IHaveAfewMoreQuestions' : 'ELSEIF',
   'NoItsNotTrue' : 'ELSE',
   'YouHaveNoRespectForLogic' : 'ENDIF',
-  'STICK_AROUND' : 'WHILE',
+  'StickAround' : 'WHILE',
   'Chill' : 'ENDWHILE',
   'NiceNightForAWalk' : 'FOR',
   'GetToTheChopper' : 'ENDFOR',

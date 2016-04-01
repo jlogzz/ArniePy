@@ -1,7 +1,9 @@
 ItsShowtime
 
-  StickAroundNoProblemo
-    TalkToTheHand "Hasta la vista Baby"
+  StickAround NoProblemo
+    TalkToTheHand "hola", "QUE hace"
   Chill
+  
+  a = 2 + 1
 
 YouHaveBeenTerminated

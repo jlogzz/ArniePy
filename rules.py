@@ -1,13 +1,6 @@
 from codegen.ast import Node
 import sys
 
-precedence = (
-    ('left', 'PLUS', 'MINUS'),
-    ('left', 'MULTI', 'DIVIDE'),
-    ('left', 'EQUALTO', 'NOTEQUAL', 'LTHANEQ','LTHAN','GTHAN','GTHANEQ'),
-    ('left', 'OR', 'AND'),
-)
-
 def p_programa(p):
     '''programa : PROGRAM bloque ENDPROGRAM
     | PROGRAM bloque ENDPROGRAM funciones
@@ -131,6 +124,7 @@ def p_varcte(p):
     '''varcte : IDENTIFIER
     | CTEINT
     | CTEFLOAT
+    | STRING
     | TRUE
     | FALSE
     | llamarfun'''
