@@ -1,7 +1,7 @@
-ITS_SHOWTIME
+ItsShowtime
 
-  STICK_AROUND_NO_PROBLEMO
-    TALK_TO_THE_HAND "Hasta la vista Baby"
-  CHILL
+  StickAroundNoProblemo
+    TalkToTheHand "Hasta la vista Baby"
+  Chill
 
-YOU_HAVE_BEEN_TERMINATED
+YouHaveBeenTerminated
