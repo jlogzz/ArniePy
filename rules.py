@@ -10,9 +10,14 @@ precedence = (
 
 def p_programa(p):
     '''programa : PROGRAM bloque ENDPROGRAM
-    | global PROGRAM bloque ENDPROGRAM
     | PROGRAM bloque ENDPROGRAM funciones
     | global PROGRAM bloque ENDPROGRAM funciones'''
+    if len(p) == 4:
+        p[0] = Node('programa', p[2])
+    elif len(p) == 5:
+        p[0] = Node('programa', p[2], p[4])
+    else:
+        p[0] = Node('programa', p[1], p[3], p[5])
 
 def p_funciones(p):
     '''funciones : func funciones
@@ -160,5 +165,4 @@ def p_empty(p):
 # Error rule for syntax errors
 def p_error(p):
     print("Error de tipo: ", p.value,"  linea: ", p.lineno)
-    global err
     err = 0
