@@ -1,10 +1,12 @@
-# Yacc example
+from codegen.ast import Node
+import sys
 
-import ply.yacc as yacc
-import ArniePyl
-#import sys
-# Get the token map from the lexer.  This is required.
-from ArniePyl import tokens
+precedence = (
+    ('left', 'PLUS', 'MINUS'),
+    ('left', 'MULTI', 'DIVIDE'),
+    ('left', 'EQUALTO', 'NOTEQUAL', 'LTHANEQ','LTHAN','GTHAN','GTHANEQ'),
+    ('left', 'OR', 'AND'),
+)
 
 def p_programa(p):
     '''programa : PROGRAM bloque ENDPROGRAM
@@ -160,27 +162,3 @@ def p_error(p):
     print("Error de tipo: ", p.value,"  linea: ", p.lineno)
     global err
     err = 0
-
-# Build the parser
-yacc.yacc()
-
-err = 1
-
-while True:
-  try:
-    nombre = input("Nombre del archivo? (Teclee 'S' para salir) ")
-    if nombre == 'S':
-      break
-    fil = open(nombre, "r")
-    s = fil.readlines()
-    e = ""
-    for line in s:
-      e += line
-    yacc.parse(e)
-
-    if err:
-      print("No hay ningun error, buen programa (Y)!")
-
-  except EOFError:
-    print("Error! No se pudo abrir el archivo!")
-    break;

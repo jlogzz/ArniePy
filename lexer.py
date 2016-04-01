@@ -61,7 +61,7 @@ tokens = [
     # Regular expression rules for simple tokens
 t_CTEINT     = r'[\+-]?\d+'
 t_CTEFLOAT   = r'[\+-]?\d+\.\d+'
-t_STRING     = r'\'.*\''
+t_STRING     = r'\".*\"'
 t_PLUS       = r'\+'
 t_MINUS      = r'-'
 t_MULTI      = r'\*'
