@@ -1,7 +1,7 @@
 ItsShowtime
 
   StickAround NoProblemo
-    TalkToTheHand "hola", "QUE hace"
+    TalkToTheHand "hola"
   Chill
   
   a = 2 + 1
