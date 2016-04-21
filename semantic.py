@@ -103,17 +103,17 @@ def check(node):
         if node.type in ['identifier']:
             return node.args[0]
 
-        elif node.type in ['var_list','statement_list','function_list']:
+        elif node.type in ['vars_list','statement_list','function_list']:
             return check(node.args)
 
-        elif node.type in ["programa","bloque"]:
+        elif node.type in ["global","programa"]:
             contexts.append(Context())
             check(node.args)
             pop()
 
-        elif node.type == "var":
-            var_name = node.args[0].args[0]
-            var_type = node.args[1].args[0]
+        elif node.type == "vars_declaration":
+            var_type = node.args[0].args[0]
+            var_name = node.args[1].args[0]
             set_var(var_name, var_type)
 
         elif node.type in ['function','procedure']:

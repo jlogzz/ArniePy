@@ -19,6 +19,15 @@ def p_identifier(p):
 def p_int(p):
     '''int : INT'''
 
+def p_float(p):
+    '''float : FLOAT'''
+
+def p_bool(p):
+    '''bool : BOOL'''
+
+def p_hash(p):
+    '''hash : HASH'''
+
 def p_funciones(p):
     '''funciones : func funciones
     | voidfunc funciones
@@ -27,29 +36,31 @@ def p_funciones(p):
         p[0] = Node('funciones', p[1], p[2])
 
 def p_vars(p):
-    '''vars : VAR vars1 ENDVAR'''
+    '''vars : VAR vars_list ENDVAR'''
     p[0] = Node('vars', p[2])
 
 def p_global(p):
-    '''global : GLOBAL vars1 ENDGLOBAL'''
+    '''global : GLOBAL vars_list ENDGLOBAL'''
     p[0] = Node('global', p[2])
 
-def p_vars1(p):
-    '''vars1 : tipo IDENTIFIER vars2'''
-    p[0] = Node('vars1', p[1], p[3])
-
-def p_vars2(p):
-    '''vars2 : empty
-    | COMMA IDENTIFIER vars2'''
-    if len(p) > 2:
-        p[0] = p[3]
+def p_vars_list(p):
+    '''vars_list : vars_declaration vars_list
+    | vars_declaration'''
+    if len(p) == 2:
+        p[0] = p[1]
+    else:
+        p[0] = Node('vars_list', p[1], p[2])
+    
+def p_vars_declaration(p):
+    '''vars_declaration : tipo identifier'''
+    p[0] = Node('vars_declaration', p[1], p[2])
 
 def p_tipo(p):
   '''tipo : int
       | float
       | string
-      | BOOL
-      | HASH'''
+      | bool
+      | hash'''
       p[0] = Node('tipo', p[1])
 
 def p_bloque(p):
@@ -185,7 +196,7 @@ def p_func(p):
     p[0] = Node('func', p[2], p[4], p[5])
 
 def p_voidfunc(p):
-    '''voidfunc : METHOD VOID IDENTIFIER func1 bloque ENDMETHOD'''
+    '''voidfunc : METHOD VOID identifier func1 bloque ENDMETHOD'''
     p[0] = Node('voidfunc', p[4], p[5])
 
 def p_func1(p):
@@ -199,23 +210,23 @@ def p_func1(p):
 
 
 def p_func2(p):
-    '''func2 : IDENTIFIER
-    | REFERENCIA
-    | VALOR'''
+    '''func2 : identifier
+    | referencia
+    | valor'''
     p[0] = p[1]
 
 def p_llamarfun(p):
-    '''llamarfun : CALLMETHOD IDENTIFIER llamarfun1'''
-    p[0] = Node('llamarfun', p[3])
+    '''llamarfun : CALLMETHOD identifier funparams'''
+    p[0] = Node('llamarfun', p[2], p[3])
 
-def p_llamarfun1(p):
-    '''llamarfun1 : expresion
-    | expresion COMMA llamarfun1
+def p_funparams(p):
+    '''funparams : expresion
+    | expresion COMMA funparams
     | empty'''
     if len(p) > 2:
-        p[0] = Node('llamarfun1', p[1], p[3])
+        p[0] = Node('funparams', p[1], p[3])
     else:
-        p[0] = Node('llamarfun1', p[1])
+        p[0] = Node('funparams', p[1])
 
 def p_empty(p):
   '''empty : '''
