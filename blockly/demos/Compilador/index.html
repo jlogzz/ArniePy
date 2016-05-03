@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <link rel="icon" href="icon.png">
+    <title>Spanglish</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="../../blockly_compressed.js"></script>
+    <script src="../../blocks_compressed.js"></script>
+    <script src="../../javascript_compressed.js"></script>
+    <script src="../../msg/js/en.js"></script>
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+      }
+      body {
+        background-color: #fff;
+        font-family: sans-serif;
+        overflow: hidden;
+      }
+      table {
+        height: 100%;
+        width: 100%;
+      }
+      #blocklyArea {
+        height: 99%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Spanglish</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Espanol</a></li>
+            <li><a href="#about">Arnold Schwarzenegger</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <table>
+      <tr>
+        <td><br /><br />
+          <h1>Compilador Spanglish<small> en Espanol</small></h1>
+          <p>Programa que te ayudara a aprender la logica de programacion en espanol usando <a href="https://developers.google.com/blockly/">Google's Blockly</a>.
+          </p>
+          <textarea id="text" rows="10" cols="50">
+          </textarea>
+        </td>
+      </tr>
+      <tr>
+        <td id="blocklyArea"></td>
+      </tr>
+    </table>
+
+    <div id="blocklyDiv" style="position: absolute"></div>
+    <xml id="toolbox" style="display: none">
+      <category name="Inicio" colour="120">
+        <block type="inicio_fin"></block>
+      </category>
+      <category name="Variables" colour="70">
+        <block type="vars_global"></block>
+        <block type="vars_local"></block>
+        <block type="var_declaration"></block>
+        <block type="variable"></block>
+        <!--<block type="string"></block>-->
+      </category>
+      <category name="Functions" colour="15">
+        <block type="function_def"></block>
+        <block type="function_void_def"></block>
+        <block type="call_func"></block>
+          <block type="call_func_assign"></block>
+        <block type="param_var"></block>
+        <!--<block type="param_int"></block>-->
+        <block type="param_call_var"></block>
+        <block type="variable"></block>
+      </category>
+      <category name="Ciclos" colour="315">
+        <block type="for"></block>
+        <block type="while"></block>
+        <block type="assignation"></block>
+        <block type="math_number"></block>
+        <block type="variable"></block>
+        <block type="string"></block>
+      </category>
+      <category name="Logica" colour="230">
+        <block type="if"></block>
+        <block type="if_else"></block>
+        <block type="if_elseif_else"></block>
+        <block type="expression"></block>
+        <block type="expression_ao"></block>
+        <block type="boolean"></block>
+        <!--<block type="not"></block>-->
+        <block type="math_number"></block>
+        <block type="variable"></block>
+      </category>
+      <category name="Operaciones" colour="240">
+        <block type="exp"></block>
+        <block type="assignation" colour="300"></block>
+        <block type="math_number"></block>
+        <block type="variable"></block>
+      </category>
+      <category name="Escritura" colour="180">
+        <block type="print"></block>
+        <block type="read"></block>
+        <block type="math_number"></block>
+        <block type="param_call_var"></block>
+        <block type="variable"></block>
+        <block type="string"></block>
+        <block type="string_append"></block>
+        <block type="boolean"></block>
+      </category>
+    </xml>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script>
+      var blocklyArea = document.getElementById('blocklyArea');
+      var blocklyDiv = document.getElementById('blocklyDiv');
+      var workspace = Blockly.inject('blocklyDiv',
+          {media: '../../media/',
+           toolbox: document.getElementById('toolbox'),
+           zoom:
+           {controls: true,
+            wheel: true,
+            startScale: 1.0,
+            maxScale: 3,
+            minScale: 0.3,
+            scaleSpeed: 1.2},
+       trashcan: true});
+
+
+     var onresize = function(e) {
+       // Compute the absolute coordinates and dimensions of blocklyArea.
+       var element = blocklyArea;
+       var x = 0;
+       var y = 0;
+       do {
+         x += element.offsetLeft;
+         y += element.offsetTop;
+         element = element.offsetParent;
+       } while (element);
+       // Position blocklyDiv over blocklyArea.
+       blocklyDiv.style.left = x + 'px';
+       blocklyDiv.style.top = y + 'px';
+       blocklyDiv.style.width = blocklyArea.offsetWidth + 'px';
+       blocklyDiv.style.height = blocklyArea.offsetHeight + 'px';
+     };
+
+     function myUpdateFunction(event) {
+       var code = Blockly.JavaScript.workspaceToCode(workspace);
+       document.getElementById('text').value = code;
+     }
+     //cuidado con las dos lineas de abajo
+     window.LoopTrap = 1000;
+     Blockly.JavaScript.INFINITE_LOOP_TRAP = 'if(--window.LoopTrap == 0) throw "Infinite loop.";\n';
+     workspace.addChangeListener(myUpdateFunction);
+     window.addEventListener('resize', onresize, false);
+     onresize();
+    </script>
+  </body>
+</html>
