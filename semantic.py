@@ -143,9 +143,8 @@ def check(node):
                 else:
                     args = flatten(head.args[2])
                     args = map(lambda x: (x.args[1].args[0],x.args[0].args[0]), args)
-                
 
-            functions[name] = (rettype,args)
+            functions[name] = (rettype,list(args))
 
 
             contexts.append(Context(name))
@@ -164,12 +163,12 @@ def check(node):
                 args = []
             rettype,vargs = functions[fname]
 
-            if len(args) != len(vargs):
-                raise Exception( "Function "+fname+" is expecting "+len(vargs)+" parameters and got "+len(args))
+            if len(args) != len(list(vargs)):
+                raise Exception( "Function "+fname+" is expecting "+str(len(vargs))+" parameters and got "+str(len(args)))
             else:
                 for i in range(len(vargs)):
                     if vargs[i][1] != args[i]:
-                        raise Exception( "Parameter "+(i+1)+" passed to function "+fname+" should be of type "+vargs[i][1]+" and not "+args[i])
+                        raise Exception( "Parameter "+str(i+1)+" passed to function "+fname+" should be of type "+vargs[i][1]+" and not "+args[i])
             return rettype
 
         elif node.type == "asignacion":

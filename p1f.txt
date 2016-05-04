@@ -1,14 +1,18 @@
 inicioPrograma
 
-	inicioFuncion int fun1
+	inicioFuncion string fun1 int j , int k
 		bloque
 			inicioVariablesLocales
 				int p
 			finVariablesLocales
-			p = 4
+			p = 1
 		endbloque
 		regresa p
 	finFuncion
+
+	
+
+	
 
 	bloque
 		inicioVariablesLocales
@@ -34,10 +38,10 @@ inicioPrograma
 		finMientras
 
 		inicioRepetir j
-			j = fun1
+			j = 4
 		finRepetir
 
-		llamarFuncion fun1
+		llamarFuncion fun1 1 , 3
 
 	endbloque
 	

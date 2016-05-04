@@ -222,12 +222,16 @@ def p_llamarfun(p):
         p[0] = Node('llamarfun', p[2])
 
 def p_funparams(p):
-    '''funparams : expresion
-    | expresion COMMA funparams'''
+    '''funparams : param
+    | funparams COMMA param'''
     if len(p) > 2:
-        p[0] = Node('funparams', p[1], p[3])
+        p[0] = Node('parameter_list', p[1], p[3])
     else:
-        p[0] = Node('funparams', p[1])
+        p[0] = p[1]
+
+def p_param(p):
+    '''param : expresion'''
+    p[0] = Node('parameter', p[1])
 
 def p_empty(p):
   '''empty : '''
