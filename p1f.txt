@@ -4,7 +4,6 @@ inicioPrograma
 			int c
 			int d
 			int j
-			string st
 		finVariablesLocales
 		c = (4 + 10) * 4
 		d = c
@@ -23,11 +22,21 @@ inicioPrograma
 			j = 4 + 10 * 4
 		finMientras
 
-		inicioRepetir st
+		inicioRepetir j
 			j = c
 		finRepetir
 
 	endbloque
 
+
+	inicioFuncion int fun1
+		bloque
+			inicioVariablesLocales
+				int p
+			finVariablesLocales
+			p = 4
+		endbloque
+		regresa p
+	finFuncion
 	
 finPrograma

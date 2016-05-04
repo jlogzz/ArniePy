@@ -22,7 +22,7 @@ class Context(object):
     def set_var(self,name,typ):
         self.variables[name] = typ
         self.var_count[name] = 0
-
+        
 contexts = []
 functions = {}
 

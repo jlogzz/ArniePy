@@ -9,9 +9,9 @@ def p_programa(p):
     if len(p) == 4:
         p[0] = Node('programa', p[2])
     elif len(p) == 5:
-        p[0] = Node('programa', p[2], p[4])
+        p[0] = Node('programa', p[2], p[3])
     else:
-        p[0] = Node('programa', p[2], p[3], p[5])
+        p[0] = Node('programa', p[2], p[3], p[4])
 
 def p_funciones(p):
     '''funciones : func funciones
