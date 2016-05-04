@@ -3,8 +3,10 @@ bloque
 inicioVariablesLocales
 int c
 int d
+int j
 finVariablesLocales
-c = 4
-d = "hola"
+c = 4 + 10
+d = c
+imprimir d
 endbloque
 finPrograma

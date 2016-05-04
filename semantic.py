@@ -169,7 +169,7 @@ def check(node):
             else:
                 for i in range(len(vargs)):
                     if vargs[i][1] != args[i]:
-                        raise Exception( "Parameter #%d passed to function %s should be of type %s and not %s") % (i+1,fname,vargs[i][1],args[i])
+                        raise Exception( "Parameter "+(i+1)+" passed to function "+fname+" should be of type "+vargs[i][1]+" and not "+args[i])
             return rettype
 
         elif node.type == "asignacion":
@@ -178,20 +178,20 @@ def check(node):
                 vartype = functions[varn][0]
             else:
                 if not has_var(varn):
-                    raise Exception( "Variable %s not declared" ) % varn
+                    raise Exception( "Variable "+varn+" not declared" )
                 vartype = get_var(varn)
             assgntype = check(node.args[1])
             
 
             if vartype != assgntype:
-                raise Exception( "Variable %s if of type %s and does not support %s") % (varn, vartype, assgntype)
+                raise Exception( "Variable "+varn+" if of type "+vartype+" and does not support "+assgntype)
 
         elif node.type == "and_or":
             op = node.args[0].args[0]
             for i in range(1,2):
                 a = check(node.args[i])
                 if a != "boolean":
-                    raise Exception( "%s requires a boolean. Got %s instead.") % (op,a)
+                    raise Exception( op+" requires a boolean. Got "+a+" instead.")
 
         elif node.type == "op":
             op = node.args[0].args[0]
@@ -199,11 +199,11 @@ def check(node):
             vt2 = check(node.args[2])
 
             if vt1 != vt2:
-                raise Exception( "Arguments of operation '%s' must be of the same type. Got %s and %s.") % (op,vt1,vt2)
+                raise Exception( "Arguments of operation '"+op+"' must be of the same type. Got "+vt1+" and "+vt2+".")
 
             if op == '/':
                 if vt1 != 'real':
-                    raise Exception( "Operation %s requires reals.") % op
+                    raise Exception( "Operation "+op+" requires reals.")
 
             if op in ['==','<=','>=','>','<','!=']:
                 return 'boolean'
@@ -214,7 +214,7 @@ def check(node):
             c = 0
             t = check(node.args[c])
             if t != 'boolean':
-                raise Exception( "%s condition requires a boolean. Got %s instead.") % (node.type,t)
+                raise Exception( node.type+" condition requires a boolean. Got "+t+" instead.")
 
             # check body
             check(node.args[1])
