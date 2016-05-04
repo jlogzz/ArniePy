@@ -1,0 +1,23 @@
+inicioPrograma
+  inicioFuncion int factorial_i int n
+    inicioVariablesLocales
+      int k
+      int prod
+    finVariablesLocales
+    k = 1
+    prod = 1
+    inicioMientras k <= n
+      prod = prod * k
+      k = k + 1
+    finMientras
+    regresa prod
+  finFuncion
+bloque
+  inicioVariablesLocales
+    int vari
+    int varr
+  finVariablesLocales
+  vari = 5
+  imprimir llamarFuncion factorial_i vari
+endbloque
+finPrograma
