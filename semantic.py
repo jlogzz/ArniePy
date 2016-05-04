@@ -1,4 +1,4 @@
-types = ['int','float','string','boolean','void']
+types = ['int','float','string','bool','void']
 
 class Any(object):
     def __eq__(self, o):
@@ -24,9 +24,7 @@ class Context(object):
         self.var_count[name] = 0
 
 contexts = []
-functions = {
-
-}
+functions = {}
 
 def pop():
     count = contexts[-1].var_count
@@ -103,10 +101,13 @@ def check(node):
         if node.type in ['identifier']:
             return node.args[0]
 
-        elif node.type in ['vars_list','statement_list','function_list']:
+        elif node.type in ['vars_list','estatuto_list','funcion_list','vars']:
+            return check(node.args)
+            
+        elif node.type in ['global']:
             return check(node.args)
 
-        elif node.type in ["global","programa"]:
+        elif node.type in ["bloque","programa"]:
             contexts.append(Context())
             check(node.args)
             pop()
@@ -116,21 +117,33 @@ def check(node):
             var_name = node.args[1].args[0]
             set_var(var_name, var_type)
 
-        elif node.type in ['function','procedure']:
+        elif node.type in ['funcion','procedure']:
             head = node.args[0]
-            name = head.args[0].args[0].lower()
+            if node.type == "procedure":
+                name = head.args[0].args[0].lower()
+            else:
+                name = head.args[1].args[0].lower()
+                
             check_if_function(name)
 
-            if len(head.args) == 1:
-                args = []
-            else:
-                args = flatten(head.args[1])
-                args = map(lambda x: (x.args[0].args[0],x.args[1].args[0]), args)
 
             if node.type == "procedure":
                 rettype = 'void'
+                
+                if len(head.args) == 1:
+                    args = []
+                else:
+                    args = flatten(head.args[1])
+                    args = map(lambda x: (x.args[1].args[0],x.args[0].args[0]), args)
             else:
-                rettype = head.args[-1].args[0].lower()
+                rettype = head.args[0].args[0].lower()
+                
+                if len(head.args) == 2:
+                    args = []
+                else:
+                    args = flatten(head.args[2])
+                    args = map(lambda x: (x.args[1].args[0],x.args[0].args[0]), args)
+                
 
             functions[name] = (rettype,args)
 
@@ -141,7 +154,7 @@ def check(node):
             check(node.args[1])
             pop()
 
-        elif node.type in ["function_call","function_call_inline"]:
+        elif node.type in ["llamarfun"]:
             fname = node.args[0].args[0].lower()
             if fname not in functions:
                 raise Exception, "Function %s is not defined" % fname
@@ -159,7 +172,7 @@ def check(node):
                         raise Exception, "Parameter #%d passed to function %s should be of type %s and not %s" % (i+1,fname,vargs[i][1],args[i])
             return rettype
 
-        elif node.type == "assign":
+        elif node.type == "asignacion":
             varn = check(node.args[0]).lower()
             if is_function_name(varn):
                 vartype = functions[varn][0]
@@ -187,48 +200,56 @@ def check(node):
             if vt1 != vt2:
                 raise Exception, "Arguments of operation '%s' must be of the same type. Got %s and %s." % (op,vt1,vt2)
 
-            if op in ['mod','div']:
-                if vt1 != 'integer':
-                    raise Exception, "Operation %s requires integers." % op
-
             if op == '/':
                 if vt1 != 'real':
                     raise Exception, "Operation %s requires reals." % op
 
-            if op in ['=','<=','>=','>','<','<>']:
+            if op in ['==','<=','>=','>','<','!=']:
                 return 'boolean'
             else:
                 return vt1
 
-        elif node.type in ['if','while','repeat']:
-            if node.type == 'repeat':
-                c = 1
-            else:
-                c = 0
+        elif node.type in ['if','while']:
+            c = 0
             t = check(node.args[c])
             if t != 'boolean':
                 raise Exception, "%s condition requires a boolean. Got %s instead." % (node.type,t)
 
             # check body
-            check(node.args[1-c])
-
-            #check else
+            check(node.args[1])
+            
+            #check else/elseif
             if len(node.args) > 2:
                 check(node.args[2])
+            #check else when elseif
+            if len(node.args) == 4:
+                check(node.args[3])
 
-        elif node.type == 'not':
-            return check(node.args[0])
+        elif node.type == "for":
+            check(node.args[1])
 
-        elif node.type == "element":
+        elif node.type == "elemento":
             if node.args[0].type == 'identifier':
                 return get_var(node.args[0].args[0])
-            elif node.args[0].type == 'function_call_inline':
+            elif node.args[0].type == 'llamarfun':
                 return check(node.args[0])
             else:
                 if node.args[0].type in types:
                     return node.args[0].type
                 else:
                     return check(node.args[0])
+        
+        elif node.type == "escritura":
+            check(node.args[0])
+            args = get_params(node.args[0])
+        
+        elif node.type == "escritura_vars":
+            if len(node.args) > 1:
+                check(node.args[1])
+            check(node.args[0])
+        
+        elif node.type == "lectura":
+            check(node.args[0])
 
         else:
             print "semantic missing:", node.type
