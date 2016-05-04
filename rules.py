@@ -3,8 +3,8 @@ import sys
 
 def p_programa(p):
     '''programa : PROGRAM bloque ENDPROGRAM
-    | PROGRAM bloque funciones ENDPROGRAM
-    | PROGRAM global bloque funciones ENDPROGRAM
+    | PROGRAM funciones bloque ENDPROGRAM
+    | PROGRAM global funciones bloque ENDPROGRAM
     | PROGRAM global bloque ENDPROGRAM'''
     if len(p) == 4:
         p[0] = Node('programa', p[2])
@@ -69,7 +69,8 @@ def p_estatuto(p):
     | lectura
     | while
     | for
-    | vars'''
+    | vars
+    | llamarfun'''
     p[0] = p[1]
 
 def p_asignacion(p):

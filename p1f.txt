@@ -1,4 +1,15 @@
 inicioPrograma
+
+	inicioFuncion int fun1
+		bloque
+			inicioVariablesLocales
+				int p
+			finVariablesLocales
+			p = 4
+		endbloque
+		regresa p
+	finFuncion
+
 	bloque
 		inicioVariablesLocales
 			int c
@@ -26,17 +37,8 @@ inicioPrograma
 			j = c
 		finRepetir
 
+		llamarFuncion fun1
+
 	endbloque
-
-
-	inicioFuncion int fun1
-		bloque
-			inicioVariablesLocales
-				int p
-			finVariablesLocales
-			p = 4
-		endbloque
-		regresa p
-	finFuncion
 	
 finPrograma
