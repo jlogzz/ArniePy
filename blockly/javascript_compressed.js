@@ -84,12 +84,27 @@ Blockly.JavaScript.text_print=function(a){return"window.alert("+(Blockly.JavaScr
 Blockly.JavaScript.text_prompt=Blockly.JavaScript.text_prompt_ext;Blockly.JavaScript.variables={};Blockly.JavaScript.variables_get=function(a){return[Blockly.JavaScript.variableDB_.getName(a.getFieldValue("VAR"),Blockly.Variables.NAME_TYPE),Blockly.JavaScript.ORDER_ATOMIC]};Blockly.JavaScript.variables_set=function(a){var b=Blockly.JavaScript.valueToCode(a,"VALUE",Blockly.JavaScript.ORDER_ASSIGNMENT)||"0";return Blockly.JavaScript.variableDB_.getName(a.getFieldValue("VAR"),Blockly.Variables.NAME_TYPE)+" = "+b+";\n"};
 
 Blockly.JavaScript.inicio_fin = function(block) {
+  var statements_global_vars = Blockly.JavaScript.statementToCode(block, 'global_vars');
+  var statements_main = Blockly.JavaScript.statementToCode(block, 'main');
+  var statements_method_declaration = Blockly.JavaScript.statementToCode(block, 'method_declaration');
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'inicioPrograma\n';
+  if(statements_global_vars != "")
+    code += statements_global_vars;
+  code += statements_main;
+  if(statements_method_declaration != "")
+    code += statements_method_declaration;
+  code += 'finPrograma';
+  return code;
+};
+/*
+Blockly.JavaScript.inicio_fin = function(block) {
   var text_varname = block.getFieldValue('varName');
   var statements_main = Blockly.JavaScript.statementToCode(block, 'main');
   // TODO: Assemble JavaScript into code variable.
   var code = 'inicioPrograma\n' + statements_main + 'finPrograma\n';
   return code;
-};
+};*/
 
 Blockly.JavaScript.vars_global = function(block) {
   var statements_variables = Blockly.JavaScript.statementToCode(block, 'variables');

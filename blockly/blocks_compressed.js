@@ -246,23 +246,38 @@ Blockly.Blocks.variables_set = {
 
 
 //MIOS
-Blockly.Blocks.inicio_fin = { //segmentos inicio fin donde va adentro del programa
+
+Blockly.Blocks.inicio_fin = {
   init: function() {
     this.appendDummyInput()
         .appendField("inicio de programa");
+    this.appendDummyInput()
+        .appendField("   variables globales");
+    this.appendStatementInput("global_vars")
+        .setCheck('variablesGlobales');
+    this.appendDummyInput()
+        .appendField("   fin variables globales");
+    this.appendDummyInput()
+        .appendField("   inicio del main");
     this.appendStatementInput("main")
-        .setCheck('mainFunc');//puede tener de todo dentro del main
+        .setCheck('mainFunc');
+    this.appendDummyInput()
+        .appendField("   fin main ");
+    this.appendDummyInput()
+        .appendField("   metodos");
+    this.appendStatementInput("method_declaration")
+        .setCheck('funciones');
+    this.appendDummyInput()
+        .appendField("   fin metodos");
     this.appendDummyInput()
         .appendField("fin de programa");
-    this.setPreviousStatement(true, 'variablesGlobales');
-    this.setNextStatement(true, 'funciones');
     this.setColour(120);
     this.setTooltip('');
-    this.setHelpUrl('https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#yjacz6');
+    this.setHelpUrl('https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#i839f3');
   }
 };
 
-Blockly.Blocks.vars_global = { // segmento donde edclaras variables globales
+Blockly.Blocks.vars_global = {
   init: function() {
     this.appendDummyInput()
         .appendField("variables globales");
@@ -270,10 +285,10 @@ Blockly.Blocks.vars_global = { // segmento donde edclaras variables globales
         .setCheck('var');
     this.appendDummyInput()
         .appendField("fin variables globales");
-    this.setNextStatement(true, 'variablesGlobales');
+    this.setPreviousStatement(true, 'variablesGlobales');
     this.setColour(70);
     this.setTooltip('');
-    this.setHelpUrl('https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#pqm3gd');
+    this.setHelpUrl('https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#6szxdz');
   }
 };
 
