@@ -242,7 +242,6 @@ def check(node):
         
         elif node.type == "escritura":
             check(node.args[0])
-            args = get_params(node.args[0])
             
         
         elif node.type == "escritura_vars":
@@ -252,6 +251,7 @@ def check(node):
         
         elif node.type == "lectura":
             check(node.args[0])
+            return get_var(node.args[0].args[0])
 
         else:
             print ("semantic missing:", node.type)

@@ -8,5 +8,6 @@ finVariablesLocales
 c = 4 + 10
 d = c
 imprimir d
+leer j
 endbloque
 finPrograma
