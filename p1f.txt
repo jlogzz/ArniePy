@@ -16,9 +16,16 @@ inicioPrograma
 
 	bloque
 
+		inicioVariablesLocales
+			int m
+		finVariablesLocales
+
+		
+		
+
 		llamarFuncion funvoid 3 , "hola"
 
-		globalJ = (1 + 3) * 1		
+		globalJ = (1 + 3) * 1 + globalJ		
 
 	endbloque
 	
