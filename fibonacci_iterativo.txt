@@ -1,0 +1,32 @@
+inicioPrograma
+  inicioFuncion int fibo_i int n
+    inicioVariablesLocales
+      int a
+      int b
+      int t
+      int regre
+    finVariablesLocales
+    a = 0
+    b = 1
+    inicioSi n == 0
+      regre = 0
+    finSi
+    inicioMientras n
+      t = a
+      a = b
+      b = t + b
+    finMientras
+    regre = a
+    regresa regre
+  finFuncion
+bloque
+  inicioVariablesLocales
+    int n
+  finVariablesLocales
+  n = 0
+  inicioMientras n <= 20
+    imprimir llamarFuncion fibon_i n
+    n = n + 1
+  finMientras
+endbloque
+finPrograma

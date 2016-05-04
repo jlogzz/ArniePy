@@ -14,6 +14,7 @@
     <script src="../../blocks_compressed.js"></script>
     <script src="../../javascript_compressed.js"></script>
     <script src="../../msg/js/en.js"></script>
+    <script src="../../FileSaver.js"></script>
     <style>
       html, body {
         height: 100%;
@@ -73,15 +74,14 @@
     </style>
   </head>
 
-<button class="correrCodigo" id="correrCodigo">Correr el Programa</button>
-<button class="detenerCodigo hidden" id="detenerCodigo">Stop Code</button>
-
     <table>
       <tr>
         <td>
           <h1>Compilador Spanglish<small> en Espanol</small></h1>
           <p>Programa que te ayudara a aprender la logica de programacion en espanol usando <a href="https://developers.google.com/blockly/">Google's Blockly</a>.
           </p>
+            <button class="correrCodigo btn-success" id="compilar" onclick="generarArchivo()">Correr el Programa</button>
+          <br /><br />
         </td>
       </tr>
       <tr>
@@ -199,6 +199,14 @@
        var code = Blockly.JavaScript.workspaceToCode(workspace);
        document.getElementById('text').value = code;
      }
+
+     function generarArchivo() {
+       var texto = document.getElementById("text").value;
+       var arrayOfLines = texto.split('\n');
+       var blob = new Blob(arrayOfLines, {type: "text/plain;charset=utf-8"});
+       saveAs(blob, "archivo_codigo.txt");
+     }
+
      //cuidado con las dos lineas de abajo
      window.LoopTrap = 1000;
      Blockly.JavaScript.INFINITE_LOOP_TRAP = 'if(--window.LoopTrap == 0) throw "Infinite loop.";\n';

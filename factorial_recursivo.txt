@@ -1,0 +1,26 @@
+inicioPrograma
+  inicioVariablesGlobales
+    int glob
+  finVariablesGlobales
+  inicioFuncion int factorial_r int n
+    inicioVariablesLocales
+      int m
+      int n_temp
+    finVariablesLocales
+    inicioSi n == 0
+      glob = n
+    sino
+      n_temp = n - 1
+      m = llamarFuncion factorial_r n_temp
+      glob = n * m
+    finSi
+    regresa glob
+  finFuncion
+bloque
+  inicioVariablesLocales
+    int varr
+  finVariablesLocales
+  varr = 5
+  imprimir llamarFuncion factorial_r varr
+endbloque
+finPrograma
