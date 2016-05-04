@@ -4,53 +4,16 @@ inicioPrograma
 		int globalJ
 	finVariablesGlobales
 
-	inicioFuncion string fun1 int j , int k
-		bloque
-			inicioVariablesLocales
-				int p
-			finVariablesLocales
-			p = 1
-		endbloque
-		regresa p
-	finFuncion
-
 	
 	inicioFuncion void funvoid int j , string k
 		bloque
-		
+			k = "Hola"
+			globalJ = j
 		endbloque
 	finFuncion
 	
 
 	bloque
-		inicioVariablesLocales
-			int c
-			int d
-			int j
-			int globalJ
-		finVariablesLocales
-		c = (4 + 10) * 4
-		d = c
-		imprimir d , 10 
-		leer j
-
-		inicioSi 4 > 5
-			j = 1
-		sinoEsto 5 > 4
-			j = 3
-		sino
-			j = 4
-		finSi
-
-		inicioMientras c != 0
-			j = 4 + 10 * 4
-		finMientras
-
-		inicioRepetir j
-			j = 4
-		finRepetir
-
-		llamarFuncion fun1 1 , 3
 
 		llamarFuncion funvoid 1 , "hola"
 

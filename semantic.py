@@ -148,10 +148,10 @@ def check(node):
                     args = map(lambda x: (x.args[1].args[0],x.args[0].args[0]), args)
 
             functions[name] = (rettype,list(args))
-
+            
 
             contexts.append(Context(name))
-            for i in args:
+            for i in functions[name][1]:
                 set_var(i[0],i[1])
             check(node.args[1])
             pop()
