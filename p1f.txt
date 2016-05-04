@@ -11,7 +11,11 @@ inicioPrograma
 	finFuncion
 
 	
-
+	inicioFuncion void funvoid int j , string k
+		bloque
+		
+		endbloque
+	finFuncion
 	
 
 	bloque
@@ -42,6 +46,8 @@ inicioPrograma
 		finRepetir
 
 		llamarFuncion fun1 1 , 3
+
+		llamarFuncion funvoid 1 , "hola"
 
 	endbloque
 	
