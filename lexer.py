@@ -26,6 +26,7 @@ reserved = {
   'regresa' : 'RETURN',
   'void' : 'VOID',
   'int' : 'INT',
+  'string' : 'STRING',
   'float' : 'FLOAT',
   'bool' : 'BOOL',
   'hash' : 'HASH',
@@ -42,7 +43,7 @@ tokens = [
   'RPARENTHESES',
   'CTEINT',
   'CTEFLOAT',
-  'STRING',
+  'CTESTRING',
   'EQUAL',
   'EQUALTO',
   'GTHAN',
@@ -61,7 +62,7 @@ tokens = [
     # Regular expression rules for simple tokens
 t_CTEINT     = r'[\+-]?\d+'
 t_CTEFLOAT   = r'[\+-]?\d+\.\d+'
-t_STRING     = r'\".*\"'
+t_CTESTRING     = r'\".*\"'
 t_PLUS       = r'\+'
 t_MINUS      = r'-'
 t_MULTI      = r'\*'

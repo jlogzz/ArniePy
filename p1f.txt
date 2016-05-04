@@ -1,9 +1,6 @@
-ItsShowtime
-
-  StickAround NoProblemo
-    TalkToTheHand "hola"
-  Chill
-  
-  a = 2 + 1
-
-YouHaveBeenTerminated
+inicioPrograma
+inicioVariablesGlobales
+int a
+finVariablesGlobales
+a = 10
+finPrograma
