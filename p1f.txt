@@ -1,13 +1,33 @@
 inicioPrograma
-bloque
-inicioVariablesLocales
-int c
-int d
-int j
-finVariablesLocales
-c = 4 + 10
-d = c
-imprimir d , 10 , a
-leer j
-endbloque
+	bloque
+		inicioVariablesLocales
+			int c
+			int d
+			int j
+			string st
+		finVariablesLocales
+		c = (4 + 10) * 4
+		d = c
+		imprimir d , 10 
+		leer j
+
+		inicioSi 4 > 5
+			j = 1
+		sinoEsto 5 > 4
+			j = 3
+		sino
+			j = 4
+		finSi
+
+		inicioMientras c != 0
+			j = 4 + 10 * 4
+		finMientras
+
+		inicioRepetir st
+			j = c
+		finRepetir
+
+	endbloque
+
+	
 finPrograma

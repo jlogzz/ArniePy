@@ -84,7 +84,7 @@ def p_escritura_vars(p):
     '''escritura_vars : expresion COMMA escritura_vars
     | expresion'''
     if len(p) > 2:
-        p[0] = Node('escritura_vars', p[1], p[3])
+        p[0] = Node('escritura_vars', p[1], p[2])
     else:
         p[0] = Node('escritura_vars', p[1])
 
@@ -115,7 +115,7 @@ def p_while(p):
     p[0] = Node('while', p[2], p[3])
 
 def p_for(p):
-    '''for : FOR int estatuto_list ENDFOR'''
+    '''for : FOR expresion estatuto_list ENDFOR'''
     p[0] = Node('for', p[2], p[3])
 
 def p_expresion(p):

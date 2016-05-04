@@ -227,7 +227,16 @@ def check(node):
                 check(node.args[3])
 
         elif node.type == "for":
-            check(node.args[1])
+            
+            if node.args[0].args[0].type == "int":
+                check(node.args[1])
+            elif node.args[0].args[0].type == "identifier":
+                if get_var(node.args[0].args[0].args[0]) == "int":
+                    check(node.args[1])
+                else:
+                    raise Exception("Repetir requiere un int como valor en lugar de "+get_var(node.args[0].args[0].args[0]))
+            else:
+                raise Exception("Repetir requiere un int como valor en lugar de "+node.args[0].args[0].type)
 
         elif node.type == "elemento":
             if node.args[0].type == 'identifier':
