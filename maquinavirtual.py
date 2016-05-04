@@ -17,7 +17,7 @@ class maquinaVirtual:
 
 	quadruples = None	#List of quadruples  #cuadruplos
 
-	memoria = [[[],[],[],[]],[[],[],[],[]]] #[[[Global Int], [Global Float], [Local Text], [Global Bool]], [[Local Int], [Local Float], [Local Text], [Local Bool]]]
+	memoria = [[[],[],[],[]],[[],[],[],[]]] #[[[Global Int], [Global Float], [global Text], [Global Bool]], [[Local Int], [Local Float], [Local Text], [Local Bool]]]
 
 	currentSpace = []  #Amount of current space of the function in use [LocalInt, LocalFloat, LocalText, LocalBool] #cantidadEspacioActual
 
@@ -27,7 +27,7 @@ class maquinaVirtual:
 
 	listaAtributos = [] #Los atributos de las clases del metodo que fue llamado
 
-	direccionResultadoFuncion = [] #Guarda la direccion de memoria que va a tener el resultado del retorno de una funcion
+	directionFunctionResult = [] #Saves the direction in memory whith the return value of a function  Guarda la direccion de memoria que va a tener el resultado del retorno de una funcion
 
 
 	def __init__(self, dirProcedures, quadruples, countGlobalInt, countGlobalFloat, countGlobalText, countGlobalBool, countInitInt, countInitFloat, countInitText, countInitBool):
@@ -57,32 +57,32 @@ class maquinaVirtual:
 			elif self.quadruples[self.currentQuadruple][0] == "=": # prob int listas
 				self.assign()
 
-			elif self.quadruples[self.currentQuadruple][0] == "endproc":
+			elif self.quadruples[self.currentQuadruple][0] == "endproc": # ya
 				self.endproc()
 
-			elif self.quadruples[self.currentQuadruple][0] == "era":
+			elif self.quadruples[self.currentQuadruple][0] == "era": # ya
 				self.era()
 
-			elif self.quadruples[self.currentQuadruple][0] == "param":
+			elif self.quadruples[self.currentQuadruple][0] == "param": # ya prob int listas att
 				self.param()
 
-			elif self.quadruples[self.currentQuadruple][0] == "gotof":
+			elif self.quadruples[self.currentQuadruple][0] == "gotof": # ya prob int listas
 				self.gotof()
 
-			elif self.quadruples[self.currentQuadruple][0] == "gosub":
+			elif self.quadruples[self.currentQuadruple][0] == "gosub": # ya
 				self.gosub()
 
-			elif self.quadruples[self.currentQuadruple][0] == "print":	#ya
+			elif self.quadruples[self.currentQuadruple][0] == "print": # ya
 				self.printf()
 
-			elif self.quadruples[self.currentQuadruple][0] == "leer":
-				self.leer()
+			elif self.quadruples[self.currentQuadruple][0] == "read": # ya
+				self.read()
 
-			elif self.quadruples[self.currentQuadruple][0] == "retornar":
-				self.retornar()
+			elif self.quadruples[self.currentQuadruple][0] == "returnDir": #ya
+				self.returnDir()
 
-			elif self.quadruples[self.currentQuadruple][0] == "resultado":
-				self.guardarDireccionRetorno()
+			elif self.quadruples[self.currentQuadruple][0] == "result": # ya
+				self.saveReturnDir()
 
 			elif self.quadruples[self.currentQuadruple][0] == "ver":
 				self.validarRango()
@@ -141,55 +141,55 @@ class maquinaVirtual:
 
 	# Guarda las direcciones de los atributos de un objeto para procesar con los metodos
 	def atributo(self):
-		atributo = self.cuadruplos[self.cuadruploActual][2]
-		direccion = self.cuadruplos[self.cuadruploActual][3]
+		atributo = self.quadruples[self.currentQuadruple][2]
+		direccion = self.quadruples[self.currentQuadruple][3]
 		self.listaAtributos.append([atributo,direccion])
 
 	# Realiza las operaciones basicas entre dos operadores y lo guarda en una direccion temporal
 	def operacion(self, op):
 		aux1 = 0
 		aux2 = 0
-		if type(self.cuadruplos[self.cuadruploActual][1]) is int:
-			posEnMemoria = self.obtenerPosEnMemoria(self.cuadruplos[self.cuadruploActual][1])
+		if type(self.quadruples[self.currentQuadruple][1]) is int:
+			posEnMemoria = self.getMemPos(self.quadruples[self.currentQuadruple][1])
 			aux1 = self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]]
 
-		elif type(self.cuadruplos[self.cuadruploActual][1]) is list:
-			aux1 = self.cuadruplos[self.cuadruploActual][1][0]
+		elif type(self.quadruples[self.currentQuadruple][1]) is list:
+			aux1 = self.quadruples[self.currentQuadruple][1][0]
 			if type(aux1) is list:
-				posEnMemoria = self.obtenerPosEnMemoria(aux1[0])
+				posEnMemoria = self.getMemPos(aux1[0])
 				aux1 = self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]]
-				posEnMemoria = self.obtenerPosEnMemoria(aux1)
+				posEnMemoria = self.getMemPos(aux1)
 				aux1 = self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]]
 
 		else:
 			i = 0
 			while i < len(self.listaAtributos):
-				if self.listaAtributos[i][0] == self.cuadruplos[self.cuadruploActual][1]:
-					posEnMemoria = self.obtenerPosEnMemoria(self.listaAtributos[i][1])
+				if self.listaAtributos[i][0] == self.quadruples[self.currentQuadruple][1]:
+					posEnMemoria = self.getMemPos(self.listaAtributos[i][1])
 					aux1 = self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]]
 				i = i + 1
 
 
-		if type(self.cuadruplos[self.cuadruploActual][2]) is int:
-			posEnMemoria = self.obtenerPosEnMemoria(self.cuadruplos[self.cuadruploActual][2])
+		if type(self.quadruples[self.currentQuadruple][2]) is int:
+			posEnMemoria = self.getMemPos(self.quadruples[self.currentQuadruple][2])
 			aux2 = self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]]
 
-		elif type(self.cuadruplos[self.cuadruploActual][2]) is list:
-			aux2 = self.cuadruplos[self.cuadruploActual][2][0]
+		elif type(self.quadruples[self.currentQuadruple][2]) is list:
+			aux2 = self.quadruples[self.currentQuadruple][2][0]
 			if type(aux2) is list:
-				posEnMemoria = self.obtenerPosEnMemoria(aux2[0])
+				posEnMemoria = self.getMemPos(aux2[0])
 				aux2 = self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]]
-				posEnMemoria = self.obtenerPosEnMemoria(aux2)
+				posEnMemoria = self.getMemPos(aux2)
 				aux2 = self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]]
 		else:
 			i = 0
 			while i < len(self.listaAtributos):
-				if self.listaAtributos[i][0] == self.cuadruplos[self.cuadruploActual][2]:
-					posEnMemoria = self.obtenerPosEnMemoria(self.listaAtributos[i][1])
+				if self.listaAtributos[i][0] == self.quadruples[self.currentQuadruple][2]:
+					posEnMemoria = self.getMemPos(self.listaAtributos[i][1])
 					aux2 = self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]]
 				i = i + 1
 
-		posEnMemoria = self.obtenerPosEnMemoria(self.cuadruplos[self.cuadruploActual][3])
+		posEnMemoria = self.getMemPos(self.quadruples[self.currentQuadruple][3])
 
 		if op == "+":
 			self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]] = aux1 + aux2
@@ -201,44 +201,44 @@ class maquinaVirtual:
 			self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]] = aux1 - aux2
 		elif op == "==":
 			if aux1 == aux2:
-				self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]] = 1
+				self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]] = True
 			else:
-				self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]] = 0
+				self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]] = False
 		elif op == ">":
 			if aux1 > aux2:
-				self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]] = 1
+				self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]] = True
 			else:
-				self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]] = 0
+				self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]] = False
 		elif op == "&&":
 			if aux1 and aux2:
-				self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]] = 1
+				self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]] = True
 			else:
-				self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]] = 0
+				self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]] = False
 		elif op == "||":
 			if aux1 or aux2:
-				self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]] = 1
+				self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]] = True
 			else:
-				self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]] = 0
+				self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]] = False
 		elif op == "<":
 			if aux1 < aux2:
-				self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]] = 1
+				self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]] = True
 			else:
-				self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]] = 0
+				self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]] = False
 		elif op == "!=":
 			if aux1 != aux2:
-				self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]] = 1
+				self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]] = True
 			else:
-				self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]] = 0
+				self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]] = False
 		elif op == ">=":
 			if aux1 >= aux2:
-				self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]] = 1
+				self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]] = True
 			else:
-				self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]] = 0
+				self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]] = False
 		elif op == "<=":
 			if aux1 <= aux2:
-				self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]] = 1
+				self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]] = True
 			else:
-				self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]] = 0
+				self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]] = False
 
 	# Recibe una direccion virtual de memoria y la transforma a una real
 	# Retorna en formato [globalOLocal,Entero/Decimal/Texto,posicionDentroDeLaLista]
@@ -275,76 +275,93 @@ class maquinaVirtual:
 				return posEnMemoria
 
 	# Lee un valor de la consola
-	def leer(self):
-		if type(self.cuadruplos[self.cuadruploActual][3]) is int:
-			posEnMemoria = self.getMemPos(self.cuadruplos[self.cuadruploActual][3])
+	def read(self):
+		if type(self.quadruples[self.currentQuadruple][3]) is int:
+			memoPos = self.getMemPos(self.quadruples[self.currentQuadruple][3])
 
-		elif type(self.cuadruplos[self.cuadruploActual][3]) is list:
-			aux1 = self.cuadruplos[self.cuadruploActual][3][0]
+		elif type(self.quadruples[self.currentQuadruple][3]) is list:
+			aux1 = self.quadruples[self.currentQuadruple][3][0]
 			if type(aux1) is list:
-				posEnMemoria = self.obtenerPosEnMemoria(aux1[0])
-				aux1 = self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]]
-				posEnMemoria = self.obtenerPosEnMemoria(aux1)
+				memoPos = self.getMemPos(aux1[0])
+				aux1 = self.memoria[memoPos[0]][memoPos[1]][memoPos[2]]
+				memoPos = self.getMemPos(aux1)
 		else:
 			i = 0
 			while i < len(self.listaAtributos):
-				if self.listaAtributos[i][0] == self.cuadruplos[self.cuadruploActual][3]:
-					posEnMemoria = self.obtenerPosEnMemoria(self.listaAtributos[i][1])
+				if self.listaAtributos[i][0] == self.quadruples[self.currentQuadruple][3]:
+					memoPos = self.getMemPos(self.listaAtributos[i][1])
 				i = i + 1
 
 
-		if posEnMemoria[1] == 0:
+		if memoPos[1] == 0:
 			while True:
 				try:
-					self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]] = int(input('>> '))
+					self.memoria[memoPos[0]][memoPos[1]][memoPos[2]] = int(input('>> '))
 					break
 				except ValueError:
 					print("Numero Invalido, Intente nuevamente")
-		elif posEnMemoria[1] == 1:
+		elif memoPos[1] == 1:
 			while True:
 				try:
-					self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]] = float(input('>> '))
+					self.memoria[memoPos[0]][memoPos[1]][memoPos[2]] = float(input('>> '))
 					break
 				except ValueError:
 					print("Numero invalido, Intente nuevamente")
-		elif posEnMemoria[1] == 2:
-			self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]] = input('>> ')
+		elif memoPos[1] == 2:
+			self.memoria[memoPos[0]][memoPos[1]][memoPos[2]] = input('>> ')
+		elif memoPos[1] == 3:
+			while True:
+				try:
+					booleano = input('>> ')
+					if booleano.lower() == 'true':
+						self.memoria[memoPos[0]][memoPos[1]][memoPos[2]] = True
+						break
+					elif booleano.lower() == 'false':
+						self.memoria[memoPos[0]][memoPos[1]][memoPos[2]] = False
+						break
+					else:
+						print("Booleano invado, Intente nuevamente")
+				except:
+					pass
 
 	# El valor que se especifica en el cuadruplo es insertado a la direccion de memoria ya sea una variable, atributo o elemento de un arreglo
 	def assign(self):
 		aux1 = None
-		if type(self.cuadruplos[self.cuadruploActual][1]) is int:
-			posEnMemoria = self.obtenerPosEnMemoria(self.cuadruplos[self.cuadruploActual][1])
+		print(self.quadruples[self.currentQuadruple][1])
+		if type(self.quadruples[self.currentQuadruple][1]) is int:
+			posEnMemoria = self.getMemPos(self.quadruples[self.currentQuadruple][1])
+			print(posEnMemoria)
 			aux1 = self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]]
 
-		elif type(self.cuadruplos[self.cuadruploActual][1]) is list:
-			aux1 = self.cuadruplos[self.cuadruploActual][1][0]
+
+		elif type(self.quadruples[self.currentQuadruple][1]) is list:
+			aux1 = self.quadruples[self.currentQuadruple][1][0]
 			if type(aux1) is list:
-				posEnMemoria = self.obtenerPosEnMemoria(aux1[0])
+				posEnMemoria = self.getMemPos(aux1[0])
 				aux1 = self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]]
-				posEnMemoria = self.obtenerPosEnMemoria(aux1)
+				posEnMemoria = self.getMemPos(aux1)
 				aux1 = self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]]
 
 		else:
 			i = 0
 			while i < len(self.listaAtributos):
-				if self.listaAtributos[i][0] == self.cuadruplos[self.cuadruploActual][1]:
-					posEnMemoria = self.obtenerPosEnMemoria(self.listaAtributos[i][1])
+				if self.listaAtributos[i][0] == self.quadruples[self.currentQuadruple][1]:
+					posEnMemoria = self.getMemPos(self.listaAtributos[i][1])
 					aux2 = self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]]
 				i = i + 1
 
-		if type(self.cuadruplos[self.cuadruploActual][3]) is int:
-			posEnMemoria = self.obtenerPosEnMemoria(self.cuadruplos[self.cuadruploActual][3])
+		if type(self.quadruples[self.currentQuadruple][3]) is int:
+			posEnMemoria = self.getMemPos(self.quadruples[self.currentQuadruple][3])
 
-		elif type(self.cuadruplos[self.cuadruploActual][3]) is list:
-			posEnMemoria = self.obtenerPosEnMemoria(self.cuadruplos[self.cuadruploActual][3][0][0])
+		elif type(self.quadruples[self.currentQuadruple][3]) is list:
+			posEnMemoria = self.getMemPos(self.quadruples[self.currentQuadruple][3][0][0])
 			aux = self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]]
-			posEnMemoria = self.obtenerPosEnMemoria(aux)
+			posEnMemoria = self.getMemPos(aux)
 		else:
 			i = 0
 			while i < len(self.listaAtributos):
-				if self.listaAtributos[i][0] == self.cuadruplos[self.cuadruploActual][3]:
-					posEnMemoria = self.obtenerPosEnMemoria(self.listaAtributos[i][1])
+				if self.listaAtributos[i][0] == self.quadruples[self.currentQuadruple][3]:
+					posEnMemoria = self.getMemPos(self.listaAtributos[i][1])
 					aux2 = self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]]
 				i = i + 1
 
@@ -381,50 +398,50 @@ class maquinaVirtual:
 	# Si la condicion resulta en falso entonces el cuadruplo actual se mueve al cuadruplo que especifica el gotof
 	def gotof(self):
 		aux1 = None
-		if type(self.cuadruplos[self.cuadruploActual][1]) is int:
-			posEnMemoria = self.obtenerPosEnMemoria(self.cuadruplos[self.cuadruploActual][1])
-			aux1 = self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]]
+		if type(self.quadruples[self.currentQuadruple][1]) is int:
+			memoPos = self.getMemPos(self.quadruples[self.currentQuadruple][1])
+			aux1 = self.memoria[memoPos[0]][memoPos[1]][memoPos[2]]
 
-		elif type(self.cuadruplos[self.cuadruploActual][1]) is list:
-			aux1 = self.cuadruplos[self.cuadruploActual][1][0]
+		elif type(self.quadruples[self.currentQuadruple][1]) is list:
+			aux1 = self.quadruples[self.currentQuadruple][1][0]
 			if type(aux1) is list:
-				posEnMemoria = self.obtenerPosEnMemoria(aux1[0])
-				aux1 = self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]]
-				posEnMemoria = self.obtenerPosEnMemoria(aux1)
-				aux1 = self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]]
+				memoPos = self.getMemPos(aux1[0])
+				aux1 = self.memoria[memoPos[0]][memoPos[1]][memoPos[2]]
+				memoPos = self.getMemPos(aux1)
+				aux1 = self.memoria[memoPos[0]][memoPos[1]][memoPos[2]]
 		if aux1 == 0:
-			self.cuadruploActual = self.cuadruplos[self.cuadruploActual][3] - 1
+			self.currentQuadruple = self.quadruples[self.currentQuadruple][3] - 1
 
 	# Se asignan valores a los parametros de una funcion y se revisa si son por referencia para insertar a la pila e parametros por refrencia
 	def param(self):
-		aux = self.cuadruplos[self.cuadruploActual]
-		valor = None
+		aux = self.quadruples[self.currentQuadruple]
+		value = None
 		if type(aux[3]) is int:
-			posEnMemoria = self.obtenerPosEnMemoria(aux[3])
+			memoPos = self.getMemPos(aux[3])
 
-			if posEnMemoria[0] == 0:
-				valor = self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]]
+			if memoPos[0] == 0:
+				value = self.memoria[memoPos[0]][memoPos[1]][memoPos[2]]
 			else:
-				valor = self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2] - self.cantidadEspacioActual[len(self.cantidadEspacioActual) - 2][posEnMemoria[1]]]
+				value = self.memoria[memoPos[0]][memoPos[1]][memoPos[2] - self.currentSpace[len(self.currentSpace) - 2][memoPos[1]]]
 
 		elif type(aux[3]) is list:
-			valor = aux[3][0]
-			if type(valor) is list:
-				posEnMemoria = self.obtenerPosEnMemoria(valor)
-				valor = self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]]
-				posEnMemoria = self.obtenerPosEnMemoria(valor)
-				valor = self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]]
+			value = aux[3][0]
+			if type(value) is list:
+				memoPos = self.getMemPos(value)
+				value = self.memoria[memoPos[0]][memoPos[1]][memoPos[2]]
+				memoPos = self.getMemPos(value)
+				value = self.memoria[memoPos[0]][memoPos[1]][memoPos[2]]
 		else:
 			i = 0
 			while i < len(self.listaAtributos):
 				if self.listaAtributos[i][0] == aux[3]:
-					posEnMemoria = self.obtenerPosEnMemoria(self.listaAtributos[i][1])
-					valor = self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]]
+					memoPos = self.getMemPos(self.listaAtributos[i][1])
+					value = self.memoria[memoPos[0]][memoPos[1]][memoPos[2]]
 				i = i + 1
 
 
-		posEnMemoria = self.obtenerPosEnMemoria(aux[2])
-		self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]] = valor
+		memoPos = self.getMemPos(aux[2])
+		self.memoria[memoPos[0]][memoPos[1]][memoPos[2]] = value
 		if aux[1]:
 			self.functionReference[len(self.functionReference) - 1].append([aux[2], aux[3]])
 
@@ -462,50 +479,54 @@ class maquinaVirtual:
 			self.memoria[memoPos2[0]][memoPos2[1]][memoPos2[2]- self.currentSpace[len(self.currentSpace) - 2][memoPos2[1]]] = self.memoria[posEnMemoria1[0]][posEnMemoria1[1]][posEnMemoria1[2]]
 
 	# Le asigna un valor a una direccion en especifico
-	def retornar(self):
+	def returnDir(self):
 		aux1 = None
 
-		if type(self.cuadruplos[self.cuadruploActual][3]) is int:
-			posEnMemoria = self.obtenerPosEnMemoria(self.cuadruplos[self.cuadruploActual][3])
-			aux1 = self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]]
+		if type(self.quadruples[self.currentQuadruple][3]) is int:
+			memoPos = self.getMemPos(self.quadruples[self.currentQuadruple][3])
+			aux1 = self.memoria[memoPos[0]][memoPos[1]][memoPos[2]]
 
-		elif type(self.cuadruplos[self.cuadruploActual][3]) is list:
-			aux1 = self.cuadruplos[self.cuadruploActual][3][0]
+		elif type(self.quadruples[self.currentQuadruple][3]) is list:
+			aux1 = self.quadruples[self.currentQuadruple][3][0]
 			if type(aux1) is list:
-				posEnMemoria = self.obtenerPosEnMemoria(aux1)
-				aux1 = self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]]
+				memoPos = self.getMemPos(aux1)
+				aux1 = self.memoria[memoPos[0]][memoPos[1]][memoPos[2]]
 
 		else:
 			i = 0
 			while i < len(self.listaAtributos):
-				if self.listaAtributos[i][0] == self.cuadruplos[self.cuadruploActual][3]:
-					posEnMemoria = self.obtenerPosEnMemoria(self.listaAtributos[i][1])
-					aux2 = self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]]
+				if self.listaAtributos[i][0] == self.quadruples[self.currentQuadruple][3]:
+					memoPos = self.getMemPos(self.listaAtributos[i][1])
+					aux2 = self.memoria[memoPos[0]][memoPos[1]][memoPos[2]]
 				i = i + 1
 
-		if len(self.direccionResultadoFuncion) > 0:
-			posEnMemoria2 = self.obtenerPosEnMemoria(self.direccionResultadoFuncion.pop())
-			self.memoria[posEnMemoria2[0]][posEnMemoria2[1]][posEnMemoria2[2]- self.cantidadEspacioActual[len(self.cantidadEspacioActual) - 2][posEnMemoria2[1]]] = aux1
+		if len(self.directionFunctionResult) > 0:
+			memoPos2 = self.getMemPos(self.directionFunctionResult.pop())
+			self.memoria[memoPos2[0]][memoPos2[1]][memoPos2[2]- self.currentSpace[len(self.currentSpace) - 2][memoPos2[1]]] = aux1
 
 	# Guarda la direccion en la que se va a hacer el retorno de una funcion
-	def guardarDireccionRetorno(self):
-		self.direccionResultadoFuncion.append(self.cuadruplos[self.cuadruploActual][3])
+	def saveReturnDir(self):
+		self.directionFunctionResult.append(self.quadruples[self.currentQuadruple][3])
 
 	# Revisa que el valor entero que llego se encuentre dentro del rango de los arreglos
 	def validarRango(self):
-		longLista = self.cuadruplos[self.cuadruploActual][3]
+		longLista = self.quadruples[self.currentQuadruple][3]
 		aux1 = None
-		if type(self.cuadruplos[self.cuadruploActual][1]) is int:
-			posEnMemoria = self.obtenerPosEnMemoria(self.cuadruplos[self.cuadruploActual][1])
+		if type(self.quadruples[self.currentQuadruple][1]) is int:
+			posEnMemoria = self.getMemPos(self.quadruples[self.currentQuadruple][1])
 			aux1 = self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]]
 
-		elif type(self.cuadruplos[self.cuadruploActual][1]) is list:
-			aux1 = self.cuadruplos[self.cuadruploActual][1][0]
+		elif type(self.quadruples[self.currentQuadruple][1]) is list:
+			aux1 = self.quadruples[self.currentQuadruple][1][0]
 			if type(aux1) is list:
-				posEnMemoria = self.obtenerPosEnMemoria(aux1[0])
+				posEnMemoria = self.getMemPos(aux1[0])
 				aux1 = self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]]
-				posEnMemoria = self.obtenerPosEnMemoria(aux1)
+				posEnMemoria = self.getMemPos(aux1)
 				aux1 = self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]]
 		if aux1 < 0 or aux1 > longLista:
 			print ("Error en tiempo de ejecucion: Indice fuera de rango" )
 			sys.exit()
+
+m = maquinaVirtual(0,((),('=',2, '','a'),('=',3, '','b'),('+', 'a', 'b', 'a'),),2,0,0,0,0,0,0,0)
+m.execute()
+print m.a
