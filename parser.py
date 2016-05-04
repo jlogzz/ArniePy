@@ -23,7 +23,13 @@ while True:
     e = ""
     for line in s:
       e += line
-    yacc.parse(e)
+    ast =  yacc.parse(data,lexer = lex.lex(nowarn=1))
+
+    try:
+      check(ast)
+    except Exception, e:
+      print "Error: %s" % e
+      sys.exit()
 
     if err:
       print("No hay ningun error, buen programa (Y)!")
