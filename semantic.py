@@ -103,8 +103,7 @@ def set_var(varn,typ):
     elif glob.has_var(var):
         raise Exception( "Variable "+var+" already globally defined")
     else:
-        print(typ.lower())
-        if globalFlag:
+        if globalFlag == 1:
             if typ.lower() == "int":
                 memGlobalEntero += 1
                 direccion = memGlobalEntero
@@ -167,6 +166,9 @@ def printMem():
 def check(node):
     global functionFlag
     global globalFlag
+    global memLocalEntero
+    global memLocalDecimal
+    global memLocalTexto
 
     if not is_node(node):
         if hasattr(node,"__iter__") and type(node) != type(""):
@@ -203,6 +205,7 @@ def check(node):
 
         elif node.type in ['funcion','procedure']:
             functionFlag = 1
+            globalFlag = 0
             head = node.args[0]
             if node.type == "procedure":
                 name = head.args[0].args[0].lower()
@@ -273,11 +276,11 @@ def check(node):
             if vartype != assgntype:
                 raise Exception( "Variable "+varn+" if of type "+vartype+" and does not support "+assgntype)
             
-            # oper = pOper.pop()
-            # oDer = pilaO.pop()
-            # oIzq = pilaO.pop()
-            # #Genera cuadruplo de asignacion
-            # cuadruplos.append([oper,oDer,None,oIzq])
+            oper = pOper.pop()
+            oDer = pilaO.pop()
+            oIzq = pilaO.pop()
+            #Genera cuadruplo de asignacion
+            cuadruplos.append([oper,oDer,None,oIzq])
             
             
         elif node.type == "and_or":
@@ -292,6 +295,7 @@ def check(node):
             op = node.args[0].args[0]
             vt1 = check(node.args[1])
             vt2 = check(node.args[2])
+            pOper.append(op)
 
             if vt1 != vt2:
                 raise Exception( "Arguments of operation '"+op+"' must be of the same type. Got "+vt1+" and "+vt2+".")
@@ -299,7 +303,28 @@ def check(node):
             if op == '/':
                 if vt1 != 'float':
                     raise Exception( "Operation "+op+" requires reals.")
-
+                    
+            oper = pOper.pop()
+            oDer = pilaO.pop()
+            oIzq = pilaO.pop()
+            
+            if op in ['==','<=','>=','>','<','!=']:
+                memLocalEntero += 1
+                auxDir = memLocalEntero
+            else:
+                if vt1 == "int":
+                    memLocalEntero += 1
+                    auxDir = memLocalEntero
+                elif vt1 == "float":
+                    memLocalDecimal += 1
+                    auxDir = memLocalDecimal
+                elif vt1 == "string":
+                    memLocalTexto += 1
+                    auxDir = memLocalTexto
+            
+            cuadruplos.append([oper,oIzq,oDer,auxDir])
+            pilaO.append(auxDir)
+            
             if op in ['==','<=','>=','>','<','!=']:
                 return 'boolean'
             else:
@@ -335,11 +360,13 @@ def check(node):
 
         elif node.type == "elemento":
             if node.args[0].type == 'identifier':
+                pilaO.append(node.args[0].args[0])
                 return get_var(node.args[0].args[0])
             elif node.args[0].type == 'llamarfun':
                 return check(node.args[0])
             else:
                 if node.args[0].type in types:
+                    pilaO.append(node.args[0].args[0])
                     return node.args[0].type
                 else:
                     return check(node.args[0])
