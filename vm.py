@@ -1,3 +1,0 @@
-vmparam_var = {
-    'integer': []
-}
