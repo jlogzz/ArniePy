@@ -258,17 +258,17 @@ Blockly.Blocks.inicio_fin = {
     this.appendDummyInput()
         .appendField("   fin variables globales");
     this.appendDummyInput()
-        .appendField("   inicio del main");
-    this.appendStatementInput("main")
-        .setCheck('mainFunc');
-    this.appendDummyInput()
-        .appendField("   fin main ");
-    this.appendDummyInput()
         .appendField("   metodos");
     this.appendStatementInput("method_declaration")
         .setCheck('funciones');
     this.appendDummyInput()
         .appendField("   fin metodos");
+    this.appendDummyInput()
+        .appendField("   inicio del main");
+    this.appendStatementInput("main")
+        .setCheck('mainFunc');
+    this.appendDummyInput()
+        .appendField("   fin main ");
     this.appendDummyInput()
         .appendField("fin de programa");
     this.setColour(120);
@@ -446,7 +446,7 @@ Blockly.Blocks.expression = { //< > <= >= != ==
     this.appendValueInput("expression_left")
         .setCheck(['Number', 'unaVariable']);
     this.appendDummyInput()
-        .appendField(new Blockly.FieldDropdown([[">", "GTHAN"], ["<", "LTHAN"], ["==", "EQUALTO"], ["!=", "NOTEQUAL"], [">=", "GTHANEQ"], ["<=", "LTHANEQ"]]), "exp_type");
+        .appendField(new Blockly.FieldDropdown([[">", ">"], ["<", "<"], ["==", "=="], ["!=", "!="], [">=", ">="], ["<=", "<="]]), "exp_type");
     this.appendValueInput("expression_right")
         .setCheck(['Number', 'unaVariable']);
     this.setInputsInline(true);
@@ -462,7 +462,7 @@ Blockly.Blocks.expression_ao = { // and or
     this.appendValueInput("expression_left")
         .setCheck(['Boolean', 'unaVariable']);
     this.appendDummyInput()
-        .appendField(new Blockly.FieldDropdown([["y", "AND"], ["o", "OR"]]), "exp_type");
+        .appendField(new Blockly.FieldDropdown([["y", "&&"], ["o", "||"]]), "exp_type");
     this.appendValueInput("expression_right")
         .setCheck(['Boolean', 'unaVariable']);
     this.setInputsInline(true);
@@ -502,7 +502,7 @@ Blockly.Blocks.exp = { //+ - * /
     this.appendValueInput("expression_left")
         .setCheck(['Number','unaVariable']);
     this.appendDummyInput()
-        .appendField(new Blockly.FieldDropdown([["+", "PLUS"], ["-", "MINUS"], ["*", "MULTI"], ["/", "DIVIDE"]]), "exp_type");
+        .appendField(new Blockly.FieldDropdown([["+", "+"], ["-", "-"], ["*", "*"], ["/", "/"]]), "exp_type");
     this.appendValueInput("expression_right")
         .setCheck(['Number','unaVariable']);
     this.setInputsInline(true);
@@ -510,6 +510,22 @@ Blockly.Blocks.exp = { //+ - * /
     this.setColour(235);
     this.setTooltip('');
     this.setHelpUrl('https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#zz69ou');
+  }
+};
+
+Blockly.Blocks.exp_parentheses = { //Parentheses
+  init: function() {
+    this.appendDummyInput()
+        .appendField("(");
+    this.appendValueInput("expression_parentheses")
+        .setCheck(['Number','unaVariable']);
+    this.appendDummyInput()
+        .appendField(")");
+    this.setInputsInline(true);
+    this.setOutput(true, "Number");
+    this.setColour(245);
+    this.setTooltip('');
+    this.setHelpUrl('https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#cvkwte');
   }
 };
 
@@ -607,7 +623,7 @@ Blockly.Blocks.function_def = {
     this.appendValueInput("params")
         .setCheck('defVariable')
         .appendField("funcion")
-        .appendField(new Blockly.FieldDropdown([["entero", "integer"], ["flotante", "float"], ["string", "string"], ["boolean", "boolean"], ["hash", "hash"]]), "func_type")
+        .appendField(new Blockly.FieldDropdown([["entero", "int"], ["flotante", "float"], ["string", "string"], ["boolean", "bool"], ["hash", "hash"]]), "func_type")
         .appendField(new Blockly.FieldTextInput("nombre"), "name")
         .appendField("parametros");
     this.appendStatementInput("main")

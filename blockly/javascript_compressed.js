@@ -91,9 +91,9 @@ Blockly.JavaScript.inicio_fin = function(block) {
   var code = 'inicioPrograma\n';
   if(statements_global_vars != "")
     code += statements_global_vars;
-  code += statements_main;
   if(statements_method_declaration != "")
     code += statements_method_declaration;
+  code += 'bloque\n'+ statements_main + 'endbloque\n';
   code += 'finPrograma';
   return code;
 };
@@ -230,6 +230,14 @@ Blockly.JavaScript.exp = function(block) {
   var value_expression_right = Blockly.JavaScript.valueToCode(block, 'expression_right', Blockly.JavaScript.ORDER_ATOMIC);
   // TODO: Assemble JavaScript into code variable.
   var code = value_expression_left + ' ' + dropdown_exp_type + ' ' + value_expression_right;
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Blockly.JavaScript.ORDER_ATOMIC];
+};
+
+Blockly.JavaScript.exp_parentheses = function(block) {
+  var value_expression_parentheses = Blockly.JavaScript.valueToCode(block, 'expression_parentheses', Blockly.JavaScript.ORDER_ATOMIC);
+  // TODO: Assemble JavaScript into code variable.
+  var code = '(' + value_expression_parentheses + ')';
   // TODO: Change ORDER_NONE to the correct strength.
   return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
