@@ -6,6 +6,7 @@ from ply import yacc,lex
 from lexer import *
 from rules import *
 from semantic import *
+from maquinavirtual import *
 
 def get_input(file=False):
   if file:
@@ -35,11 +36,14 @@ def main(options={},filename=False):
 	
 	try:
 		check(ast)
-		printCuads()
-		printMem()
+		#printCuads()
+		# printMem()
 	except Exception as e:
 		print ("Error: ", e)
 		sys.exit()
+		
+	m = maquinaVirtual(get_funciones(),get_cuads(),get_gInt(),get_gFloat(),get_gString(),get_lInt(),get_lFloat(),get_lString())
+	m.execute()
 	
 	# try:
 	# 	o = Writer()(ast)

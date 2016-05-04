@@ -38,7 +38,7 @@ class maquinaVirtual:
 		self.memoria[1][1] = [0.0] * countInitFloat
 		self.memoria[1][2] = [""] * countInitText
 		self.countLocInt = countInitInt
-		self.contLocalFloat = countInitFloat
+		self.countLocalFloat = countInitFloat
 		self.countLocText = countInitText
 		self.currentSpace.append([countInitInt,countInitFloat, countInitText])
 
@@ -132,7 +132,7 @@ class maquinaVirtual:
 		#			idfunction = i[1]
 		#	return self.dirProcedures[function,idfunction][3]
 		#else:
-		return self.dirProcedures[function,0][3]
+		return [self.countLocInt- 14999,self.countLocalFloat - 24999,self.countLocText - 34999]
 
 	# Guarda las direcciones de los atributos de un objeto para procesar con los metodos
 	def atributo(self):
@@ -245,15 +245,15 @@ class maquinaVirtual:
 			posEnMemoria[0] = 1 #Local Variable
 			if direccion >= 15000 and direccion < 25000:
 				posEnMemoria[1] = 0
-				posEnMemoria[2] = direccion - 15000 - self.cantidadEspacioActual[len(self.cantidadEspacioActual) - 1][0] + self.countLocInt
+				posEnMemoria[2] = direccion - 15000 - self.currentSpace[len(self.currentSpace) - 1][0] + self.countLocInt
 				return posEnMemoria
 			elif direccion >= 25000 and direccion < 35000:
 				posEnMemoria[1] = 1
-				posEnMemoria[2] = direccion - 25000 - self.cantidadEspacioActual[len(self.cantidadEspacioActual) - 1][1] + self.countLocalFloat
+				posEnMemoria[2] = direccion - 25000 - self.currentSpace[len(self.currentSpace) - 1][1] + self.countLocalFloat
 				return posEnMemoria
 			elif direccion >= 35000 and direccion < 45000:
 				posEnMemoria[1] = 2
-				posEnMemoria[2] = direccion - 35000 - self.cantidadEspacioActual[len(self.cantidadEspacioActual) - 1][2] + self.countLocText
+				posEnMemoria[2] = direccion - 35000 - self.currentSpace[len(self.currentSpace) - 1][2] + self.countLocText
 				return posEnMemoria
 		else:
 			if direccion < 5000:
@@ -308,10 +308,8 @@ class maquinaVirtual:
 	# El valor que se especifica en el cuadruplo es insertado a la direccion de memoria ya sea una variable, atributo o elemento de un arreglo
 	def assign(self):
 		aux1 = None
-		print(self.quadruples[self.currentQuadruple][1])
 		if type(self.quadruples[self.currentQuadruple][1]) is int:
 			posEnMemoria = self.getMemPos(self.quadruples[self.currentQuadruple][1])
-			print(posEnMemoria)
 			aux1 = self.memoria[posEnMemoria[0]][posEnMemoria[1]][posEnMemoria[2]]
 
 
@@ -394,7 +392,7 @@ class maquinaVirtual:
 	def param(self):
 		aux = self.quadruples[self.currentQuadruple]
 		value = None
-		if type(aux[3]) is int:
+		if aux[3] is int:
 			memoPos = self.getMemPos(aux[3])
 
 			if memoPos[0] == 0:
@@ -502,6 +500,6 @@ class maquinaVirtual:
 			print ("Error en tiempo de ejecucion: Indice fuera de rango" )
 			sys.exit()
 
-m = maquinaVirtual(0,((),('=',2, '','a'),('=',3, '','b'),('+', 'a', 'b', 'a'),),2,0,0,0,0,0,0,0)
-m.execute()
-print m.a
+# m = maquinaVirtual(0,((),('=',2, '','a'),('=',3, '','b'),('+', 'a', 'b', 'a'),),2,0,0,0,0,0,0,0)
+# m.execute()
+# print m.a

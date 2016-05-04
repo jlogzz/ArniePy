@@ -29,10 +29,13 @@ class Context(object):
         self.var_dir[name] = dir
         
 contexts = []
+
 functions = {}
 functions_dir = {}
 functions_param = {}
 functions_var = {}
+
+dirProcs = {}
 
 pilaO = [] #Pila de operandos
 
@@ -59,6 +62,30 @@ memLocalTexto = 34999 #Contador para memoria virtual de variables locales y temp
 globalFlag = 1
 
 functionFlag = 0
+
+def get_funciones():
+    return dirProcs
+
+def get_cuads():
+    return cuadruplos
+ 
+def get_gInt():
+    return memGlobalEntero
+
+def get_gFloat():
+    return memGlobalDecimal
+    
+def get_gString():
+    return memGlobalTexto
+
+def get_lInt():
+    return memLocalEntero
+
+def get_lFloat():
+    return memLocalDecimal
+    
+def get_lString():
+    return memLocalTexto
 
 def pop():
     count = contexts[-1].var_count
@@ -268,7 +295,7 @@ def check(node):
             fname = node.args[0].args[0].lower()
             if fname not in functions:
                 raise Exception( "Function "+fname+" is not defined")
-            cuadruplos.append(['ERA',None,None,functions_var[fname]])
+            cuadruplos.append(['era',None,None,functions_var[fname]])
             if len(node.args) > 1:
                 args = get_params(node.args[1])
             else:
@@ -281,9 +308,9 @@ def check(node):
                 for i in range(len(vargs)):
                     if vargs[i][1] != args[i]:
                         raise Exception( "Parameter "+str(i+1)+" passed to function "+fname+" should be of type "+vargs[i][1]+" and not "+args[i])
-                    cuadruplos.append(['PARAMETER',pilaO.pop(),None,pTipos.pop()])
-                    
-            cuadruplos.append(['GOSUB',fname,None,functions_dir[fname]])
+                    dir = pilaO.pop()
+                    cuadruplos.append(['param',pilaO.pop(),dir,pTipos.pop()])
+            cuadruplos.append(['gosub',fname,None,functions_dir[fname]])
             return rettype
 
         elif node.type == "asignacion":
@@ -376,7 +403,7 @@ def check(node):
             if node.type == "while":
                 pSaltos.append(len(cuadruplos))
             resultado = pilaO.pop()
-            cuadruplos.append(['GOTOF',resultado,None,None])
+            cuadruplos.append(['gotof',resultado,None,None])
             if node.type == "while":
                 pSaltos.append(len(cuadruplos)-1)
             else:
@@ -388,10 +415,10 @@ def check(node):
             if node.type == "while":
                 falso = pSaltos.pop()
                 retorno = pSaltos.pop()-1
-                cuadruplos.append(['GOTO',None,None,retorno])
+                cuadruplos.append(['goto',None,None,retorno])
                 cuadruplos[falso][3] = len(cuadruplos)
             else:
-                cuadruplos.append(['GOTO',None,None,None])
+                cuadruplos.append(['goto',None,None,None])
                 falso = pSaltos.pop()
                 cuadruplos[falso-1][3] = len(cuadruplos) 
                 pSaltos.append(len(cuadruplos)-1)
@@ -432,6 +459,16 @@ def check(node):
                 if node.args[0].type in types:
                     pilaO.append(node.args[0].args[0])
                     pTipos.append(node.args[0].type)
+                    if node.args[0].type == "int":
+                        memLocalEntero += 1
+                        auxDir = memLocalEntero
+                    elif node.args[0].type == "float":
+                        memLocalDecimal += 1
+                        auxDir = memLocalDecimal
+                    else:
+                        memLocalTexto += 1
+                        auxDir = memLocalTexto
+                    pilaO.append(auxDir)
                     return node.args[0].type
                 else:
                     return check(node.args[0])

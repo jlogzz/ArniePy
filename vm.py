@@ -1,0 +1,3 @@
+vmparam_var = {
+    'integer': []
+}
