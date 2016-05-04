@@ -11,6 +11,7 @@ class Context(object):
     def __init__(self, name=None):
         self.variables = {}
         self.var_count = {}
+        self.var_dir = {}
         self.name = name
 
     def has_var(self, name):
@@ -18,13 +19,20 @@ class Context(object):
 
     def get_var(self, name):
         return self.variables[name]
+        
+    def get_dir(self, name):
+        return self.var_dir[name]
 
-    def set_var(self,name,typ):
+    def set_var(self,name,typ,dir):
         self.variables[name] = typ
         self.var_count[name] = 0
+        self.var_dir[name] = dir
         
 contexts = []
 functions = {}
+functions_dir = {}
+functions_param = {}
+functions_var = {}
 
 pilaO = [] #Pila de operandos
 
@@ -84,6 +92,14 @@ def get_var(varn):
             c.var_count[var] += 1
             return c.get_var(var)
     raise Exception( "Variable "+var+" is referenced before assignment")
+    
+def get_dir(varn):
+    var = varn.lower()
+    for c in contexts[::-1]:
+        if c.has_var(var):
+            c.var_count[var] += 1
+            return c.get_dir(var)
+    raise Exception( "Variable "+var+" is referenced before assignment")
 
 def set_var(varn,typ):
     direccion = None
@@ -93,6 +109,7 @@ def set_var(varn,typ):
     global memLocalDecimal
     global memLocalEntero
     global memLocalTexto
+    global cuadruplos
     
     var = varn.lower()
     check_if_function(var)
@@ -103,8 +120,7 @@ def set_var(varn,typ):
     elif glob.has_var(var):
         raise Exception( "Variable "+var+" already globally defined")
     else:
-        print(typ.lower())
-        if globalFlag:
+        if globalFlag == 1:
             if typ.lower() == "int":
                 memGlobalEntero += 1
                 direccion = memGlobalEntero
@@ -124,9 +140,10 @@ def set_var(varn,typ):
             else:
                 memLocalTexto += 1
                 direccion = memLocalTexto
-        now.set_var(var,typ.lower())
+        now.set_var(var,typ.lower(),direccion)
 
 def get_params(node):
+    global pilaO
     if node.type == "parameter":
         return [check(node.args[0])]
     else:
@@ -167,6 +184,9 @@ def printMem():
 def check(node):
     global functionFlag
     global globalFlag
+    global memLocalEntero
+    global memLocalDecimal
+    global memLocalTexto
 
     if not is_node(node):
         if hasattr(node,"__iter__") and type(node) != type(""):
@@ -203,6 +223,7 @@ def check(node):
 
         elif node.type in ['funcion','procedure']:
             functionFlag = 1
+            globalFlag = 0
             head = node.args[0]
             if node.type == "procedure":
                 name = head.args[0].args[0].lower()
@@ -231,11 +252,15 @@ def check(node):
 
             functions[name] = (rettype,list(args))
             
+            
 
             contexts.append(Context(name))
             for i in functions[name][1]:
                 set_var(i[0],i[1])
+            functions_dir[name] = len(cuadruplos)
+            functions_param[name] = len(functions[name][1])
             check(node.args[1])
+            functions_var[name] = len(contexts[-1].variables)
             pop()
             functionFlag = 0
 
@@ -243,6 +268,7 @@ def check(node):
             fname = node.args[0].args[0].lower()
             if fname not in functions:
                 raise Exception( "Function "+fname+" is not defined")
+            cuadruplos.append(['ERA',None,None,functions_var[fname]])
             if len(node.args) > 1:
                 args = get_params(node.args[1])
             else:
@@ -255,6 +281,9 @@ def check(node):
                 for i in range(len(vargs)):
                     if vargs[i][1] != args[i]:
                         raise Exception( "Parameter "+str(i+1)+" passed to function "+fname+" should be of type "+vargs[i][1]+" and not "+args[i])
+                    cuadruplos.append(['PARAMETER',pilaO.pop(),None,pTipos.pop()])
+                    
+            cuadruplos.append(['GOSUB',fname,None,functions_dir[fname]])
             return rettype
 
         elif node.type == "asignacion":
@@ -264,7 +293,8 @@ def check(node):
             else:
                 if not has_var(varn):
                     raise Exception( "Variable "+varn+" not declared" )
-                pilaO.append(varn)
+                pilaO.append(get_dir(varn))
+                pTipos.append(get_var(varn))
                 pOper.append('=')
                 vartype = get_var(varn)
             assgntype = check(node.args[1])
@@ -273,11 +303,13 @@ def check(node):
             if vartype != assgntype:
                 raise Exception( "Variable "+varn+" if of type "+vartype+" and does not support "+assgntype)
             
-            # oper = pOper.pop()
-            # oDer = pilaO.pop()
-            # oIzq = pilaO.pop()
-            # #Genera cuadruplo de asignacion
-            # cuadruplos.append([oper,oDer,None,oIzq])
+            oper = pOper.pop()
+            oDer = pilaO.pop()
+            pTipos.pop()
+            oIzq = pilaO.pop()
+            pTipos.pop()
+            #Genera cuadruplo de asignacion
+            cuadruplos.append([oper,oDer,None,oIzq])
             
             
         elif node.type == "and_or":
@@ -292,6 +324,7 @@ def check(node):
             op = node.args[0].args[0]
             vt1 = check(node.args[1])
             vt2 = check(node.args[2])
+            pOper.append(op)
 
             if vt1 != vt2:
                 raise Exception( "Arguments of operation '"+op+"' must be of the same type. Got "+vt1+" and "+vt2+".")
@@ -299,7 +332,35 @@ def check(node):
             if op == '/':
                 if vt1 != 'float':
                     raise Exception( "Operation "+op+" requires reals.")
-
+                    
+            oper = pOper.pop()
+            oDer = pilaO.pop()
+            pTipos.pop()
+            oIzq = pilaO.pop()
+            pTipos.pop()
+            
+            if op in ['==','<=','>=','>','<','!=']:
+                memLocalEntero += 1
+                auxDir = memLocalEntero
+                res = 'bool'
+            else:
+                if vt1 == "int":
+                    memLocalEntero += 1
+                    auxDir = memLocalEntero
+                    res = "int"
+                elif vt1 == "float":
+                    memLocalDecimal += 1
+                    auxDir = memLocalDecimal
+                    res = "float"
+                elif vt1 == "string":
+                    memLocalTexto += 1
+                    auxDir = memLocalTexto
+                    res = "string"
+            
+            cuadruplos.append([oper,oIzq,oDer,auxDir])
+            pilaO.append(auxDir)
+            pTipos.append(res)
+            
             if op in ['==','<=','>=','>','<','!=']:
                 return 'boolean'
             else:
@@ -310,17 +371,44 @@ def check(node):
             t = check(node.args[c])
             if t != 'boolean':
                 raise Exception( node.type+" condition requires a boolean. Got "+t+" instead.")
-
+            
+            aux = pTipos.pop()
+            if node.type == "while":
+                pSaltos.append(len(cuadruplos))
+            resultado = pilaO.pop()
+            cuadruplos.append(['GOTOF',resultado,None,None])
+            if node.type == "while":
+                pSaltos.append(len(cuadruplos)-1)
+            else:
+                pSaltos.append(len(cuadruplos))
+           
+                
             # check body
             check(node.args[1])
+            if node.type == "while":
+                falso = pSaltos.pop()
+                retorno = pSaltos.pop()-1
+                cuadruplos.append(['GOTO',None,None,retorno])
+                cuadruplos[falso][3] = len(cuadruplos)
+            else:
+                cuadruplos.append(['GOTO',None,None,None])
+                falso = pSaltos.pop()
+                cuadruplos[falso-1][3] = len(cuadruplos) 
+                pSaltos.append(len(cuadruplos)-1)
             
+            
+                
             #check else/elseif
             if len(node.args) > 2:
                 check(node.args[2])
+                fin = pSaltos.pop()
+                cuadruplos[fin][3] = len(cuadruplos) -1
+                pSaltos.append(len(cuadruplos)-1)            
             #check else when elseif
             if len(node.args) == 4:
                 check(node.args[3])
-
+                fin = pSaltos.pop()
+                cuadruplos[fin][3] = len(cuadruplos)
         elif node.type == "for":
             
             if node.args[0].args[0].type == "int":
@@ -335,11 +423,15 @@ def check(node):
 
         elif node.type == "elemento":
             if node.args[0].type == 'identifier':
+                pilaO.append(get_dir(node.args[0].args[0]))
+                pTipos.append(get_var(node.args[0].args[0]))
                 return get_var(node.args[0].args[0])
             elif node.args[0].type == 'llamarfun':
                 return check(node.args[0])
             else:
                 if node.args[0].type in types:
+                    pilaO.append(node.args[0].args[0])
+                    pTipos.append(node.args[0].type)
                     return node.args[0].type
                 else:
                     return check(node.args[0])
