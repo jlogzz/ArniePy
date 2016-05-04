@@ -30,12 +30,12 @@ def pop():
     count = contexts[-1].var_count
     for v in count:
         if count[v] == 0:
-            print "Warning: variable %s was declared, but not used." % v
+            print ("Warning: variable", v, "was declared, but not used.")
     contexts.pop()
 
 def check_if_function(var):
     if var.lower() in functions and not if_function_name(var.lower()):
-        raise Exception, "A function called %s already exists" % var
+        raise Exception("A function called %s already exists") % var
 
 def is_function_name(var):
     for i in contexts[::-1]:
@@ -57,14 +57,14 @@ def get_var(varn):
         if c.has_var(var):
             c.var_count[var] += 1
             return c.get_var(var)
-    raise Exception, "Variable %s is referenced before assignment" % var
+    raise Exception( "Variable %s is referenced before assignment") % var
 
 def set_var(varn,typ):
     var = varn.lower()
     check_if_function(var)
     now = contexts[-1]
     if now.has_var(var):
-        raise Exception, "Variable %s already defined" % var
+        raise Exception( "Variable %s already defined") % var
     else:
         now.set_var(var,typ.lower())
 
@@ -157,7 +157,7 @@ def check(node):
         elif node.type in ["llamarfun"]:
             fname = node.args[0].args[0].lower()
             if fname not in functions:
-                raise Exception, "Function %s is not defined" % fname
+                raise Exception( "Function %s is not defined") % fname
             if len(node.args) > 1:
                 args = get_params(node.args[1])
             else:
@@ -165,11 +165,11 @@ def check(node):
             rettype,vargs = functions[fname]
 
             if len(args) != len(vargs):
-                raise Exception, "Function %s is expecting %d parameters and got %d" % (fname, len(vargs), len(args))
+                raise Exception( "Function %s is expecting %d parameters and got %d") % (fname, len(vargs), len(args))
             else:
                 for i in range(len(vargs)):
                     if vargs[i][1] != args[i]:
-                        raise Exception, "Parameter #%d passed to function %s should be of type %s and not %s" % (i+1,fname,vargs[i][1],args[i])
+                        raise Exception( "Parameter #%d passed to function %s should be of type %s and not %s") % (i+1,fname,vargs[i][1],args[i])
             return rettype
 
         elif node.type == "asignacion":
@@ -178,19 +178,19 @@ def check(node):
                 vartype = functions[varn][0]
             else:
                 if not has_var(varn):
-                    raise Exception, "Variable %s not declared" % varn
+                    raise Exception( "Variable %s not declared" ) % varn
                 vartype = get_var(varn)
             assgntype = check(node.args[1])
 
             if vartype != assgntype:
-                raise Exception, "Variable %s if of type %s and does not support %s" % (varn, vartype, assgntype)
+                raise Exception( "Variable %s if of type %s and does not support %s") % (varn, vartype, assgntype)
 
         elif node.type == "and_or":
             op = node.args[0].args[0]
             for i in range(1,2):
                 a = check(node.args[i])
                 if a != "boolean":
-                    raise Exception, "%s requires a boolean. Got %s instead." % (op,a)
+                    raise Exception( "%s requires a boolean. Got %s instead.") % (op,a)
 
         elif node.type == "op":
             op = node.args[0].args[0]
@@ -198,11 +198,11 @@ def check(node):
             vt2 = check(node.args[2])
 
             if vt1 != vt2:
-                raise Exception, "Arguments of operation '%s' must be of the same type. Got %s and %s." % (op,vt1,vt2)
+                raise Exception( "Arguments of operation '%s' must be of the same type. Got %s and %s.") % (op,vt1,vt2)
 
             if op == '/':
                 if vt1 != 'real':
-                    raise Exception, "Operation %s requires reals." % op
+                    raise Exception( "Operation %s requires reals.") % op
 
             if op in ['==','<=','>=','>','<','!=']:
                 return 'boolean'
@@ -213,7 +213,7 @@ def check(node):
             c = 0
             t = check(node.args[c])
             if t != 'boolean':
-                raise Exception, "%s condition requires a boolean. Got %s instead." % (node.type,t)
+                raise Exception( "%s condition requires a boolean. Got %s instead.") % (node.type,t)
 
             # check body
             check(node.args[1])
@@ -252,4 +252,4 @@ def check(node):
             check(node.args[0])
 
         else:
-            print "semantic missing:", node.type
+            print ("semantic missing:", node.type)
