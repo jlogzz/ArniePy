@@ -63,8 +63,11 @@ def set_var(varn,typ):
     var = varn.lower()
     check_if_function(var)
     now = contexts[-1]
+    glob = contexts[0]
     if now.has_var(var):
         raise Exception( "Variable "+var+" already defined")
+    elif glob.has_var(var):
+        raise Exception( "Variable "+var+" already globally defined")
     else:
         now.set_var(var,typ.lower())
 
