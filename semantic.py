@@ -57,7 +57,7 @@ def get_var(varn):
         if c.has_var(var):
             c.var_count[var] += 1
             return c.get_var(var)
-    raise Exception( "Variable ",var," is referenced before assignment")
+    raise Exception( "Variable "+var+" is referenced before assignment")
 
 def set_var(varn,typ):
     var = varn.lower()

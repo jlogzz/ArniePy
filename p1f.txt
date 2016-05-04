@@ -7,7 +7,7 @@ int j
 finVariablesLocales
 c = 4 + 10
 d = c
-imprimir d
+imprimir d , 10 , a
 leer j
 endbloque
 finPrograma

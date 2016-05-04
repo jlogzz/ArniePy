@@ -84,7 +84,7 @@ def p_escritura_vars(p):
     '''escritura_vars : expresion COMMA escritura_vars
     | expresion'''
     if len(p) > 2:
-        p[0] = Node('escritura_vars', p[1], p[2])
+        p[0] = Node('escritura_vars', p[1], p[3])
     else:
         p[0] = Node('escritura_vars', p[1])
 
