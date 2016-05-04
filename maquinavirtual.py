@@ -8,8 +8,6 @@ class maquinaVirtual:
 
 	countLocText = 0 #counter of Local Text variables #countLocText
 
-	countLocBool = 0 #counter of Bool variables #agregar!!!!!!!
-
 	#rest of variable declaration
 	dirProcedures = None #Actual directory for procedures #dirProcs
 
@@ -17,9 +15,9 @@ class maquinaVirtual:
 
 	quadruples = None	#List of quadruples  #cuadruplos
 
-	memoria = [[[],[],[],[]],[[],[],[],[]]] #[[[Global Int], [Global Float], [global Text], [Global Bool]], [[Local Int], [Local Float], [Local Text], [Local Bool]]]
+	memoria = [[[],[],[]],[[],[],[]]] #[[[Global Int], [Global Float], [global Text]], [[Local Int], [Local Float], [Local Text]]]
 
-	currentSpace = []  #Amount of current space of the function in use [LocalInt, LocalFloat, LocalText, LocalBool] #cantidadEspacioActual
+	currentSpace = []  #Amount of current space of the function in use [LocalInt, LocalFloat, LocalText] #cantidadEspacioActual
 
 	functionReference = [] #Guarda los parametros que se mandan por referencia #referenciaFuncion
 
@@ -30,22 +28,19 @@ class maquinaVirtual:
 	directionFunctionResult = [] #Saves the direction in memory whith the return value of a function  Guarda la direccion de memoria que va a tener el resultado del retorno de una funcion
 
 
-	def __init__(self, dirProcedures, quadruples, countGlobalInt, countGlobalFloat, countGlobalText, countGlobalBool, countInitInt, countInitFloat, countInitText, countInitBool):
+	def __init__(self, dirProcedures, quadruples, countGlobalInt, countGlobalFloat, countGlobalText, countInitInt, countInitFloat, countInitText):
 		self.dirProcedures = dirProcedures
 		self.quadruples = quadruples
 		self.memoria[0][0] = [0] * countGlobalInt
 		self.memoria[0][1] = [0.0] * countGlobalFloat
 		self.memoria[0][2] = [""] * countGlobalText
-		self.memoria[0][3] = [0] * countGlobalBool
 		self.memoria[1][0] = [0] * countInitInt
 		self.memoria[1][1] = [0.0] * countInitFloat
 		self.memoria[1][2] = [""] * countInitText
-		self.memoria[1][3] = [0] * countInitBool
 		self.countLocInt = countInitInt
 		self.contLocalFloat = countInitFloat
 		self.countLocText = countInitText
-		self.countLocBool = countInitBool
-		self.currentSpace.append([countInitInt,countInitFloat, countInitText, countInitBool])
+		self.currentSpace.append([countInitInt,countInitFloat, countInitText])
 
 		while (self.quadruples[self.currentQuadruple][0] != "end"):
 			if self.quadruples[self.currentQuadruple][0] in ["+", "-", "*", "/", "==", ">", "&&", "||", "<", "!=", ">=", "<="]:
@@ -309,20 +304,6 @@ class maquinaVirtual:
 					print("Numero invalido, Intente nuevamente")
 		elif memoPos[1] == 2:
 			self.memoria[memoPos[0]][memoPos[1]][memoPos[2]] = input('>> ')
-		elif memoPos[1] == 3:
-			while True:
-				try:
-					booleano = input('>> ')
-					if booleano.lower() == 'true':
-						self.memoria[memoPos[0]][memoPos[1]][memoPos[2]] = True
-						break
-					elif booleano.lower() == 'false':
-						self.memoria[memoPos[0]][memoPos[1]][memoPos[2]] = False
-						break
-					else:
-						print("Booleano invado, Intente nuevamente")
-				except:
-					pass
 
 	# El valor que se especifica en el cuadruplo es insertado a la direccion de memoria ya sea una variable, atributo o elemento de un arreglo
 	def assign(self):
@@ -386,9 +367,6 @@ class maquinaVirtual:
 
 		self.memoria[1][2] = self.memoria[1][2] + ([""] * aux[2])
 		self.countLocText = self.countLocText + aux[2]
-
-		self.memoria[1][3] = self.memoria[1][3] + ([0] * aux[3])
-		self.countLocBool = self.countLocBool + aux[3]
 
 	# First it saves the direction of current function and then goes to the specified quadruple actualizing currentQuadruple
 	def gosub(self):
@@ -460,9 +438,6 @@ class maquinaVirtual:
 		if aux[2] > 0:
 			del self.memoria[1][2][-aux[2]:]
 			self.countLocText = self.countLocText - aux[2]
-		if aux[3] > 0:
-			del self.memoria[1][3][-aux[3]:]
-			self.countLocBool = self.countLocBool - aux[3]
 
 		del self.listaAtributos[:] # inecesario?
 

@@ -91,9 +91,9 @@ Blockly.JavaScript.inicio_fin = function(block) {
   var code = 'inicioPrograma\n';
   if(statements_global_vars != "")
     code += statements_global_vars;
-  code += 'bloque\n'+ statements_main + 'endbloque\n';
   if(statements_method_declaration != "")
     code += statements_method_declaration;
+  code += 'bloque\n'+ statements_main + 'endbloque\n';
   code += 'finPrograma';
   return code;
 };

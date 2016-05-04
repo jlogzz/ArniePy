@@ -258,17 +258,17 @@ Blockly.Blocks.inicio_fin = {
     this.appendDummyInput()
         .appendField("   fin variables globales");
     this.appendDummyInput()
-        .appendField("   inicio del main");
-    this.appendStatementInput("main")
-        .setCheck('mainFunc');
-    this.appendDummyInput()
-        .appendField("   fin main ");
-    this.appendDummyInput()
         .appendField("   metodos");
     this.appendStatementInput("method_declaration")
         .setCheck('funciones');
     this.appendDummyInput()
         .appendField("   fin metodos");
+    this.appendDummyInput()
+        .appendField("   inicio del main");
+    this.appendStatementInput("main")
+        .setCheck('mainFunc');
+    this.appendDummyInput()
+        .appendField("   fin main ");
     this.appendDummyInput()
         .appendField("fin de programa");
     this.setColour(120);
