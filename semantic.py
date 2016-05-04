@@ -181,6 +181,7 @@ def check(node):
                     raise Exception( "Variable %s not declared" ) % varn
                 vartype = get_var(varn)
             assgntype = check(node.args[1])
+            
 
             if vartype != assgntype:
                 raise Exception( "Variable %s if of type %s and does not support %s") % (varn, vartype, assgntype)

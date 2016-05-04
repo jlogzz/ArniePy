@@ -2,6 +2,9 @@ inicioPrograma
 bloque
 inicioVariablesLocales
 int c
+int d
 finVariablesLocales
+c = 4
+d = "hola"
 endbloque
 finPrograma

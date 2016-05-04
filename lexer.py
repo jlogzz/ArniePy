@@ -25,11 +25,11 @@ reserved = {
   'llamarFuncion' : 'CALLMETHOD',
   'regresa' : 'RETURN',
   'void' : 'VOID',
-  'int' : 'INT',
-  'string' : 'STRING',
-  'float' : 'FLOAT',
-  'bool' : 'BOOL',
-  'hash' : 'HASH',
+  'int' : 'TINT',
+  'string' : 'TSTRING',
+  'float' : 'TFLOAT',
+  'bool' : 'TBOOL',
+  'hash' : 'THASH',
   'bloque' : 'BLOQUE',
   'endbloque' : 'ENDBLOQUE',
 }
@@ -53,7 +53,11 @@ tokens = [
   'COMMA',
   'OR',
   'AND',
-  'REFERENCIA'
+  'REFERENCIA',
+  'INT',
+  'FLOAT',
+  'STRING'
+  
 ] + list(reserved.values())
 
 

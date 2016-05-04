@@ -42,13 +42,11 @@ def p_vars_declaration(p):
     p[0] = Node('vars_declaration', p[1], p[2])
 
 def p_tipo(p):
-    '''tipo : int
-    | float
-    | string
-    | bool
-    | hash
+    '''tipo : TINT
+    | TFLOAT
+    | TSTRING
     | VOID'''
-    p[0] = Node('tipo', p[1])
+    p[0] = Node('tipo', p[1].lower())
 
 def p_bloque(p):
     '''bloque : BLOQUE estatuto_list ENDBLOQUE'''
@@ -124,7 +122,7 @@ def p_expresion(p):
     '''expresion : termino
     | expresion and_or termino'''
     if len(p) == 2:
-        p[0] = Node('op', p[1])
+        p[0] = p[1]
     else:
         p[0] = Node('op', p[2], p[1], p[3])
         
@@ -132,7 +130,7 @@ def p_termino(p):
     '''termino : factor
     | termino sign factor'''
     if len(p) == 2:
-        p[0] = Node('op', p[1])
+        p[0] = p[1]
     else:
         p[0] = Node('op', p[2], p[1], p[3])
         
@@ -140,7 +138,7 @@ def p_factor(p):
     '''factor : elemento
     | factor psign elemento'''
     if len(p) == 2:
-        p[0] = Node('op', p[1])
+        p[0] = p[1]
     else:
         p[0] = Node('op', p[2], p[1], p[3])
 
@@ -243,23 +241,15 @@ def p_referencia(p):
 
 def p_int(p):
     '''int : INT'''
-    p[0] = p[1]
+    p[0] = Node('int', p[1])
 
 def p_float(p):
     '''float : FLOAT'''
-    p[0] = p[1]
-
-def p_bool(p):
-    '''bool : BOOL'''
-    p[0] = p[1]
+    p[0] = Node('float', p[1])
     
 def p_string(p):
     '''string : STRING'''
-    p[0] = p[1]
-
-def p_hash(p):
-    '''hash : HASH'''
-    p[0] = p[1]
+    p[0] = Node('string', p[1])
 
 # Error rule for syntax errors
 def p_error(p):
