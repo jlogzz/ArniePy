@@ -3,15 +3,15 @@ import sys
 
 def p_programa(p):
     '''programa : PROGRAM bloque ENDPROGRAM
-    | PROGRAM bloque funciones ENDPROGRAM
-    | PROGRAM global bloque funciones ENDPROGRAM
+    | PROGRAM funciones bloque ENDPROGRAM
+    | PROGRAM global funciones bloque ENDPROGRAM
     | PROGRAM global bloque ENDPROGRAM'''
     if len(p) == 4:
         p[0] = Node('programa', p[2])
     elif len(p) == 5:
-        p[0] = Node('programa', p[2], p[4])
+        p[0] = Node('programa', p[2], p[3])
     else:
-        p[0] = Node('programa', p[2], p[3], p[5])
+        p[0] = Node('programa', p[2], p[3], p[4])
 
 def p_funciones(p):
     '''funciones : func funciones
@@ -69,7 +69,8 @@ def p_estatuto(p):
     | lectura
     | while
     | for
-    | vars'''
+    | vars
+    | llamarfun'''
     p[0] = p[1]
 
 def p_asignacion(p):
@@ -115,7 +116,7 @@ def p_while(p):
     p[0] = Node('while', p[2], p[3])
 
 def p_for(p):
-    '''for : FOR int estatuto_list ENDFOR'''
+    '''for : FOR expresion estatuto_list ENDFOR'''
     p[0] = Node('for', p[2], p[3])
 
 def p_expresion(p):
@@ -221,12 +222,16 @@ def p_llamarfun(p):
         p[0] = Node('llamarfun', p[2])
 
 def p_funparams(p):
-    '''funparams : expresion
-    | expresion COMMA funparams'''
+    '''funparams : param
+    | funparams COMMA param'''
     if len(p) > 2:
-        p[0] = Node('funparams', p[1], p[3])
+        p[0] = Node('parameter_list', p[1], p[3])
     else:
-        p[0] = Node('funparams', p[1])
+        p[0] = p[1]
+
+def p_param(p):
+    '''param : expresion'''
+    p[0] = Node('parameter', p[1])
 
 def p_empty(p):
   '''empty : '''

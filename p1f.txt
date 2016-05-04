@@ -1,12 +1,24 @@
 inicioPrograma
-bloque
-inicioVariablesLocales
-int c
-int d
-int j
-finVariablesLocales
-c = 4 + 10
-d = c
-imprimir d
-endbloque
+
+	inicioVariablesGlobales
+		int globalJ
+	finVariablesGlobales
+
+	
+	inicioFuncion void funvoid int j , string k
+		bloque
+			k = "Hola"
+			globalJ = j
+		endbloque
+	finFuncion
+	
+
+	bloque
+
+		llamarFuncion funvoid 1 , "hola"
+
+		globalJ = 1		
+
+	endbloque
+	
 finPrograma

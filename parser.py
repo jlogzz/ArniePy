@@ -35,6 +35,8 @@ def main(options={},filename=False):
 	
 	try:
 		check(ast)
+		printCuads()
+		printMem()
 	except Exception as e:
 		print ("Error: ", e)
 		sys.exit()

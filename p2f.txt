@@ -1,0 +1,13 @@
+inicioPrograma
+	bloque
+		4 + 2
+	endbloque
+
+	inicioFuncion int fun1
+		bloque
+			j = 4
+		endbloque
+		regresa j
+	finFuncion
+	
+finPrograma

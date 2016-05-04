@@ -22,9 +22,35 @@ class Context(object):
     def set_var(self,name,typ):
         self.variables[name] = typ
         self.var_count[name] = 0
-
+        
 contexts = []
 functions = {}
+
+pilaO = [] #Pila de operandos
+
+pOper = [] #Pila de operadores
+
+pTipos = [] #Pila de tipos de los operadores
+
+pSaltos = [] #Pila de saltos para los condicionales y los ciclos
+
+cuadruplos = [] #Lista de cuadruplos
+
+memGlobalEntero = -1 #Contador para memoria virtual de variables globales enteras
+
+memGlobalDecimal = 4999 #Contador para memoria virtual de variables globales decimales
+
+memGlobalTexto = 9999 #Contador para memoria virtual de variables globales texto
+
+memLocalEntero = 14999 #Contador para memoria virtual de variables locales y temporales enteras
+
+memLocalDecimal = 24999 #Contador para memoria virtual de variables locales y temporales decimales
+
+memLocalTexto = 34999 #Contador para memoria virtual de variables locales y temporales texto
+
+globalFlag = 1
+
+functionFlag = 0
 
 def pop():
     count = contexts[-1].var_count
@@ -57,15 +83,47 @@ def get_var(varn):
         if c.has_var(var):
             c.var_count[var] += 1
             return c.get_var(var)
-    raise Exception( "Variable ",var," is referenced before assignment")
+    raise Exception( "Variable "+var+" is referenced before assignment")
 
 def set_var(varn,typ):
+    direccion = None
+    global memGlobalDecimal
+    global memGlobalEntero
+    global memGlobalTexto
+    global memLocalDecimal
+    global memLocalEntero
+    global memLocalTexto
+    
     var = varn.lower()
     check_if_function(var)
     now = contexts[-1]
+    glob = contexts[0]
     if now.has_var(var):
         raise Exception( "Variable "+var+" already defined")
+    elif glob.has_var(var):
+        raise Exception( "Variable "+var+" already globally defined")
     else:
+        print(typ.lower())
+        if globalFlag:
+            if typ.lower() == "int":
+                memGlobalEntero += 1
+                direccion = memGlobalEntero
+            elif typ.lower() == "float":
+                memGlobalDecimal += 1
+                direccion = memGlobalDecimal
+            else:
+                memGlobalTexto += 1
+                direccion = memGlobalTexto
+        else:
+            if typ.lower() == "int":
+                memLocalEntero += 1
+                direccion = memLocalEntero
+            elif typ.lower() == "float":
+                memLocalDecimal += 1
+                direccion = memLocalDecimal
+            else:
+                memLocalTexto += 1
+                direccion = memLocalTexto
         now.set_var(var,typ.lower())
 
 def get_params(node):
@@ -89,8 +147,27 @@ def flatten(n):
 
 def is_node(n):
     return hasattr(n,"type")
+    
+def printCuads():
+    print(cuadruplos)
+
+def printMem():
+        print("")
+        print("Global")
+        print("memGlobalEntero:",memGlobalEntero)
+        print("memGlobalDecimal:",memGlobalDecimal)
+        print("memGlobalTexto:",memGlobalTexto)
+        print("Local")
+        print("memLocalEntero:",memLocalEntero)
+        print("memLocalDecimal:",memLocalDecimal)
+        print("memLocalTexto:",memLocalTexto)
+        print("")
+    
 
 def check(node):
+    global functionFlag
+    global globalFlag
+
     if not is_node(node):
         if hasattr(node,"__iter__") and type(node) != type(""):
             for i in node:
@@ -108,6 +185,13 @@ def check(node):
             check(node.args)
 
         elif node.type in ["bloque","programa"]:
+            if node.type == "programa":
+                cuadruplos.append(['goto',None,None,None])
+            if node.type == "bloque" and functionFlag == 0:
+                cont = len(cuadruplos)
+                cuadruplos[0][3] = cont
+            if node.type == "bloque" and globalFlag:
+                globalFlag = 0
             contexts.append(Context())
             check(node.args)
             pop()
@@ -118,6 +202,7 @@ def check(node):
             set_var(var_name, var_type)
 
         elif node.type in ['funcion','procedure']:
+            functionFlag = 1
             head = node.args[0]
             if node.type == "procedure":
                 name = head.args[0].args[0].lower()
@@ -143,16 +228,16 @@ def check(node):
                 else:
                     args = flatten(head.args[2])
                     args = map(lambda x: (x.args[1].args[0],x.args[0].args[0]), args)
-                
 
-            functions[name] = (rettype,args)
-
+            functions[name] = (rettype,list(args))
+            
 
             contexts.append(Context(name))
-            for i in args:
+            for i in functions[name][1]:
                 set_var(i[0],i[1])
             check(node.args[1])
             pop()
+            functionFlag = 0
 
         elif node.type in ["llamarfun"]:
             fname = node.args[0].args[0].lower()
@@ -164,12 +249,12 @@ def check(node):
                 args = []
             rettype,vargs = functions[fname]
 
-            if len(args) != len(vargs):
-                raise Exception( "Function "+fname+" is expecting "+len(vargs)+" parameters and got "+len(args))
+            if len(args) != len(list(vargs)):
+                raise Exception( "Function "+fname+" is expecting "+str(len(vargs))+" parameters and got "+str(len(args)))
             else:
                 for i in range(len(vargs)):
                     if vargs[i][1] != args[i]:
-                        raise Exception( "Parameter "+(i+1)+" passed to function "+fname+" should be of type "+vargs[i][1]+" and not "+args[i])
+                        raise Exception( "Parameter "+str(i+1)+" passed to function "+fname+" should be of type "+vargs[i][1]+" and not "+args[i])
             return rettype
 
         elif node.type == "asignacion":
@@ -179,15 +264,25 @@ def check(node):
             else:
                 if not has_var(varn):
                     raise Exception( "Variable "+varn+" not declared" )
+                pilaO.append(varn)
+                pOper.append('=')
                 vartype = get_var(varn)
             assgntype = check(node.args[1])
             
 
             if vartype != assgntype:
                 raise Exception( "Variable "+varn+" if of type "+vartype+" and does not support "+assgntype)
-
+            
+            # oper = pOper.pop()
+            # oDer = pilaO.pop()
+            # oIzq = pilaO.pop()
+            # #Genera cuadruplo de asignacion
+            # cuadruplos.append([oper,oDer,None,oIzq])
+            
+            
         elif node.type == "and_or":
             op = node.args[0].args[0]
+            pOper.append(op)
             for i in range(1,2):
                 a = check(node.args[i])
                 if a != "boolean":
@@ -202,7 +297,7 @@ def check(node):
                 raise Exception( "Arguments of operation '"+op+"' must be of the same type. Got "+vt1+" and "+vt2+".")
 
             if op == '/':
-                if vt1 != 'real':
+                if vt1 != 'float':
                     raise Exception( "Operation "+op+" requires reals.")
 
             if op in ['==','<=','>=','>','<','!=']:
@@ -227,7 +322,16 @@ def check(node):
                 check(node.args[3])
 
         elif node.type == "for":
-            check(node.args[1])
+            
+            if node.args[0].args[0].type == "int":
+                check(node.args[1])
+            elif node.args[0].args[0].type == "identifier":
+                if get_var(node.args[0].args[0].args[0]) == "int":
+                    check(node.args[1])
+                else:
+                    raise Exception("Repetir requiere un int como valor en lugar de "+get_var(node.args[0].args[0].args[0]))
+            else:
+                raise Exception("Repetir requiere un int como valor en lugar de "+node.args[0].args[0].type)
 
         elif node.type == "elemento":
             if node.args[0].type == 'identifier':
@@ -242,7 +346,6 @@ def check(node):
         
         elif node.type == "escritura":
             check(node.args[0])
-            args = get_params(node.args[0])
             
         
         elif node.type == "escritura_vars":
@@ -252,6 +355,8 @@ def check(node):
         
         elif node.type == "lectura":
             check(node.args[0])
+            return get_var(node.args[0].args[0])
 
         else:
             print ("semantic missing:", node.type)
+            
