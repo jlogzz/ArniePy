@@ -34,7 +34,7 @@ inicioPrograma
 		finMientras
 
 		inicioRepetir j
-			j = c
+			j = fun1
 		finRepetir
 
 		llamarFuncion fun1
