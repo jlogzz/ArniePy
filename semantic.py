@@ -373,27 +373,42 @@ def check(node):
                 raise Exception( node.type+" condition requires a boolean. Got "+t+" instead.")
             
             aux = pTipos.pop()
+            if node.type == "while":
+                pSaltos.append(len(cuadruplos))
             resultado = pilaO.pop()
             cuadruplos.append(['GOTOF',resultado,None,None])
-            pSaltos.append(len(cuadruplos))
+            if node.type == "while":
+                pSaltos.append(len(cuadruplos)-1)
+            else:
+                pSaltos.append(len(cuadruplos))
+           
+                
             # check body
             check(node.args[1])
-            cuadruplos.append(['GOTO',None,None,None])
-            falso = pSaltos.pop()
-            print(falso)
-            cuadruplos[falso-1][3] = len(cuadruplos) 
-            pSaltos.append(len(cuadruplos)-1)
+            if node.type == "while":
+                falso = pSaltos.pop()
+                retorno = pSaltos.pop()-1
+                cuadruplos.append(['GOTO',None,None,retorno])
+                cuadruplos[falso][3] = len(cuadruplos)
+            else:
+                cuadruplos.append(['GOTO',None,None,None])
+                falso = pSaltos.pop()
+                cuadruplos[falso-1][3] = len(cuadruplos) 
+                pSaltos.append(len(cuadruplos)-1)
+            
+            
+                
             #check else/elseif
             if len(node.args) > 2:
                 check(node.args[2])
-            fin = pSaltos.pop()
-            cuadruplos[fin][3] = len(cuadruplos) -1
-            pSaltos.append(len(cuadruplos)-1)            
+                fin = pSaltos.pop()
+                cuadruplos[fin][3] = len(cuadruplos) -1
+                pSaltos.append(len(cuadruplos)-1)            
             #check else when elseif
             if len(node.args) == 4:
                 check(node.args[3])
-            fin = pSaltos.pop()
-            cuadruplos[fin][3] = len(cuadruplos)
+                fin = pSaltos.pop()
+                cuadruplos[fin][3] = len(cuadruplos)
         elif node.type == "for":
             
             if node.args[0].args[0].type == "int":

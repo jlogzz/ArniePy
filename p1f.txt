@@ -20,7 +20,9 @@ inicioPrograma
 			int m
 		finVariablesLocales
 
-		
+		inicioMientras 4 < 5
+			m = 4 + m
+		finMientras
 		
 
 		llamarFuncion funvoid 3 , "hola"
