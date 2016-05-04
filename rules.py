@@ -4,7 +4,8 @@ import sys
 def p_programa(p):
     '''programa : PROGRAM bloque ENDPROGRAM
     | PROGRAM bloque funciones ENDPROGRAM
-    | PROGRAM global bloque funciones ENDPROGRAM'''
+    | PROGRAM global bloque funciones ENDPROGRAM
+    | PROGRAM global bloque ENDPROGRAM'''
     if len(p) == 4:
         p[0] = Node('programa', p[2])
     elif len(p) == 5:
@@ -21,7 +22,7 @@ def p_funciones(p):
 
 def p_vars(p):
     '''vars : VAR vars_list ENDVAR'''
-    p[0] = Node('vars', p[2])
+    p[0] = p[2]
 
 def p_global(p):
     '''global : GLOBAL vars_list ENDGLOBAL'''
@@ -50,14 +51,18 @@ def p_tipo(p):
     p[0] = Node('tipo', p[1])
 
 def p_bloque(p):
-    '''bloque : estatuto_list'''
+    '''bloque : BLOQUE estatuto_list ENDBLOQUE'''
     if len(p) > 2:
-        p[0] = Node('bloque', p[1])
+        p[0] = Node('bloque', p[2])
         
 def p_estatuto_list(p):
     '''estatuto_list : estatuto estatuto_list
     | estatuto
     | empty'''
+    if len(p) > 2:
+        p[0] = Node('estatuto_list', p[1], p[2])
+    else:
+        p[0] = p[1]
 
 def p_estatuto(p):
     '''estatuto : asignacion
@@ -67,7 +72,7 @@ def p_estatuto(p):
     | while
     | for
     | vars'''
-    p[0] = Node('estatuto', p[1])
+    p[0] = p[1]
 
 def p_asignacion(p):
     '''asignacion : identifier EQUAL expresion'''

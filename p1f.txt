@@ -1,6 +1,7 @@
 inicioPrograma
-inicioVariablesGlobales
-int a
-finVariablesGlobales
-a = 10
+bloque
+inicioVariablesLocales
+int c
+finVariablesLocales
+endbloque
 finPrograma

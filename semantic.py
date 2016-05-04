@@ -57,14 +57,14 @@ def get_var(varn):
         if c.has_var(var):
             c.var_count[var] += 1
             return c.get_var(var)
-    raise Exception( "Variable %s is referenced before assignment") % var
+    raise Exception( "Variable ",var," is referenced before assignment")
 
 def set_var(varn,typ):
     var = varn.lower()
     check_if_function(var)
     now = contexts[-1]
     if now.has_var(var):
-        raise Exception( "Variable %s already defined") % var
+        raise Exception( "Variable "+var+" already defined")
     else:
         now.set_var(var,typ.lower())
 
@@ -101,11 +101,11 @@ def check(node):
         if node.type in ['identifier']:
             return node.args[0]
 
-        elif node.type in ['vars_list','estatuto_list','funcion_list','vars']:
+        elif node.type in ['vars_list','estatuto_list','funcion_list']:
             return check(node.args)
             
         elif node.type in ['global']:
-            return check(node.args)
+            check(node.args)
 
         elif node.type in ["bloque","programa"]:
             contexts.append(Context())
@@ -157,7 +157,7 @@ def check(node):
         elif node.type in ["llamarfun"]:
             fname = node.args[0].args[0].lower()
             if fname not in functions:
-                raise Exception( "Function %s is not defined") % fname
+                raise Exception( "Function "+fname+" is not defined")
             if len(node.args) > 1:
                 args = get_params(node.args[1])
             else:
@@ -165,7 +165,7 @@ def check(node):
             rettype,vargs = functions[fname]
 
             if len(args) != len(vargs):
-                raise Exception( "Function %s is expecting %d parameters and got %d") % (fname, len(vargs), len(args))
+                raise Exception( "Function "+fname+" is expecting "+len(vargs)+" parameters and got "+len(args))
             else:
                 for i in range(len(vargs)):
                     if vargs[i][1] != args[i]:
@@ -242,6 +242,7 @@ def check(node):
         elif node.type == "escritura":
             check(node.args[0])
             args = get_params(node.args[0])
+            
         
         elif node.type == "escritura_vars":
             if len(node.args) > 1:

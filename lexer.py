@@ -30,6 +30,8 @@ reserved = {
   'float' : 'FLOAT',
   'bool' : 'BOOL',
   'hash' : 'HASH',
+  'bloque' : 'BLOQUE',
+  'endbloque' : 'ENDBLOQUE',
 }
 
 # List of token names. This is always required
@@ -41,9 +43,6 @@ tokens = [
   'DIVIDE',
   'LPARENTHESES',
   'RPARENTHESES',
-  'CTEINT',
-  'CTEFLOAT',
-  'CTESTRING',
   'EQUAL',
   'EQUALTO',
   'GTHAN',
@@ -54,15 +53,14 @@ tokens = [
   'COMMA',
   'OR',
   'AND',
-  'REFERENCIA',
-  'VALOR'
+  'REFERENCIA'
 ] + list(reserved.values())
 
 
     # Regular expression rules for simple tokens
-t_CTEINT     = r'[\+-]?\d+'
-t_CTEFLOAT   = r'[\+-]?\d+\.\d+'
-t_CTESTRING     = r'\".*\"'
+t_INT     = r'[\+-]?\d+'
+t_FLOAT   = r'[\+-]?\d+\.\d+'
+t_STRING     = r'\".*\"'
 t_PLUS       = r'\+'
 t_MINUS      = r'-'
 t_MULTI      = r'\*'
@@ -91,12 +89,6 @@ def t_IDENTIFIER(t):
 def t_REFERENCIA(t):
   r'&[a-zA-Z][a-zA-Z0-9]*'
   t.type = reserved.get(t.value, 'REFERENCIA')
-  return t
-
-    # A regular expression rule with some action code
-def t_VALOR(t):
-  r'\*[a-zA-Z][a-zA-Z0-9]*'
-  t.type = reserved.get(t.value, 'VALOR')
   return t
 
 
