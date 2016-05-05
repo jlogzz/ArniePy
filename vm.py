@@ -3,6 +3,8 @@ class Machine(object):
     def __init__(self, cuadruplos):
         # The program--a tuple of tuples which represent instructions.
         self.program = cuadruplos
+        
+        self.programSize = len(self.program)
 
         # Registers
         self.a = self.b = self.t = None
@@ -19,9 +21,33 @@ class Machine(object):
         self.float_vars  = [[], [], []] #[0] global, [1] local, [2] temporal
         self.string_vars = [[], [], []] #[0] global, [1] local, [2] temporal
         
-        self.param_count = {}
-        self.saltos = {}
-        self.returns = {}
+        self.param_count = []
+        self.saltos = []
+        self.returns = []
+        
+    def getOper(self, instr):
+        if instr == "=":
+            return "assign"
+        elif instr == "==":
+            return "eq"
+        elif instr == "!=":
+            return "neq"
+        elif instr == "+":
+            return "plus"
+        elif instr == "-":
+            return "subs"
+        elif instr == "*":
+            return "mult"
+        elif instr == "/":
+            return "div"
+        elif instr == "<=":
+            return "lteq"
+        elif instr == ">=":
+            return "gteq"
+        elif instr == ">":
+            return "gt"
+        elif instr == "<":
+            return "lt"
 
     def execute(self):
         while self.pc is not None:
@@ -29,7 +55,15 @@ class Machine(object):
             print (self.pc, self.flag, i)
             instr, rest = i[0], i[1:]
             self.pc += 1 # Don't forget to increment the counter
+            if instr in ['=','==','!=','+','-','*','/','>=','<=','>','<']:
+                instr = self.getOper(instr)
             getattr(self, 'i_'+instr)(*rest)
+    
+    def i_end(self, a, b, c):
+        self.pc = None
+        
+    def i_imprimir(self, a, b, c):
+        print(c)
     
     def i_gotof(self, a, b, c):
         if readFromMem(a,2,'int') == 0:
@@ -45,54 +79,68 @@ class Machine(object):
     def i_era(self, a, b, c):
         #variables locales
         #asigna espacios de memoria donde c es la cantidad de vars
+        self.pc = self.pc
         
     def i_param(self, a, b, c):
         #set_param(valor,tipo,dir)
+        self.pc = self.pc
     
     def i_gosub(self, a, b, c):
-        self.saltos.append(self.pc + 1)
+        self.saltos.append(self.pc)
         self.pc = c
     
     def i_return(self, a, b, c):
         #variables locales
         if c != None:
-            self.retorno = c
+            self.returns.append(c)
+        #print(self.saltos.pop())
         self.pc = self.saltos.pop()
         
     def i_assign(self, a, b, c):
         #copia el valor de la direccion a en c
+        self.pc = self.pc
     
     def i_plus(self, a, b, c):
         #suma los valores de las direcciones a + b y lo asigna en temporal c
+        self.pc = self.pc
         
     def i_subs(self, a, b, c):
         #resta los valores de a - c y lo asigna en temporal c
+        self.pc = self.pc
     
     def i_mult(self, a, b, c):
         #multiplica a * b y lo asigna a temporal c
+        self.pc = self.pc
         
     def i_div(self, a, b, c):
         #divide a / b y lo asigna a temporal c
+        self.pc = self.pc
         
     def i_eq(self, a, b, c):
         #resultado bool de a == b y lo asigna a temporal c
+        self.pc = self.pc
         
     def i_neq(self, a, b, c):
         #resultado bool de a != b y lo asigna a temporal c
+        self.pc = self.pc
         
     def i_lteq(self, a, b, c):
         #resultado bool de a <= b y lo asigna a temporal c
+        self.pc = self.pc
     
     def i_gteq(self, a, b, c):
         #resultado bool de a >= b y lo asigna a temporal c
+        self.pc = self.pc
         
     def i_gt(self, a, b, c):
         #resultado bool de a > b y lo asigna a temporal c
+        self.pc = self.pc
     
     def i_lt(self, a, b, c):
         #resultado bool de a < b y lo asigna a temporal c
-    
-    
+        self.pc = self.pc
+            
+        
     def resetMemoria(self):
         #limpia memoria
         self.param_vars  = [[], [], []] #[0] integer, [1] float, [2] string
@@ -163,8 +211,3 @@ class Machine(object):
     def o_sub(self, a, b):
         """reg a - reg b"""
         return getattr(self, a) - getattr(self, b)
-
-#codigo de ejecucion
-m = Machine([['goto', None, None, 1], 
-             ['=', 15000, None, '4']])
-m.execute()
