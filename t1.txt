@@ -10,5 +10,7 @@ inicioPrograma
   bloque
     globalJ = 4
     llamarFuncion func1
+    imprimir globalJ
+    imprimir 4, "hola", globalJ, llamarFuncion func1
   endbloque
 finPrograma

@@ -6,6 +6,7 @@ from ply import yacc,lex
 from lexer import *
 from rules import *
 from semantic import *
+from vm import *
 
 def get_input(file=False):
   if file:
@@ -35,6 +36,9 @@ def main(options={},filename=False):
 	except Exception as e:
 		print ("Error: ", e)
 		sys.exit()
+		
+	m = Machine(getCuads())
+	m.execute()
 		
 
 	

@@ -194,6 +194,9 @@ def is_node(n):
     
 def printCuads():
     print(cuadruplos)
+    
+def getCuads():
+    return cuadruplos
 
 def printMem():
         print("")
@@ -242,6 +245,8 @@ def check(node):
             contexts.append(Context())
             check(node.args)
             pop()
+            if node.type == "programa":
+                cuadruplos.append(['end',None,None,None])
 
         elif node.type == "vars_declaration":
             var_type = node.args[0].args[0]
@@ -489,6 +494,9 @@ def check(node):
             if len(node.args) > 1:
                 check(node.args[1])
             check(node.args[0])
+            value = pilaO.pop()
+            pTipos.pop()
+            cuadruplos.append(['imprimir',None,None,value])
         
         elif node.type == "lectura":
             check(node.args[0])
