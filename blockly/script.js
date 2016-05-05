@@ -37,7 +37,7 @@ function myUpdateFunction(event) {
   var xml = Blockly.Xml.workspaceToDom(workspace);
   var xml_text = Blockly.Xml.domToText(xml);
  var code = Blockly.JavaScript.workspaceToCode(workspace);
- document.getElementById('text').value = xml_text; //=xml_text para sacar el codigo de blocques
+ document.getElementById('text').value = code; //=xml_text para sacar el codigo de blocques
 }
 
 function insertToConsole(text){
