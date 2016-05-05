@@ -1,0 +1,14 @@
+inicioPrograma
+  inicioVariablesGlobales
+    int globalJ
+  finVariablesGlobales
+  inicioFuncion int func1
+    bloque
+      regresa 4
+    endbloque
+  finFuncion
+  bloque
+    globalJ = 4
+    llamarFuncion func1
+  endbloque
+finPrograma
