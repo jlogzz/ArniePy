@@ -1,0 +1,50 @@
+html, body {
+  height: 100%;
+  margin: 0;
+}
+body {
+  background-color: #fff;
+  font-family: sans-serif;
+  overflow: hidden;
+}
+table {
+  height: 100%;
+  width: 100%;
+}
+#blocklyArea {
+  height: 99%;
+}
+
+.console {
+  height: 99%;
+}
+.console-top {
+  position: relative;
+  width: 100%;
+  text-align: center;
+  color: #525252;
+  padding: 5px 4px;
+  margin: 0;
+  text-shadow: 1px 1px 0 rgba(255,255,255,0.5);
+  border: 1px solid #CCCCCC;
+  border-bottom: none;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  background-color: lightgrey ;
+}
+
+.console-body {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  padding: 5px;
+  height: 90%;
+  list-style: none;
+  background: #141414;
+  color: #45D40C;
+  line-height: 1.6em;
+  overflow: scroll;
+  overflow-x: hidden;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+}

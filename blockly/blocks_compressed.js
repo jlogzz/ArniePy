@@ -312,7 +312,7 @@ Blockly.Blocks.var_declaration = { //declaracion de variables
   init: function() {
     this.appendDummyInput()
         .appendField("var")
-        .appendField(new Blockly.FieldDropdown([["entero", "int"], ["flotante", "float"], ["string", "string"], ["booleano", "bool"], ["hash", "hash"]]), "var_type")
+        .appendField(new Blockly.FieldDropdown([["entero", "int"], ["flotante", "float"], ["string", "string"]]), "var_type")
         .appendField("nombre")
         .appendField(new Blockly.FieldTextInput("variable"), "name");
     this.setPreviousStatement(true, 'var');
@@ -320,6 +320,21 @@ Blockly.Blocks.var_declaration = { //declaracion de variables
     this.setColour(45);
     this.setTooltip('');
     this.setHelpUrl('https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#4epm4h');
+  }
+};
+
+Blockly.Blocks.array_declaration = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("arreglo")
+        .appendField(new Blockly.FieldDropdown([["entero", "int"], ["flotante", "float"], ["string", "string"]]), "func_type")
+        .appendField(new Blockly.FieldTextInput("nombre"), "name")
+        .appendField("[ ]");
+    this.setPreviousStatement(true, 'var');
+    this.setNextStatement(true, 'var');
+    this.setColour(45);
+    this.setTooltip('');
+    this.setHelpUrl('https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#eixhtf');
   }
 };
 
@@ -475,9 +490,8 @@ Blockly.Blocks.expression_ao = { // and or
 
 Blockly.Blocks.boolean = { //true false
   init: function() {
-    this.appendValueInput("boolean")
-        .setCheck(null)
-        .appendField(new Blockly.FieldDropdown([["verdadero", "verdadero"], ["falso", "falso"]]), "bool");
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown([["verdadero", "1"], ["falso", "0"]]), "bool");
     this.setOutput(true, "Boolean");
     this.setColour(210);
     this.setTooltip('');
@@ -623,53 +637,21 @@ Blockly.Blocks.function_def = {
     this.appendValueInput("params")
         .setCheck('defVariable')
         .appendField("funcion")
-        .appendField(new Blockly.FieldDropdown([["entero", "int"], ["flotante", "float"], ["string", "string"], ["boolean", "bool"], ["hash", "hash"]]), "func_type")
+        .appendField(new Blockly.FieldDropdown([["entero", "int"], ["flotante", "float"], ["string", "string"], ["arreglo", "array"], ["void", "void"]]), "func_type")
         .appendField(new Blockly.FieldTextInput("nombre"), "name")
         .appendField("parametros");
     this.appendStatementInput("main")
         .setCheck('mainFunc');
-    this.appendValueInput("return")
-        .setCheck('unaVariable')
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("regreso");
     this.appendDummyInput()
         .appendField("fin");
+    this.setInputsInline(true);
     this.setPreviousStatement(true, 'funciones');
     this.setNextStatement(true, 'funciones');
     this.setColour(15);
     this.setTooltip('');
-    this.setHelpUrl('http://www.example.com/');
+    this.setHelpUrl('https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#9bfy9x');
   }
 };
-
-/*
-Blockly.Blocks.function_def = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("funcion")
-        .appendField(new Blockly.FieldDropdown([["entero", "integer"], ["flotante", "float"], ["string", "string"], ["boolean", "boolean"], ["hash", "hash"]]), "func_type")
-        .appendField(new Blockly.FieldTextInput("nombre"), "name");
-    this.appendDummyInput()
-        .appendField("parameters");
-    this.appendStatementInput("parametros")
-        .setCheck(null);
-    this.appendDummyInput()
-        .appendField("main");
-    this.appendStatementInput("main")
-        .setCheck(null);
-    this.appendValueInput("return")
-        .setCheck(null)
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("regreso")
-        .appendField(new Blockly.FieldTextInput("variable"), "id");
-    this.appendDummyInput()
-        .appendField("fin");
-    this.setOutput(true, null);
-    this.setColour(65);
-    this.setTooltip('');
-    this.setHelpUrl('https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#9wab7v);
-  }
-};*/
 
 Blockly.Blocks.function_void_def = {
   init: function() {
@@ -689,6 +671,18 @@ Blockly.Blocks.function_void_def = {
     this.setColour(15);
     this.setTooltip('');
     this.setHelpUrl('https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#22t578');
+  }
+};
+
+Blockly.Blocks.return = {
+  init: function() {
+    this.appendValueInput("regresa")
+        .setCheck(['unaVariable', 'Number', 'string'])
+        .appendField("regresa");
+    this.setPreviousStatement(true, 'mainFunc');
+    this.setColour(23);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
   }
 };
 
@@ -727,7 +721,7 @@ Blockly.Blocks.param_var = {
   init: function() {
     this.appendValueInput("next_var")
         .setCheck('defVariable')
-        .appendField(new Blockly.FieldDropdown([["entero", "int"], ["flotante", "float"], ["string", "string"], ["boolean", "boolean"], ["hash", "hash"]]), "func_type")
+        .appendField(new Blockly.FieldDropdown([["entero", "int"], ["flotante", "float"], ["string", "string"]]), "func_type")
         .appendField(new Blockly.FieldTextInput("nombre"), "name_var");
     this.setOutput(true, 'defVariable');
     this.setColour(15);
