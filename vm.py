@@ -1,5 +1,6 @@
 class Machine(object):
 
+    #def __init__(self, cuadruplos, memGlobalEntero, memGlobalDecimal, memGlobalTexto, memLocalEntero, memLocalDecimal, memLocalTexto):
     def __init__(self, cuadruplos):
         # The program--a tuple of tuples which represent instructions.
         self.program = cuadruplos
@@ -15,11 +16,18 @@ class Machine(object):
         # Code pointer
         self.pc = 0
         
+        # self.memGlobalEntero = memGlobalEntero #Contador para memoria virtual de variables globales enteras
+        # self.memGlobalDecimal = memGlobalDecimal #Contador para memoria virtual de variables globales decimales
+        # self.memGlobalTexto = memGlobalTexto #Contador para memoria virtual de variables globales texto
+        # self.memLocalEntero = memLocalEntero #Contador para memoria virtual de variables locales y temporales enteras
+        # self.memLocalDecimal = memLocalDecimal #Contador para memoria virtual de variables locales y temporales decimales
+        # self.memLocalTexto = memLocalTexto #Contador para memoria virtual de variables locales y temporales texto
+        
         #Declaracion de memoria
-        self.param_vars  = [[], [], []] #[0] integer, [1] float, [2] string
-        self.int_vars    = [[], [], []] #[0] global, [1] local, [2] temporal
-        self.float_vars  = [[], [], []] #[0] global, [1] local, [2] temporal
-        self.string_vars = [[], [], []] #[0] global, [1] local, [2] temporal
+        self.param_vars  = [{}, {}, {}] #[0] integer, [1] float, [2] string
+        self.int_vars    = [{}, {}, {}] #[0] global, [1] local, [2] temporal
+        self.float_vars  = [{}, {}, {}] #[0] global, [1] local, [2] temporal
+        self.string_vars = [{}, {}, {}] #[0] global, [1] local, [2] temporal
         
         self.param_count = []
         self.saltos = []
@@ -48,29 +56,42 @@ class Machine(object):
             return "gt"
         elif instr == "<":
             return "lt"
+        
 
     def execute(self):
+        print("Empezando ejecución del programa")
+        print()
         while self.pc is not None:
             i = self.program[self.pc]
-            print (self.pc, self.flag, i)
+            #print (self.pc, self.flag, i)
+            
             instr, rest = i[0], i[1:]
             self.pc += 1 # Don't forget to increment the counter
             if instr in ['=','==','!=','+','-','*','/','>=','<=','>','<']:
                 instr = self.getOper(instr)
             getattr(self, 'i_'+instr)(*rest)
+            # print(self.param_vars)
+            # print(self.int_vars)
+            # print(self.float_vars)
+            # print(self.string_vars)
     
     def i_end(self, a, b, c):
+        print()
+        print("Ejecucion de programa finalizada")
         self.pc = None
         
     def i_imprimir(self, a, b, c):
-        print(c)
+        if b == None:
+            print(c)
+        else:
+            print(self.readFromMem(c))
     
     def i_gotof(self, a, b, c):
-        if readFromMem(a,2,'int') == 0:
+        if self.readFromMem(a,2,'int') == 0:
             self.pc = c
     
     def i_gotov(self, a, b, c):
-        if readFromMem(a,2,'int') == 1:
+        if self.readFromMem(a,2,'int') == 1:
             self.pc = c
             
     def i_goto(self, a, b, c):
@@ -98,22 +119,76 @@ class Machine(object):
         
     def i_assign(self, a, b, c):
         #copia el valor de la direccion a en c
+        if type(a) is int:
+            value = self.readFromMem(a)
+        else:
+            if b == "string":
+                value = a
+            elif b == "int":
+                value = int(a)
+            else:
+                value = float(a)
+        self.writeToMem(value,c)
         self.pc = self.pc
     
     def i_plus(self, a, b, c):
         #suma los valores de las direcciones a + b y lo asigna en temporal c
+        if type(a) is int:
+            v1 = self.readFromMem(a)
+        else:
+            v1 = float(a)
+        
+        if type(b) is int:
+            v2 = self.readFromMem(b)
+        else:
+            v2 = float(b)
+            
+        self.writeToMem(v1+v2,c)
         self.pc = self.pc
         
     def i_subs(self, a, b, c):
-        #resta los valores de a - c y lo asigna en temporal c
+        #resta los valores de a - b y lo asigna en temporal c
+        if type(a) is int:
+            v1 = self.readFromMem(a)
+        else:
+            v1 = float(a)
+        
+        if type(b) is int:
+            v2 = self.readFromMem(b)
+        else:
+            v2 = float(b)
+            
+        self.writeToMem(v1-v2,c)
         self.pc = self.pc
     
     def i_mult(self, a, b, c):
         #multiplica a * b y lo asigna a temporal c
+        if type(a) is int:
+            v1 = self.readFromMem(a)
+        else:
+            v1 = float(a)
+        
+        if type(b) is int:
+            v2 = self.readFromMem(b)
+        else:
+            v2 = float(b)
+            
+        self.writeToMem(v1*v2,c)
         self.pc = self.pc
         
     def i_div(self, a, b, c):
         #divide a / b y lo asigna a temporal c
+        if type(a) is int:
+            v1 = self.readFromMem(a)
+        else:
+            v1 = float(a)
+        
+        if type(b) is int:
+            v2 = self.readFromMem(b)
+        else:
+            v2 = float(b)
+            
+        self.writeToMem(v1/v2,c)
         self.pc = self.pc
         
     def i_eq(self, a, b, c):
@@ -148,27 +223,70 @@ class Machine(object):
         self.float_vars  = [[], [], []] #[0] global, [1] local, [2] temporal
         self.string_vars = [[], [], []] #[0] global, [1] local, [2] temporal
         
-    def writeToMem(self, value, dir, scope, type):
+    def transDir(self, dir):
+        scope = self.getScope(dir)
+        type = self.getType(dir)
+        if scope == 0:
+            if type == "int":
+                return dir
+            elif type == "float":
+                return dir - 5000
+            elif type == "string":
+                return dir - 10000
+        elif scope == 1:
+            if type == "int":
+                return dir - 15000
+            elif type == "float":
+                return dir - 25000
+            elif type == "string":
+                return dir - 35000
+                
+    def getScope(self, dir):
+        if dir < 15000:
+            return 0
+        else:
+            return 1
+            
+    def getType(self, dir):
+        if dir < 5000:
+            return "int"
+        elif dir < 10000:
+            return "float"
+        elif dir < 15000:
+            return "string"
+        elif dir < 25000:
+            return "int"
+        elif dir < 25000:
+            return "float"
+        else:
+            return "string"
+            
+        
+    def writeToMem(self, value, dir):
+        scope = self.getScope(dir)
+        type = self.getType(dir)
         if type == "int":
-            self.int_vars[scope][dir] = value
+            self.int_vars[scope][self.transDir(dir)] = value
         elif type == "float":
-            self.float_vars[scope][dir] = value
+            self.float_vars[scope][self.transDir(dir)] = value
         elif type == "string":
-            self.string_vars[scope][dir] = value
+            self.string_vars[scope][self.transDir(dir)] = value
         elif type == "param":
-            self.param_vars[scope][dir] = value
+            self.param_vars[scope][self.transDir(dir)] = value
         elif type == "return":
             self.returns.append(value)
             
-    def readFromMem(self, dir, scope, type):
+    def readFromMem(self, dir):
+        scope = self.getScope(dir)
+        type = self.getType(dir)
         if type == "int":
-            return self.int_vars[scope][dir]
+            return int(self.int_vars[scope][self.transDir(dir)])
         elif type == "float":
-            return self.float_vars[scope][dir]
+            return float(self.float_vars[scope][self.transDir(dir)])
         elif type == "string":
-            return self.string_vars[scope][dir]  
+            return self.string_vars[scope][self.transDir(dir)]  
         elif type == "param":
-            return self.param_vars[scope][dir]  
+            return self.param_vars[scope][self.transDir(dir)]  
         elif type == "return":
             return self.returns.pop()
             

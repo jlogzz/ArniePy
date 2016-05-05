@@ -45,18 +45,15 @@ pTipos = [] #Pila de tipos de los operadores
 
 pSaltos = [] #Pila de saltos para los condicionales y los ciclos
 
+pReturn = [] #Pila de returns
+
 cuadruplos = [] #Lista de cuadruplos
 
 memGlobalEntero = -1 #Contador para memoria virtual de variables globales enteras
-
 memGlobalDecimal = 4999 #Contador para memoria virtual de variables globales decimales
-
 memGlobalTexto = 9999 #Contador para memoria virtual de variables globales texto
-
 memLocalEntero = 14999 #Contador para memoria virtual de variables locales y temporales enteras
-
 memLocalDecimal = 24999 #Contador para memoria virtual de variables locales y temporales decimales
-
 memLocalTexto = 34999 #Contador para memoria virtual de variables locales y temporales texto
 
 globalFlag = 1
@@ -324,7 +321,10 @@ def check(node):
             check(node.args[0])
             if functype != ret.type:
                 raise Exception("La funcion debe de regresar el mismo tipo que espera la funcion")
-            cuadruplos.append(['return',None,None,pilaO.pop()])
+            retval = pilaO.pop()
+            pTipos.pop()
+            pReturn.append(retval)
+            cuadruplos.append(['return',None,None,retval])
             
         elif node.type == "asignacion":
             varn = check(node.args[0]).lower()
@@ -345,11 +345,11 @@ def check(node):
             
             oper = pOper.pop()
             oDer = pilaO.pop()
-            pTipos.pop()
+            typ = pTipos.pop()
             oIzq = pilaO.pop()
             pTipos.pop()
             #Genera cuadruplo de asignacion
-            cuadruplos.append([oper,oDer,None,oIzq])
+            cuadruplos.append([oper,oDer,typ,oIzq])
             
             
         elif node.type == "and_or":
@@ -494,9 +494,16 @@ def check(node):
             if len(node.args) > 1:
                 check(node.args[1])
             check(node.args[0])
-            value = pilaO.pop()
-            pTipos.pop()
-            cuadruplos.append(['imprimir',None,None,value])
+            typ = None
+            if node.args[0].args[0].type == "identifier":
+                typ = "identifier"
+            
+            if node.args[0].args[0].type == "llamarfun":
+                value = pReturn.pop()
+            else:
+                value = pilaO.pop()
+                pTipos.pop()
+            cuadruplos.append(['imprimir',None,typ,value])
         
         elif node.type == "lectura":
             check(node.args[0])

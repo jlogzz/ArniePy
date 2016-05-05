@@ -1,6 +1,7 @@
 inicioPrograma
   inicioVariablesGlobales
     int globalJ
+    float globalF
   finVariablesGlobales
   inicioFuncion int func1
     bloque
@@ -8,9 +9,12 @@ inicioPrograma
     endbloque
   finFuncion
   bloque
-    globalJ = 4
+    globalJ = 4 + 10 * 3
+    globalF = 4.0
     llamarFuncion func1
     imprimir globalJ
-    imprimir 4, "hola", globalJ, llamarFuncion func1
+    imprimir 4
+    imprimir llamarFuncion func1
+    imprimir "hola"
   endbloque
 finPrograma
