@@ -329,12 +329,14 @@ Blockly.Blocks.array_declaration = {
         .appendField("arreglo")
         .appendField(new Blockly.FieldDropdown([["entero", "int"], ["flotante", "float"], ["string", "string"]]), "func_type")
         .appendField(new Blockly.FieldTextInput("nombre"), "name")
-        .appendField("[ ]");
+        .appendField("[")
+        .appendField(new Blockly.FieldTextInput(""), "size")
+        .appendField("]");
     this.setPreviousStatement(true, 'var');
     this.setNextStatement(true, 'var');
     this.setColour(45);
     this.setTooltip('');
-    this.setHelpUrl('https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#eixhtf');
+    this.setHelpUrl('https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#sxkaxz');
   }
 };
 
@@ -346,6 +348,21 @@ Blockly.Blocks.variable = {
     this.setColour(0);
     this.setTooltip('');
     this.setHelpUrl('https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#aadzu4');
+  }
+};
+
+Blockly.Blocks.array_variable = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("arreglo")
+        .appendField(new Blockly.FieldTextInput("nombre"), "name")
+        .appendField("[")
+        .appendField(new Blockly.FieldTextInput(""), "size")
+        .appendField("]");
+    this.setOutput(true, ['arreglo', 'unaVariable']);
+    this.setColour(0);
+    this.setTooltip('');
+    this.setHelpUrl('https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#c5qdfd');
   }
 };
 
@@ -637,7 +654,7 @@ Blockly.Blocks.function_def = {
     this.appendValueInput("params")
         .setCheck('defVariable')
         .appendField("funcion")
-        .appendField(new Blockly.FieldDropdown([["entero", "int"], ["flotante", "float"], ["string", "string"], ["arreglo", "array"], ["void", "void"]]), "func_type")
+        .appendField(new Blockly.FieldDropdown([["entero", "int"], ["flotante", "float"], ["string", "string"], ["void", "void"]]), "func_type")
         .appendField(new Blockly.FieldTextInput("nombre"), "name")
         .appendField("parametros");
     this.appendStatementInput("main")

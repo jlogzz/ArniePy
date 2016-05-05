@@ -15,6 +15,11 @@ table {
   height: 99%;
 }
 
+hr{
+    padding: 0px;
+    margin: 2px;
+  }
+
 .console {
   height: 99%;
 }

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <link rel="icon" href="icon.png">
+    <title>Spanglish</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="blockly_compressed.js"></script>
+    <script src="blocks_compressed.js"></script>
+    <script src="javascript_compressed.js"></script>
+    <script src="msg/js/en.js"></script>
+    <script src="FileSaver.js"></script>
+  </head>
+
+  <input type="button" class="btn-success" value="Inicio" onclick="window.location.href='index.html'">
+  <input type="button" class="btn-primary" value="Factorial Iterativo" onclick="window.location.href='factorial_iterativo.html'">
+  <input type="button" class="btn-danger" value="Factorial Recursivo" onclick="window.location.href='factorial_recursivo.html'">
+  <input type="button" class="btn-warning" value="Fibonacci Iterativo" onclick="window.location.href='fibonacci_iterativo.html'">
+  <input type="button" class="btn-info" value="Fibonacci Recursivo" onclick="window.location.href='fibonacci_recursivo.html'">
+  <input type="button" class="btn-default" value="Buscar" onclick="window.location.href='buscar.html'">
+  <input type="button" class="btn-success" value="Bubblesort" onclick="window.location.href='bubblesort.html'">
+  <hr />
+    <table>
+      <tr>
+        <td>
+          <h1>Compilador Spanglish<small> en Espanol - Bubblesort</small></h1>
+          <p>Programa que te ayudar&aacute; a aprender la l&oacute;gica de la programaci&oacute;n en espa&ntilde;ol usando <a href="https://developers.google.com/blockly/">Google's Blockly</a>.
+              <ol>
+                <li>Al dar click en el bot&oacute;n "Crear Archivo" puedes descargar el codigo generado.</li>
+                <li>Al dar click al bot&oacute;n Correr Codigo para ejecutar tu programa.</li>
+              </ol>
+          </p>
+            <button class="correrCodigo btn-primary" id="crear">Crear Archivo</button>
+            <a download="codigo.txt" id="linkDescarga" style="display: none">Descarga el archivo generado. (Clic derecho)</a>
+            <button class="btn-success" id="compilar">Correr Codigo</button>
+            <br /><br />
+        </td>
+      </tr>
+      <tr>
+        <td id="blocklyArea"></td>
+        <td>
+          <div>
+            <h3>C&oacute;digo:</h3>
+            <textarea id="text" rows="10" cols="60" readonly>
+            </textarea>
+          </div>
+          <div id="console" class="console">
+            <div class="console-top">Spanglish</div>
+            <ul id="console-body" class="console-body">Hola! Bienvenido a spanglish.</ul>
+          </div>
+        </td>
+      </tr>
+    </table>
+
+    <div id="blocklyDiv" style="position: absolute"></div>
+    <xml id="toolbox" style="display: none">
+      <category name="Inicio" colour="120">
+        <block type="inicio_fin"></block>
+      </category>
+      <category name="Variables" colour="70">
+        <block type="vars_global"></block>
+        <block type="vars_local"></block>
+        <block type="var_declaration"></block>
+        <block type="array_declaration"></block>
+        <block type="variable"></block>
+        <block type="array_variable"></block>
+        <!--<block type="string"></block>-->
+      </category>
+      <category name="Functions" colour="15">
+        <block type="function_def"></block>
+        <block type="return"></block>
+        <!--<block type="function_void_def"></block>-->
+        <block type="call_func"></block>
+        <block type="call_func_assign"></block>
+        <block type="param_var"></block>
+        <!--<block type="param_int"></block>-->
+        <block type="param_call_var"></block>
+        <block type="variable"></block>
+      </category>
+      <category name="Ciclos" colour="315">
+        <block type="for"></block>
+        <block type="while"></block>
+        <block type="assignation"></block>
+        <block type="math_number"></block>
+        <block type="variable"></block>
+        <block type="string"></block>
+      </category>
+      <category name="Logica" colour="230">
+        <block type="if"></block>
+        <block type="if_else"></block>
+        <block type="if_elseif_else"></block>
+        <block type="expression"></block>
+        <block type="expression_ao"></block>
+        <block type="boolean"></block>
+        <!--<block type="not"></block>-->
+        <block type="math_number"></block>
+        <block type="variable"></block>
+      </category>
+      <category name="Operaciones" colour="240">
+        <block type="exp"></block>
+        <block type="exp_parentheses"></block>
+        <block type="assignation" colour="300"></block>
+        <block type="math_number"></block>
+        <block type="variable"></block>
+      </category>
+      <category name="Escritura" colour="180">
+        <block type="print"></block>
+        <block type="read"></block>
+        <block type="math_number"></block>
+        <block type="param_call_var"></block>
+        <block type="variable"></block>
+        <block type="string"></block>
+        <block type="string_append"></block>
+        <block type="boolean"></block>
+      </category>
+    </xml>
+
+    <xml id="blocksInicio">
+      <block type="inicio_fin" id="8[6DT9EV-~y[AzJLZ!r]" inline="false" x="-2" y="-180"><statement name="global_vars"><block type="vars_global" id="c|AF!eRB@XxclRR5nBOM"><statement name="variables"><block type="var_declaration" id="JT{O7l*EW2oUNx}2?I!L"><field name="var_type">int</field><field name="name">tam</field></block></statement></block></statement><statement name="main"><block type="assignation" id="+54yei3N=24ncSaR}bqA"><value name="assig_left"><block type="variable" id="OzVWL+v,/[%g7rZx-#Ch"><field name="variable">tam</field></block></value><value name="assig_right"><block type="math_number" id="1QzsSuK:,cAZc;mQhn}!"><field name="NUM">5</field></block></value><next><block type="vars_local" id="ySU*^w.@E@^`:{,.GuLx"><statement name="variables"><block type="array_declaration" id="gw=4IFw68hZ/)qYt:1J?"><field name="func_type">int</field><field name="name">arreglo_numeros</field><field name="size">tam</field><next><block type="var_declaration" id="A60arrWWT7`s@e7a-L2`"><field name="var_type">int</field><field name="name">temp</field><next><block type="var_declaration" id="dxB!M:kga[T!It^_4PIi"><field name="var_type">int</field><field name="name">i</field><next><block type="var_declaration" id="I5[UTvw3oEN4FK=Gw^tW"><field name="var_type">int</field><field name="name">j</field></block></next></block></next></block></next></block></statement><next><block type="assignation" id="ZjOp`:JjLXp@3mD)`n^q"><value name="assig_left"><block type="variable" id="}VjtJ!bILr+pFs3T=u`#"><field name="variable">numero_buscar</field></block></value><value name="assig_right"><block type="math_number" id="El^7V_+b=kxtbUIkwv;}"><field name="NUM">2</field></block></value><next><block type="assignation" id="-FUDKUn6VP;K`On3v!5^"><value name="assig_left"><block type="variable" id="}me3HMmwc+W_w9D6|^r;"><field name="variable">i</field></block></value><value name="assig_right"><block type="math_number" id="/?iFX-DDv-{R1H9SNp.9"><field name="NUM">0</field></block></value><next><block type="assignation" id="SNs@4BRG.xE*8+m5I~vF"><value name="assig_left"><block type="variable" id="0J^+)=ZTji`J_Y)a_h#]"><field name="variable">j</field></block></value><value name="assig_right"><block type="math_number" id="7/,PfkSB6)AYC%}xBl!1"><field name="NUM">8</field></block></value><next><block type="for" id="._c1yWUms5KRrVUDT33u"><value name="number_for"><block type="variable" id="P+[lFLo%0:x8oFM+XLR#"><field name="variable">tam</field></block></value><statement name="statement"><block type="assignation" id="MR9![)+qmc{8LsoV2#I2"><value name="assig_left"><block type="array_variable" id="x]av.{[q{XcP#ZqyAt7L"><field name="name">nombre</field><field name="size">i</field></block></value><value name="assig_right"><block type="variable" id="EoaWX8{td=~w=1uHBA6O"><field name="variable">j</field></block></value><next><block type="assignation" id="d|]Wb.|nPv_uBgvSd#eU"><value name="assig_left"><block type="variable" id="%.a8)d*r-6~v8J)fgS.h"><field name="variable">i</field></block></value><value name="assig_right"><block type="exp" id="GGP=)?!kxCmNEI1`Hg?}"><field name="exp_type">+</field><value name="expression_left"><block type="variable" id="/I5`DsM0yoat6G@cF.B~"><field name="variable">i</field></block></value><value name="expression_right"><block type="math_number" id="#9QTy?:HFTJ%2Hp]s=Dj"><field name="NUM">1</field></block></value></block></value><next><block type="assignation" id="{`fqkVy{{RJu2Txl`.I?"><value name="assig_left"><block type="variable" id="2O5IwuF.m`jw7SI13+Zs"><field name="variable">j</field></block></value><value name="assig_right"><block type="exp" id="n;,HW-MCJeE=}6^AL2De"><field name="exp_type">-</field><value name="expression_left"><block type="variable" id="I!(RZXr^lJT/CjH:rEWS"><field name="variable">j</field></block></value><value name="expression_right"><block type="math_number" id="DlNGUMvoD3;Wxldb1[_,"><field name="NUM">1</field></block></value></block></value></block></next></block></next></block></statement><next><block type="assignation" id="9aec3_Hpv7l.%jwcR5o_"><value name="assig_left"><block type="variable" id="_D)-8PNrrb+()^e3;B.y"><field name="variable">i</field></block></value><value name="assig_right"><block type="math_number" id="Fyt^#yJ/N;E6mNqagMyi"><field name="NUM">0</field></block></value><next><block type="for" id="1RST%6[lpI6VF=7QVXH|"><value name="number_for"><block type="exp" id="qF1uN~H3z/@*^V^FrKpS"><field name="exp_type">-</field><value name="expression_left"><block type="variable" id=":1^|q?Dr?eF_]/3r:eOu"><field name="variable">tam</field></block></value><value name="expression_right"><block type="math_number" id="X9M@(D%9j*2o*/OxGW|;"><field name="NUM">1</field></block></value></block></value><statement name="statement"><block type="assignation" id="/-rFBKtdO):BtR[sd3uY"><value name="assig_left"><block type="variable" id="R_ZcDG(yyHyy6|h^/8TY"><field name="variable">j</field></block></value><value name="assig_right"><block type="math_number" id="l(:e_N`k32dw3W@~yu)C"><field name="NUM">1</field></block></value><next><block type="for" id="d0Qk]0U(am=`5)~{r+cf"><value name="number_for"><block type="exp" id="q9^qOcNq]L%sMU_ZoIFm"><field name="exp_type">-</field><value name="expression_left"><block type="exp" id="H`mHq[3vxs]kat(W:Bdz"><field name="exp_type">-</field><value name="expression_left"><block type="variable" id="9oF?d9X?;@)r{u%r2n^:"><field name="variable">tam</field></block></value><value name="expression_right"><block type="variable" id="%953C_9C3f#/{h#?|iZM"><field name="variable">i</field></block></value></block></value><value name="expression_right"><block type="variable" id="7vnEu8|~M0zg88W3f[?p"><field name="variable">i</field></block></value></block></value><statement name="statement"><block type="if" id="o5aM!0U:j?w86=*!]c@f"><value name="condition_if"><block type="expression" id="a!Zr2(zkkjNUcLr^9E+L"><field name="exp_type">&gt;</field><value name="expression_left"><block type="array_variable" id="Z}VA1.!(Bx:hlW[Z2MZK"><field name="name">nombre</field><field name="size">j-1</field></block></value><value name="expression_right"><block type="array_variable" id=";t4CY5|]b}?X=;c5KyYK"><field name="name">nombre</field><field name="size">j</field></block></value></block></value><statement name="statement_if"><block type="assignation" id="CpezV,g4JV+jn]w,jd.t"><value name="assig_left"><block type="variable" id="?c-g-Ut0x2Te-)t[h{G."><field name="variable">temp</field></block></value><value name="assig_right"><block type="array_variable" id="A:`7HiDN.d)=8iSj59s)"><field name="name">nombre</field><field name="size">j-1</field></block></value><next><block type="assignation" id="mT^Q~Fi*7s^PLrXK-^?G"><value name="assig_left"><block type="array_variable" id="@MAf/dVpZ_=YjTiB+EL("><field name="name">nombre</field><field name="size">j-1</field></block></value><value name="assig_right"><block type="array_variable" id="ip/xn!id,wPddC2bat9I"><field name="name">nombre</field><field name="size">j</field></block></value><next><block type="assignation" id="Vi4(K~eBI}WlIHUUO)l+"><value name="assig_left"><block type="array_variable" id="N|:}]kZO8GIh+:A%|b:8"><field name="name">nombre</field><field name="size">j</field></block></value><value name="assig_right"><block type="variable" id="H31i+sUxQnIn7!,}1Z3v"><field name="variable">temp</field></block></value></block></next></block></next></block></statement><next><block type="assignation" id=":/LVGj4)6+PbElGe!.)J"><value name="assig_left"><block type="variable" id="MW#A*B3F!-YR/;cLSs;}"><field name="variable">j</field></block></value><value name="assig_right"><block type="exp" id="[={D7#aY,G00_rkCp.BN"><field name="exp_type">+</field><value name="expression_left"><block type="variable" id="o!,gYP`ui|R}n.h@@C*h"><field name="variable">j</field></block></value><value name="expression_right"><block type="math_number" id="rgBco^}rOy|ri,We?pH^"><field name="NUM">1</field></block></value></block></value></block></next></block></statement><next><block type="assignation" id="a}!A=Qy~79i%mk!rZ:;a"><value name="assig_left"><block type="variable" id="B%%#eBOfju-|cjaytHne"><field name="variable">i</field></block></value><value name="assig_right"><block type="exp" id="pXD,7O{QY_Bb5)=X(EX|"><field name="exp_type">+</field><value name="expression_left"><block type="variable" id="t8OB?NyhIZUa)YtMcwBO"><field name="variable">i</field></block></value><value name="expression_right"><block type="math_number" id="Cn|H^WWORggp.uY)OuX1"><field name="NUM">1</field></block></value></block></value></block></next></block></next></block></statement><next><block type="assignation" id="^46nNUU2dqr2x5z07pYM"><value name="assig_left"><block type="variable" id="VD+9cf.|wrPqV:,t{+k:"><field name="variable">i</field></block></value><value name="assig_right"><block type="math_number" id="0?[z.?|`Yf%fW2M3k-u{"><field name="NUM">0</field></block></value><next><block type="for" id="Ksc!xS5:AP|3}GyhBR-,"><value name="number_for"><block type="variable" id="EWt^Rp:F*cH`H:c|z(|c"><field name="variable">tam</field></block></value><statement name="statement"><block type="print" id="RenL!(17y39%JKf*P{.p"><value name="print_exp"><block type="array_variable" id="gy.yalkCH5|WIhc`S]3U"><field name="name">nombre</field><field name="size">i</field></block></value><next><block type="assignation" id="Z%Rr{NJ}Cg(l,6}A#W]w"><value name="assig_left"><block type="variable" id="W/^Zltc_cV6Tyg%tsh*|"><field name="variable">i</field></block></value><value name="assig_right"><block type="exp" id="%~Q@1hH@;Qae45}k0]~s"><field name="exp_type">+</field><value name="expression_left"><block type="variable" id="Hto0%rj6}orAb7+nyL1m"><field name="variable">i</field></block></value><value name="expression_right"><block type="math_number" id="H@pHNeW-gWHW:J2M:_*E"><field name="NUM">1</field></block></value></block></value></block></next></block></statement></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></statement></block>
+    </xml>
+
+    <script src="script.js"></script>
+  </body>
+</html>
