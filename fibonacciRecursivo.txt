@@ -1,0 +1,25 @@
+inicioPrograma
+  inicioFuncion int fibonacci_recursivo int numero
+    inicioVariablesLocales
+      int num1
+      int num2
+    finVariablesLocales
+    inicioSi numero <= 1
+      regresa n
+    sino
+      num1 = numero - 1
+      num2 = numero - 2
+      regresa llamarFuncion fibonacci_recursivo num1 + llamarFuncion fibonacci_recursivo num2
+    finSi
+  finFuncion
+bloque
+  inicioVariablesLocales
+    int numero
+  finVariablesLocales
+  numero = 0
+  inicioMientras numero <= 15
+    imprimir llamarFuncion fibonacci_iterativo numero
+    numero = numero + 1
+  finMientras
+endbloque
+finPrograma

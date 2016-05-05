@@ -14,6 +14,8 @@ var workspace = Blockly.inject('blocklyDiv',
  Blockly.Xml.domToWorkspace(workspace,
      document.getElementById('blocksInicio'));
 
+     document.getElementById('compilar').addEventListener('click', compilar);
+
 var onresize = function(e) {
  // Compute the absolute coordinates and dimensions of blocklyArea.
  var element = blocklyArea;
@@ -35,7 +37,20 @@ function myUpdateFunction(event) {
   var xml = Blockly.Xml.workspaceToDom(workspace);
   var xml_text = Blockly.Xml.domToText(xml);
  var code = Blockly.JavaScript.workspaceToCode(workspace);
- document.getElementById('text').value = code; //=xml_text para sacar el codigo de blocques
+ document.getElementById('text').value = xml_text; //=xml_text para sacar el codigo de blocques
+}
+
+function insertToConsole(text){
+  text = JSON.stringify(text);
+  var consoleB = document.getElementById('console-body');
+  var li = document.createElement('li');
+  li.innerHTML = text;
+  consoleB.appendChild(li);
+  consoleB.scrollTop = consoleB.scrollHeight;
+}
+
+function compilar(){
+
 }
 
 (function () {

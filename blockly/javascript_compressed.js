@@ -131,8 +131,13 @@ Blockly.JavaScript.var_declaration = function(block) {
 Blockly.JavaScript.array_declaration = function(block) {
   var dropdown_func_type = block.getFieldValue('func_type');
   var text_name = block.getFieldValue('name');
+  var text_size = block.getFieldValue('size');
   // TODO: Assemble JavaScript into code variable.
-  var code = 'array ' + dropdown_func_type + " " + text_name + "[]\n";
+  var code = 'arreglo ' + dropdown_func_type + " " + text_name;
+  if(text_size == '')
+    code += "[]\n";
+  else
+    code += "[" + text_size + "]\n";
   return code;
 };
 
@@ -142,6 +147,19 @@ Blockly.JavaScript.variable = function(block) {
   var code = text_variable;
   // TODO: Change ORDER_NONE to the correct strength.
   //return code;
+  return [code, Blockly.JavaScript.ORDER_ATOMIC];
+};
+
+Blockly.JavaScript.array_variable = function(block) {
+  var text_name = block.getFieldValue('name');
+  var text_size = block.getFieldValue('size');
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'arreglo ' + text_name;
+  if(text_size == '')
+    code += "[]";
+  else
+    code += "[" + text_size + "]";
+  // TODO: Change ORDER_NONE to the correct strength.
   return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
