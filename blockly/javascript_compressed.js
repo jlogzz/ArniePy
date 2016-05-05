@@ -128,6 +128,14 @@ Blockly.JavaScript.var_declaration = function(block) {
   return code;
 };
 
+Blockly.JavaScript.array_declaration = function(block) {
+  var dropdown_func_type = block.getFieldValue('func_type');
+  var text_name = block.getFieldValue('name');
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'array ' + dropdown_func_type + " " + text_name + "[]\n";
+  return code;
+};
+
 Blockly.JavaScript.variable = function(block) {
   var text_variable = block.getFieldValue('variable');
   // TODO: Assemble JavaScript into code variable.
@@ -286,32 +294,12 @@ Blockly.JavaScript.function_def = function(block) { //definicion A
   var text_name = block.getFieldValue('name');
   var value_params = Blockly.JavaScript.valueToCode(block, 'params', Blockly.JavaScript.ORDER_ATOMIC);
   var statements_main = Blockly.JavaScript.statementToCode(block, 'main');
-  var value_return = Blockly.JavaScript.valueToCode(block, 'return', Blockly.JavaScript.ORDER_ATOMIC);
   // TODO: Assemble JavaScript into code variable.
-  var code = 'inicioFuncion ' + dropdown_func_type + ' ' + text_name + ' ' + value_params + '\n' + statements_main;
-  if(value_return == "")
-    code+= 'finFuncion\n';
-  else {
-    code+= '  regresa ' + value_return + '\n' + 'finFuncion\n';
-  }
+  var code = 'inicioFuncion ' + dropdown_func_type + ' ' + text_name + ' ' + value_params + '\n' + statements_main +  'finFuncion\n';
 
   // TODO: Change ORDER_NONE to the correct strength.
   return code;
 };
-/*
-Blockly.JavaScript.function_def = function(block) {
-  var dropdown_func_type = block.getFieldValue('func_type');
-  var text_name = block.getFieldValue('name');
-  var statements_parametros = Blockly.JavaScript.statementToCode(block, 'parametros');
-  var statements_main = Blockly.JavaScript.statementToCode(block, 'main');
-  var text_id = block.getFieldValue('id');
-  var value_return = Blockly.JavaScript.valueToCode(block, 'return', Blockly.JavaScript.ORDER_ATOMIC);
-  // TODO: Assemble JavaScript into code variable.
-  var code = '...';
-  // TODO: Change ORDER_NONE to the correct strength.
-  return [code, Blockly.JavaScript.ORDER_NONE];
-};
-};*/
 
 Blockly.JavaScript.function_void_def = function(block) {
   var text_name = block.getFieldValue('name');
@@ -319,6 +307,13 @@ Blockly.JavaScript.function_void_def = function(block) {
   var statements_main = Blockly.JavaScript.statementToCode(block, 'main');
   // TODO: Assemble JavaScript into code variable.
   var code = 'inicioFuncion void ' + text_name + ' ' + value_params + '\n' + statements_main + 'finFuncion\n';
+  return code;
+};
+
+Blockly.JavaScript.return = function(block) {
+  var value_regresa = Blockly.JavaScript.valueToCode(block, 'regresa', Blockly.JavaScript.ORDER_ATOMIC);
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'regresa ' + value_regresa + '\n';
   return code;
 };
 

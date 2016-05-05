@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <link rel="icon" href="icon.png">
+    <title>Spanglish</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="blockly_compressed.js"></script>
+    <script src="blocks_compressed.js"></script>
+    <script src="javascript_compressed.js"></script>
+    <script src="msg/js/en.js"></script>
+    <script src="FileSaver.js"></script>
+  </head>
+
+    <table>
+      <tr>
+        <td>
+          <h1>Compilador Spanglish<small> en Espanol</small></h1>
+          <p>Programa que te ayudar&aacute; a aprender la l&oacute;gica de la programaci&oacute;n en espa&ntilde;ol usando <a href="https://developers.google.com/blockly/">Google's Blockly</a>.
+              <ol>
+                <li>Primero debes de dar click en el bot&oacute;n "Crear Archivo" para generar un "codigo.txt" que tiene el codigo a ejecutar.</li>
+                <li>Luego dar click al bot&oacute; Correr Archivo para ver lo que te desplegar&aacute; en pantalla.</li>
+              </ol>
+          </p>
+            <button class="correrCodigo btn-primary" id="crear">Crear Archivo</button>
+            <a download="codigo.txt" id="linkDescarga" style="display: none">Descarga el archivo generado. (Clic derecho)</a>
+            <button class="btn-success" id="compilar">Correr Archivo "codigo.txt"</button>
+            <br /><br />
+        </td>
+      </tr>
+      <tr>
+        <td id="blocklyArea"></td>
+        <td>
+          <div>
+            <h3>C&oacute;digo:</h3>
+            <textarea id="text" rows="10" cols="60" readonly>
+            </textarea>
+          </div>
+          <div id="console" class="console">
+            <div class="console-top">Spanglish</div>
+            <ul id="console-body" class="console-body">Hola! Bienvenido a spanglish.</ul>
+          </div>
+        </td>
+      </tr>
+    </table>
+
+    <div id="blocklyDiv" style="position: absolute"></div>
+    <xml id="toolbox" style="display: none">
+      <category name="Inicio" colour="120">
+        <block type="inicio_fin"></block>
+      </category>
+      <category name="Variables" colour="70">
+        <block type="vars_global"></block>
+        <block type="vars_local"></block>
+        <block type="var_declaration"></block>
+        <block type="array_declaration"></block>
+        <block type="variable"></block>
+        <!--<block type="string"></block>-->
+      </category>
+      <category name="Functions" colour="15">
+        <block type="function_def"></block>
+        <block type="return"></block>
+        <!--<block type="function_void_def"></block>-->
+        <block type="call_func"></block>
+        <block type="call_func_assign"></block>
+        <block type="param_var"></block>
+        <!--<block type="param_int"></block>-->
+        <block type="param_call_var"></block>
+        <block type="variable"></block>
+      </category>
+      <category name="Ciclos" colour="315">
+        <block type="for"></block>
+        <block type="while"></block>
+        <block type="assignation"></block>
+        <block type="math_number"></block>
+        <block type="variable"></block>
+        <block type="string"></block>
+      </category>
+      <category name="Logica" colour="230">
+        <block type="if"></block>
+        <block type="if_else"></block>
+        <block type="if_elseif_else"></block>
+        <block type="expression"></block>
+        <block type="expression_ao"></block>
+        <block type="boolean"></block>
+        <!--<block type="not"></block>-->
+        <block type="math_number"></block>
+        <block type="variable"></block>
+      </category>
+      <category name="Operaciones" colour="240">
+        <block type="exp"></block>
+        <block type="exp_parentheses"></block>
+        <block type="assignation" colour="300"></block>
+        <block type="math_number"></block>
+        <block type="variable"></block>
+      </category>
+      <category name="Escritura" colour="180">
+        <block type="print"></block>
+        <block type="read"></block>
+        <block type="math_number"></block>
+        <block type="param_call_var"></block>
+        <block type="variable"></block>
+        <block type="string"></block>
+        <block type="string_append"></block>
+        <block type="boolean"></block>
+      </category>
+    </xml>
+
+    <script src="script.js"></script>
+  </body>
+</html>
