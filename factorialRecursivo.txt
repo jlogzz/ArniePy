@@ -1,26 +1,22 @@
 inicioPrograma
-  inicioVariablesGlobales
-    int glob
-  finVariablesGlobales
-  inicioFuncion int factorial_r int n
+  inicioFuncion int factorial_recursivo int num
     inicioVariablesLocales
-      int m
-      int n_temp
+      int j
+      int num_temp
     finVariablesLocales
-    inicioSi n == 0
-      glob = n
+    inicioSi num == 0
+      regresa 1
     sino
-      n_temp = n - 1
-      m = llamarFuncion factorial_r n_temp
-      glob = n * m
+      num_temp = num - 1
+      j = llamarFuncion factorial_recursivo num_temp
+      regresa num + j
     finSi
-    regresa glob
   finFuncion
 bloque
   inicioVariablesLocales
-    int varr
+    int numero
   finVariablesLocales
-  varr = 5
-  imprimir llamarFuncion factorial_r varr
+  numero = 5
+  imprimir llamarFuncion factorial_recursivo numero
 endbloque
 finPrograma

@@ -1,32 +1,30 @@
 inicioPrograma
-  inicioFuncion int fibo_i int n
+  inicioFuncion int fibonacci_iterativo int numero
     inicioVariablesLocales
       int a
       int b
       int t
-      int regre
     finVariablesLocales
     a = 0
     b = 1
-    inicioSi n == 0
-      regre = 0
+    inicioSi numero == 0
+      regresa 0
     finSi
-    inicioMientras n
+    inicioRepetir numero
       t = a
       a = b
       b = t + b
-    finMientras
-    regre = a
-    regresa regre
+    finRepetir
+    regresa a
   finFuncion
 bloque
   inicioVariablesLocales
-    int n
+    int numero
   finVariablesLocales
-  n = 0
-  inicioMientras n <= 20
-    imprimir llamarFuncion fibon_i n
-    n = n + 1
+  numero = 0
+  inicioMientras numero <= 15
+    imprimir llamarFuncion fibonacci_iterativo numero
+    numero = numero + 1
   finMientras
 endbloque
 finPrograma

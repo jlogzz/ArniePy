@@ -1,23 +1,22 @@
 inicioPrograma
-  inicioFuncion int factorial_i int n
+  inicioFuncion int factorial_iterativo int num
     inicioVariablesLocales
-      int k
-      int prod
+      int j
+      int producto
     finVariablesLocales
-    k = 1
-    prod = 1
-    inicioMientras k <= n
-      prod = prod * k
-      k = k + 1
+    producto = 1
+    j = 1
+    inicioMientras j <= num
+      producto = producto * j
+      j = 1 + j
     finMientras
-    regresa prod
+    regresa producto
   finFuncion
 bloque
   inicioVariablesLocales
-    int vari
-    int varr
+    int numero
   finVariablesLocales
-  vari = 5
-  imprimir llamarFuncion factorial_i vari
+  numero = 5
+  imprimir llamarFuncion factorial_iterativo numero
 endbloque
 finPrograma
