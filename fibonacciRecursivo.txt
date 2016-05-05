@@ -2,17 +2,17 @@ inicioPrograma
   inicioVariablesGlobales
     int regre
   finVariablesGlobales
-  inicioFuncion int fibo_r int n
+  inicioFuncion int fibor int n
     inicioVariablesLocales
-      int n_1
-      int n_2
+      int n1
+      int n2
     finVariablesLocales
     inicioSi n <= 1
       regre = n
     sino
-      n_1 = n - 1
-      n_2 = n - 2
-      regre = llamarFuncion fibo_r regre
+      n1 = n - 1
+      n2 = n - 2
+      regre = llamarFuncion fibor regre
     finSi
     regresa regre
   finFuncion

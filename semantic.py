@@ -312,7 +312,15 @@ def check(node):
                     cuadruplos.append(['param',pilaO.pop(),dir,pTipos.pop()])
             cuadruplos.append(['gosub',fname,None,functions_dir[fname]])
             return rettype
-
+        
+        elif node.type == "retorno":
+            functype = functions[contexts[-2].name][0]
+            ret = node.args[0].args[0]
+            check(node.args[0])
+            if functype != ret.type:
+                raise Exception("La funcion debe de regresar el mismo tipo que espera la funcion")
+            cuadruplos.append(['return',None,None,pilaO.pop()])
+            
         elif node.type == "asignacion":
             varn = check(node.args[0]).lower()
             if is_function_name(varn):

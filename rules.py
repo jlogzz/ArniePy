@@ -70,8 +70,13 @@ def p_estatuto(p):
     | while
     | for
     | vars
+    | retorno
     | llamarfun'''
     p[0] = p[1]
+
+def p_retorno(p):
+    '''retorno : RETURN expresion'''
+    p[0] = Node('retorno', p[2])
 
 def p_asignacion(p):
     '''asignacion : identifier EQUAL expresion'''
@@ -177,8 +182,8 @@ def p_elemento(p):
         p[0] = Node("elemento", p[2])
 
 def p_func(p):
-    '''func : funchead bloque RETURN identifier ENDMETHOD'''
-    p[0] = Node('funcion', p[1], p[2], p[4])
+    '''func : funchead bloque ENDMETHOD'''
+    p[0] = Node('funcion', p[1], p[2])
 
 def p_voidfunc(p):
     '''voidfunc : prochead bloque ENDMETHOD'''
