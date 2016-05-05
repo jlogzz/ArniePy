@@ -481,7 +481,7 @@ def check(node):
                     else:
                         memLocalTexto += 1
                         auxDir = memLocalTexto
-                    pilaO.append(auxDir)
+                    #pilaO.append(auxDir)
                     return node.args[0].type
                 else:
                     return check(node.args[0])
