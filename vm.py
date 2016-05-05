@@ -12,15 +12,121 @@ class Machine(object):
 
         # Code pointer
         self.pc = 0
+        
+        #Declaracion de memoria
+        self.param_vars  = [[], [], []] #[0] integer, [1] float, [2] string
+        self.int_vars    = [[], [], []] #[0] global, [1] local, [2] temporal
+        self.float_vars  = [[], [], []] #[0] global, [1] local, [2] temporal
+        self.string_vars = [[], [], []] #[0] global, [1] local, [2] temporal
+        
+        self.param_count = {}
+        self.saltos = {}
+        self.returns = {}
 
     def execute(self):
         while self.pc is not None:
             i = self.program[self.pc]
-            print (self.pc, self.a, self.b, self.t, self.flag, i)
+            print (self.pc, self.flag, i)
             instr, rest = i[0], i[1:]
             self.pc += 1 # Don't forget to increment the counter
             getattr(self, 'i_'+instr)(*rest)
-
+    
+    def i_gotof(self, a, b, c):
+        if readFromMem(a,2,'int') == 0:
+            self.pc = c
+    
+    def i_gotov(self, a, b, c):
+        if readFromMem(a,2,'int') == 1:
+            self.pc = c
+            
+    def i_goto(self, a, b, c):
+        self.pc = c
+    
+    def i_era(self, a, b, c):
+        #variables locales
+        #asigna espacios de memoria donde c es la cantidad de vars
+        
+    def i_param(self, a, b, c):
+        #set_param(valor,tipo,dir)
+    
+    def i_gosub(self, a, b, c):
+        self.saltos.append(self.pc + 1)
+        self.pc = c
+    
+    def i_return(self, a, b, c):
+        #variables locales
+        if c != None:
+            self.retorno = c
+        self.pc = self.saltos.pop()
+        
+    def i_assign(self, a, b, c):
+        #copia el valor de la direccion a en c
+    
+    def i_plus(self, a, b, c):
+        #suma los valores de las direcciones a + b y lo asigna en temporal c
+        
+    def i_subs(self, a, b, c):
+        #resta los valores de a - c y lo asigna en temporal c
+    
+    def i_mult(self, a, b, c):
+        #multiplica a * b y lo asigna a temporal c
+        
+    def i_div(self, a, b, c):
+        #divide a / b y lo asigna a temporal c
+        
+    def i_eq(self, a, b, c):
+        #resultado bool de a == b y lo asigna a temporal c
+        
+    def i_neq(self, a, b, c):
+        #resultado bool de a != b y lo asigna a temporal c
+        
+    def i_lteq(self, a, b, c):
+        #resultado bool de a <= b y lo asigna a temporal c
+    
+    def i_gteq(self, a, b, c):
+        #resultado bool de a >= b y lo asigna a temporal c
+        
+    def i_gt(self, a, b, c):
+        #resultado bool de a > b y lo asigna a temporal c
+    
+    def i_lt(self, a, b, c):
+        #resultado bool de a < b y lo asigna a temporal c
+    
+    
+    def resetMemoria(self):
+        #limpia memoria
+        self.param_vars  = [[], [], []] #[0] integer, [1] float, [2] string
+        self.int_vars    = [[], [], []] #[0] global, [1] local, [2] temporal
+        self.float_vars  = [[], [], []] #[0] global, [1] local, [2] temporal
+        self.string_vars = [[], [], []] #[0] global, [1] local, [2] temporal
+        
+    def writeToMem(self, value, dir, scope, type):
+        if type == "int":
+            self.int_vars[scope][dir] = value
+        elif type == "float":
+            self.float_vars[scope][dir] = value
+        elif type == "string":
+            self.string_vars[scope][dir] = value
+        elif type == "param":
+            self.param_vars[scope][dir] = value
+        elif type == "return":
+            self.returns.append(value)
+            
+    def readFromMem(self, dir, scope, type):
+        if type == "int":
+            return self.int_vars[scope][dir]
+        elif type == "float":
+            return self.float_vars[scope][dir]
+        elif type == "string":
+            return self.string_vars[scope][dir]  
+        elif type == "param":
+            return self.param_vars[scope][dir]  
+        elif type == "return":
+            return self.returns.pop()
+            
+    def countLocals(self):
+        return len(self.int_vars[1])+len(self.float_vars[1])+len(self.string_vars[1])
+    
     def i_copy(self, a, b):
         """Duplicates register b in register a"""
         setattr(self, a, getattr(self, b))
@@ -58,9 +164,7 @@ class Machine(object):
         """reg a - reg b"""
         return getattr(self, a) - getattr(self, b)
 
+#codigo de ejecucion
 m = Machine([['goto', None, None, 1], 
              ['=', 15000, None, '4']])
-m.a = 56
-m.b = 12
 m.execute()
-print (m.a)
