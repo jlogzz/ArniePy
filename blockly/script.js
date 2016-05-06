@@ -52,13 +52,12 @@ function insertToConsole(text){
 function compilar(){
   var xhr = new XMLHttpRequest();
   xhr.open("GET", "../parser.py?filename=codigo.txt", true);
-  alert("hola");
   xhr.onload = function(e) {
     alert("si");
     var client = new XMLHttpRequest();
     client.open('GET', '../output.txt');
     client.onreadystatechange = function() {
-      alert(client.responseText);
+      insertToConsole(client.responseText);
     }
     client.send();
   }
