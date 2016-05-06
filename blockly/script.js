@@ -41,7 +41,7 @@ function myUpdateFunction(event) {
 }
 
 function insertToConsole(text){
-  text = JSON.stringify(text);
+  text = text.split('\n');
   var consoleB = document.getElementById('console-body');
   var li = document.createElement('li');
   li.innerHTML = text;
