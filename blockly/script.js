@@ -45,7 +45,7 @@ function insertToConsole(text){
   var consoleB = document.getElementById('console-body');
   for (line in text){
     var li = document.createElement('li');
-    li.innerHTML = text;
+    li.innerHTML = text[line];
     consoleB.appendChild(li);
   }
   
