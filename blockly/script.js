@@ -55,7 +55,7 @@ function compilar(){
   xhr.responseType = "JSON";
   alert("hola");
   xhr.onload = function(e) {
-    alert("entro");
+    alert(xhr.response);
     var arrOfStrings = JSON.parse(xhr.response);
   }
   xhr.send();
