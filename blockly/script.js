@@ -43,6 +43,7 @@ function myUpdateFunction(event) {
 function insertToConsole(text){
   text = text.split('\n');
   var consoleB = document.getElementById('console-body');
+  consoleB.innerHTML = "Compilando";
   for (line in text){
     var li = document.createElement('li');
     li.innerHTML = text[line];
@@ -56,7 +57,6 @@ function compilar(){
   var xhr = new XMLHttpRequest();
   xhr.open("GET", "../parser.py?filename=codigo.txt", true);
   xhr.onload = function(e) {
-    alert("si");
     var client = new XMLHttpRequest();
     client.open('GET', '../output.txt');
     client.onload = function() {
