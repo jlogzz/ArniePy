@@ -32,7 +32,7 @@ def main(options={},filename=False):
 	
 	try:
 		check(ast)
-		#printCuads()
+		printCuads()
 	except Exception as e:
 		print ("Error: ", e)
 		sys.exit()

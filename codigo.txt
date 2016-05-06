@@ -1,23 +1,24 @@
 inicioPrograma
-  inicioVariablesGlobales
-    int str
-  finVariablesGlobales
-  inicioFuncion int fun1
+  inicioFuncion int factorialiterativo int num
   bloque
     inicioVariablesLocales
-      int z
+      int j
+      int producto
     finVariablesLocales
-    z = 4
-    regresa z
+    producto = 1
+    j = 1
+    inicioMientras j <= num
+      producto = producto * j
+      j = 1 + j
+    finMientras
+    regresa producto
   endbloque
   finFuncion
 bloque
-  imprimir llamarFuncion fun1
-  imprimir "si"
-  inicioSi 4 == 5
-    imprimir "true"
-  sino
-    imprimir "false"
-  finSi
+  inicioVariablesLocales
+    int numero
+  finVariablesLocales
+  numero = 5
+  imprimir llamarFuncion factorialiterativo numero
 endbloque
 finPrograma

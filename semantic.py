@@ -33,6 +33,7 @@ contexts = []
 functions = {}
 functions_dir = {}
 functions_param = {}
+functions_param_dir = {}
 functions_var = {}
 
 pilaO = [] #Pila de operandos
@@ -146,28 +147,37 @@ def set_var(varn,typ):
             if typ.lower() == "int":
                 memGlobalEntero += 1
                 direccion = memGlobalEntero
+                val = '0'
             elif typ.lower() == "float":
                 memGlobalDecimal += 1
                 direccion = memGlobalDecimal
+                val = '0.0'
             else:
                 memGlobalTexto += 1
                 direccion = memGlobalTexto
+                val = ""
         else:
             if typ.lower() == "int":
                 memLocalEntero += 1
                 direccion = memLocalEntero
+                val = '0'
             elif typ.lower() == "float":
                 memLocalDecimal += 1
                 direccion = memLocalDecimal
+                val = '0.0'
             else:
                 memLocalTexto += 1
                 direccion = memLocalTexto
+                val = ""
+        cuadruplos.append(['=',val,typ.lower(),direccion])
         now.set_var(var,typ.lower(),direccion)
+        return direccion
 
 def get_params(node):
     global pilaO
     if node.type == "parameter":
-        return [check(node.args[0])]
+        ret = check(node.args[0])
+        return [ret]
     else:
         l = []
         for i in node.args:
@@ -283,7 +293,7 @@ def check(node):
 
             contexts.append(Context(name))
             for i in functions[name][1]:
-                set_var(i[0],i[1])
+                functions_param_dir[name] = {i[0]:set_var(i[0],i[1])}
             functions_dir[name] = len(cuadruplos)
             functions_param[name] = len(functions[name][1])
             check(node.args[1])
@@ -308,8 +318,9 @@ def check(node):
                 for i in range(len(vargs)):
                     if vargs[i][1] != args[i]:
                         raise Exception( "Parameter "+str(i+1)+" passed to function "+fname+" should be of type "+vargs[i][1]+" and not "+args[i])
-                    dir = pilaO.pop()
-                    cuadruplos.append(['param',pilaO.pop(),dir,pTipos.pop()])
+                    dirParam = functions_param_dir[fname][vargs[i][0]]
+                    typ = pTipos.pop()
+                    cuadruplos.append(['param',pilaO.pop(),typ,dirParam])
             cuadruplos.append(['gosub',fname,None,functions_dir[fname]])
             return rettype
         
@@ -446,7 +457,6 @@ def check(node):
                 fin = pSaltos.pop()
                 cuadruplos[fin][3] = len(cuadruplos)
         elif node.type == "for":
-            
             if node.args[0].args[0].type == "int":
                 check(node.args[1])
             elif node.args[0].args[0].type == "identifier":
@@ -496,9 +506,10 @@ def check(node):
             
             if node.args[0].args[0].type == "llamarfun":
                 value = pReturn.pop()
+                typ = "identifier"
             else:
                 value = pilaO.pop()
-                pTipos.pop()
+                typ = pTipos.pop()
             cuadruplos.append(['imprimir',None,typ,value])
         
         elif node.type == "lectura":

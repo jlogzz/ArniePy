@@ -50,15 +50,12 @@ function insertToConsole(text){
 }
 
 function compilar(){
-  var xhr = new XMLHttpRequest();
-  xhr.open("GET", "../parser.py?filename=codigo.txt", true);
-  xhr.responseType = "JSON";
-  alert("hola");
-  xhr.onload = function(e) {
-    alert(xhr.response);
-    var arrOfStrings = JSON.parse(xhr.response);
+  var client = new XMLHttpRequest();
+  client.open('GET', '../output.txt');
+  client.onreadystatechange = function() {
+    alert(client.responseText);
   }
-  xhr.send();
+  client.send();
 }
 
 (function () {

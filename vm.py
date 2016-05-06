@@ -13,6 +13,8 @@ class Machine(object):
         # Code pointer
         self.pc = 0
         
+        self.f = open('output.txt', 'w')
+        
         # self.memGlobalEntero = memGlobalEntero #Contador para memoria virtual de variables globales enteras
         # self.memGlobalDecimal = memGlobalDecimal #Contador para memoria virtual de variables globales decimales
         # self.memGlobalTexto = memGlobalTexto #Contador para memoria virtual de variables globales texto
@@ -56,8 +58,8 @@ class Machine(object):
         
 
     def execute(self):
-        print("Empezando ejecución del programa")
-        print()
+        print("Empezando ejecución del programa",file=self.f)
+        print(file=self.f)
         while self.pc is not None:
             i = self.program[self.pc]
             #print (self.pc, self.flag, i)
@@ -73,15 +75,16 @@ class Machine(object):
             # print(self.string_vars)
     
     def i_end(self, a, b, c):
-        print()
-        print("Ejecucion de programa finalizada")
+        print(file=self.f)
+        print("Ejecucion de programa finalizada",file=self.f)
+        print("program ended successfully")
         self.pc = None
         
     def i_imprimir(self, a, b, c):
-        if b == None:
-            print(c)
+        if b != 'identifier':
+            print(c, file=self.f)
         else:
-            print(self.readFromMem(c))
+            print(self.readFromMem(c), file=self.f)
     
     def i_gotof(self, a, b, c):
         if self.readFromMem(a) == 0:
@@ -101,7 +104,16 @@ class Machine(object):
         
     def i_param(self, a, b, c):
         #set_param(valor,tipo,dir)
-        
+        if type(a) is int:
+            value = self.readFromMem(a)
+        else:
+            if b == "string":
+                value = a
+            elif b == "int":
+                value = int(a)
+            else:
+                value = float(a)
+        self.writeToMem(value,c)
         self.pc = self.pc
     
     def i_gosub(self, a, b, c):
