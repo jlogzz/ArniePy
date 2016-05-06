@@ -1,0 +1,4 @@
+inicioPrograma
+bloque
+endbloque
+finPrograma

@@ -7,9 +7,6 @@ class Machine(object):
         
         self.programSize = len(self.program)
 
-        # Registers
-        self.a = self.b = self.t = None
-
         # Whether to branch
         self.flag = False
 
@@ -87,11 +84,11 @@ class Machine(object):
             print(self.readFromMem(c))
     
     def i_gotof(self, a, b, c):
-        if self.readFromMem(a,2,'int') == 0:
+        if self.readFromMem(a) == 0:
             self.pc = c
     
     def i_gotov(self, a, b, c):
-        if self.readFromMem(a,2,'int') == 1:
+        if self.readFromMem(a) == 1:
             self.pc = c
             
     def i_goto(self, a, b, c):
@@ -104,6 +101,7 @@ class Machine(object):
         
     def i_param(self, a, b, c):
         #set_param(valor,tipo,dir)
+        
         self.pc = self.pc
     
     def i_gosub(self, a, b, c):
@@ -193,26 +191,104 @@ class Machine(object):
         
     def i_eq(self, a, b, c):
         #resultado bool de a == b y lo asigna a temporal c
+        if type(a) is int:
+            v1 = self.readFromMem(a)
+        else:
+            v1 = float(a)
+        
+        if type(b) is int:
+            v2 = self.readFromMem(b)
+        else:
+            v2 = float(b)
+        if v1 == v2:
+            self.writeToMem(True,c)
+        else:
+            self.writeToMem(False,c)
         self.pc = self.pc
         
     def i_neq(self, a, b, c):
         #resultado bool de a != b y lo asigna a temporal c
+        if type(a) is int:
+            v1 = self.readFromMem(a)
+        else:
+            v1 = float(a)
+        
+        if type(b) is int:
+            v2 = self.readFromMem(b)
+        else:
+            v2 = float(b)
+        if v1 != v2:
+            self.writeToMem(True,c)
+        else:
+            self.writeToMem(False,c)
         self.pc = self.pc
         
     def i_lteq(self, a, b, c):
         #resultado bool de a <= b y lo asigna a temporal c
+        if type(a) is int:
+            v1 = self.readFromMem(a)
+        else:
+            v1 = float(a)
+        
+        if type(b) is int:
+            v2 = self.readFromMem(b)
+        else:
+            v2 = float(b)
+        if v1 <= v2:
+            self.writeToMem(True,c)
+        else:
+            self.writeToMem(False,c)
         self.pc = self.pc
     
     def i_gteq(self, a, b, c):
         #resultado bool de a >= b y lo asigna a temporal c
+        if type(a) is int:
+            v1 = self.readFromMem(a)
+        else:
+            v1 = float(a)
+        
+        if type(b) is int:
+            v2 = self.readFromMem(b)
+        else:
+            v2 = float(b)
+        if v1 >= v2:
+            self.writeToMem(True,c)
+        else:
+            self.writeToMem(False,c)
         self.pc = self.pc
         
     def i_gt(self, a, b, c):
         #resultado bool de a > b y lo asigna a temporal c
+        if type(a) is int:
+            v1 = self.readFromMem(a)
+        else:
+            v1 = float(a)
+        
+        if type(b) is int:
+            v2 = self.readFromMem(b)
+        else:
+            v2 = float(b)
+        if v1 > v2:
+            self.writeToMem(True,c)
+        else:
+            self.writeToMem(False,c)
         self.pc = self.pc
     
     def i_lt(self, a, b, c):
         #resultado bool de a < b y lo asigna a temporal c
+        if type(a) is int:
+            v1 = self.readFromMem(a)
+        else:
+            v1 = float(a)
+        
+        if type(b) is int:
+            v2 = self.readFromMem(b)
+        else:
+            v2 = float(b)
+        if v1 < v2:
+            self.writeToMem(True,c)
+        else:
+            self.writeToMem(False,c)
         self.pc = self.pc
             
         
@@ -292,40 +368,3 @@ class Machine(object):
             
     def countLocals(self):
         return len(self.int_vars[1])+len(self.float_vars[1])+len(self.string_vars[1])
-    
-    def i_copy(self, a, b):
-        """Duplicates register b in register a"""
-        setattr(self, a, getattr(self, b))
-
-    def i_set(self, a, b):
-        """Sets register a to the value b"""
-        setattr(self, a, b)
-
-    def i_exec(self, reg, op, *args):
-        """Calls op and stores the result in reg."""
-        setattr(self, reg, getattr(self, 'o_'+op)(*args))
-
-    def i_test(self, op, *rest):
-        if getattr(self, 'o_'+op)(*rest):
-            self.flag = True
-        else:
-            self.flag = False
-
-    def i_branch(self, line):
-        """Jump to line if flag is set"""
-        if self.flag: self.pc = line
-
-    def i_jump(self, line):
-        """Jump to line"""
-        self.pc = line
-
-    def o_zero(self, reg):
-        """Is reg zero?"""
-        return getattr(self, reg) == 0
-
-    def o_lt(self, a, b):
-        return getattr(self, a) < getattr(self, b)
-
-    def o_sub(self, a, b):
-        """reg a - reg b"""
-        return getattr(self, a) - getattr(self, b)

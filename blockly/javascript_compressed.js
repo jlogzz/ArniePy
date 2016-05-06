@@ -313,7 +313,7 @@ Blockly.JavaScript.function_def = function(block) { //definicion A
   var value_params = Blockly.JavaScript.valueToCode(block, 'params', Blockly.JavaScript.ORDER_ATOMIC);
   var statements_main = Blockly.JavaScript.statementToCode(block, 'main');
   // TODO: Assemble JavaScript into code variable.
-  var code = 'inicioFuncion ' + dropdown_func_type + ' ' + text_name + ' ' + value_params + '\n' + statements_main +  'finFuncion\n';
+  var code = 'inicioFuncion ' + dropdown_func_type + ' ' + text_name + ' ' + value_params + '\nbloque\n' + statements_main +  'endbloque\nfinFuncion\n';
 
   // TODO: Change ORDER_NONE to the correct strength.
   return code;

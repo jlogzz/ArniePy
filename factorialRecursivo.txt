@@ -1,5 +1,5 @@
 inicioPrograma
-  inicioFuncion int factorial_recursivo int num
+  inicioFuncion int factorialrecursivo int num
     inicioVariablesLocales
       int j
       int num_temp
@@ -8,7 +8,7 @@ inicioPrograma
       regresa 1
     sino
       num_temp = num - 1
-      j = llamarFuncion factorial_recursivo num_temp
+      j = llamarFuncion factorialrecursivo num_temp
       regresa num + j
     finSi
   finFuncion
@@ -17,6 +17,6 @@ bloque
     int numero
   finVariablesLocales
   numero = 5
-  imprimir llamarFuncion factorial_recursivo numero
+  imprimir llamarFuncion factorialrecursivo numero
 endbloque
 finPrograma

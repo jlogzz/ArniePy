@@ -50,7 +50,15 @@ function insertToConsole(text){
 }
 
 function compilar(){
-
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", "../parser.py?filename=codigo.txt", true);
+  xhr.responseType = "JSON";
+  alert("hola");
+  xhr.onload = function(e) {
+    alert("entro");
+    var arrOfStrings = JSON.parse(xhr.response);
+  }
+  xhr.send();
 }
 
 (function () {

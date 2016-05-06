@@ -35,8 +35,6 @@ functions_dir = {}
 functions_param = {}
 functions_var = {}
 
-dirProcs = {}
-
 pilaO = [] #Pila de operandos
 
 pOper = [] #Pila de operadores
@@ -318,8 +316,8 @@ def check(node):
         elif node.type == "retorno":
             functype = functions[contexts[-2].name][0]
             ret = node.args[0].args[0]
-            check(node.args[0])
-            if functype != ret.type:
+            ret = check(node.args[0])
+            if functype != ret:
                 raise Exception("La funcion debe de regresar el mismo tipo que espera la funcion")
             retval = pilaO.pop()
             pTipos.pop()
@@ -436,13 +434,11 @@ def check(node):
                 cuadruplos[falso-1][3] = len(cuadruplos) 
                 pSaltos.append(len(cuadruplos)-1)
             
-            
-                
             #check else/elseif
             if len(node.args) > 2:
                 check(node.args[2])
                 fin = pSaltos.pop()
-                cuadruplos[fin][3] = len(cuadruplos) -1
+                cuadruplos[fin][3] = len(cuadruplos)
                 pSaltos.append(len(cuadruplos)-1)            
             #check else when elseif
             if len(node.args) == 4:

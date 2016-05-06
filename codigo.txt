@@ -1,0 +1,23 @@
+inicioPrograma
+  inicioVariablesGlobales
+    int str
+  finVariablesGlobales
+  inicioFuncion int fun1
+  bloque
+    inicioVariablesLocales
+      int z
+    finVariablesLocales
+    z = 4
+    regresa z
+  endbloque
+  finFuncion
+bloque
+  imprimir llamarFuncion fun1
+  imprimir "si"
+  inicioSi 4 == 5
+    imprimir "true"
+  sino
+    imprimir "false"
+  finSi
+endbloque
+finPrograma

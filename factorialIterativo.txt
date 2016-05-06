@@ -1,5 +1,6 @@
 inicioPrograma
-  inicioFuncion int factorial_iterativo int num
+  inicioFuncion int factorialiterativo int num
+    bloque
     inicioVariablesLocales
       int j
       int producto
@@ -11,12 +12,13 @@ inicioPrograma
       j = 1 + j
     finMientras
     regresa producto
+    endbloque
   finFuncion
 bloque
   inicioVariablesLocales
     int numero
   finVariablesLocales
   numero = 5
-  imprimir llamarFuncion factorial_iterativo numero
+  imprimir llamarFuncion factorialiterativo numero
 endbloque
 finPrograma
