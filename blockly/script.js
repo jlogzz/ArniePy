@@ -43,9 +43,12 @@ function myUpdateFunction(event) {
 function insertToConsole(text){
   text = text.split('\n');
   var consoleB = document.getElementById('console-body');
-  var li = document.createElement('li');
-  li.innerHTML = text;
-  consoleB.appendChild(li);
+  for (line in text){
+    var li = document.createElement('li');
+    li.innerHTML = text;
+    consoleB.appendChild(li);
+  }
+  
   consoleB.scrollTop = consoleB.scrollHeight;
 }
 
