@@ -18,7 +18,7 @@ bloque
   inicioVariablesLocales
     int numero
   finVariablesLocales
-  numero = 5
+  numero = 6
   imprimir llamarFuncion factorialiterativo numero
 endbloque
 finPrograma
