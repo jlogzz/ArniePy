@@ -222,7 +222,7 @@ def check(node):
     global memLocalEntero
     global memLocalDecimal
     global memLocalTexto
-
+    
     if not is_node(node):
         if hasattr(node,"__iter__") and type(node) != type(""):
             for i in node:
@@ -297,7 +297,7 @@ def check(node):
             functions_dir[name] = len(cuadruplos)
             functions_param[name] = len(functions[name][1])
             check(node.args[1])
-            functions_var[name] = len(contexts[-1].variables)
+            
             pop()
             functionFlag = 0
 
@@ -305,7 +305,8 @@ def check(node):
             fname = node.args[0].args[0].lower()
             if fname not in functions:
                 raise Exception( "Function "+fname+" is not defined")
-            cuadruplos.append(['era',None,None,functions_var[fname]])
+                
+            cuadruplos.append(['era',None,None,'1'])
             if len(node.args) > 1:
                 args = get_params(node.args[1])
             else:
@@ -353,8 +354,12 @@ def check(node):
                 raise Exception( "Variable "+varn+" if of type "+vartype+" and does not support "+assgntype)
             
             oper = pOper.pop()
-            oDer = pilaO.pop()
-            typ = pTipos.pop()
+            if node.args[1].args[0].type == "llamarfun":
+                oDer = pReturn.pop()
+                typ = assgntype
+            else:
+                oDer = pilaO.pop()
+                typ = pTipos.pop()    
             oIzq = pilaO.pop()
             pTipos.pop()
             #Genera cuadruplo de asignacion

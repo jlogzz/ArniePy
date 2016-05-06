@@ -1,24 +1,24 @@
 inicioPrograma
-  inicioFuncion int factorialiterativo int num
+  inicioFuncion int factorialrecursivo int num
   bloque
     inicioVariablesLocales
       int j
-      int producto
+      int numtemp
     finVariablesLocales
-    producto = 1
-    j = 1
-    inicioMientras j <= num
-      producto = producto * j
-      j = 1 + j
-    finMientras
-    regresa producto
+    inicioSi num == 0
+      regresa 1
+    sino
+      numtemp = num - 1
+      j = llamarFuncion factorialrecursivo numtemp
+      regresa num * j
+    finSi
   endbloque
   finFuncion
 bloque
   inicioVariablesLocales
     int numero
   finVariablesLocales
-  numero = 6
-  imprimir llamarFuncion factorialiterativo numero
+  numero = 5
+  imprimir llamarFuncion factorialrecursivo numero
 endbloque
 finPrograma

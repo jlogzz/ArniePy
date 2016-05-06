@@ -1,3 +1,5 @@
+import copy
+
 class Machine(object):
 
     #def __init__(self, cuadruplos, memGlobalEntero, memGlobalDecimal, memGlobalTexto, memLocalEntero, memLocalDecimal, memLocalTexto):
@@ -9,6 +11,8 @@ class Machine(object):
 
         # Whether to branch
         self.flag = False
+        
+        self.retFlag = False
 
         # Code pointer
         self.pc = 0
@@ -27,6 +31,10 @@ class Machine(object):
         self.int_vars    = [{}, {}, {}] #[0] global, [1] local, [2] temporal
         self.float_vars  = [{}, {}, {}] #[0] global, [1] local, [2] temporal
         self.string_vars = [{}, {}, {}] #[0] global, [1] local, [2] temporal
+        
+        self.t_int = []
+        self.t_float = []
+        self.t_string = []
         
         self.param_count = []
         self.saltos = []
@@ -58,8 +66,8 @@ class Machine(object):
         
 
     def execute(self):
-        print("Empezando ejecución del programa",file=self.f)
-        print(file=self.f)
+        print("Empezando ejecución del programa",)
+        print()
         while self.pc is not None:
             i = self.program[self.pc]
             #print (self.pc, self.flag, i)
@@ -69,22 +77,26 @@ class Machine(object):
             if instr in ['=','==','!=','+','-','*','/','>=','<=','>','<']:
                 instr = self.getOper(instr)
             getattr(self, 'i_'+instr)(*rest)
-            # print(self.param_vars)
-            # print(self.int_vars)
-            # print(self.float_vars)
-            # print(self.string_vars)
+            #print(self.param_vars)
+            #print(self.int_vars)
+            #print(self.float_vars)
+            #print(self.string_vars)
     
     def i_end(self, a, b, c):
-        print(file=self.f)
-        print("Ejecucion de programa finalizada",file=self.f)
-        print("program ended successfully")
+        print()
+        print("Ejecucion de programa finalizada",)
         self.pc = None
         
     def i_imprimir(self, a, b, c):
-        if b != 'identifier':
-            print(c, file=self.f)
+        if self.retFlag:
+            value = self.returns.pop()
+            self.retFlag = False
+            print(value)
         else:
-            print(self.readFromMem(c), file=self.f)
+            if b != 'identifier':
+                print(c, )
+            else:
+                print(self.readFromMem(c), )
     
     def i_gotof(self, a, b, c):
         if self.readFromMem(a) == 0:
@@ -100,6 +112,9 @@ class Machine(object):
     def i_era(self, a, b, c):
         #variables locales
         #asigna espacios de memoria donde c es la cantidad de vars
+        self.t_int.append(copy.deepcopy(self.int_vars[1]))
+        self.t_float.append(copy.deepcopy(self.float_vars[1]))
+        self.t_string.append(copy.deepcopy(self.string_vars[1]))
         self.pc = self.pc
         
     def i_param(self, a, b, c):
@@ -122,22 +137,33 @@ class Machine(object):
     
     def i_return(self, a, b, c):
         #variables locales
-        if c != None:
+        if type(c) is int:
+            self.returns.append(self.readFromMem(c))
+        else:
             self.returns.append(c)
+        
+        self.int_vars[1] = self.t_int.pop()
+        self.float_vars[1] = self.t_float.pop()
+        self.string_vars[1] = self.t_string.pop()
         #print(self.saltos.pop())
         self.pc = self.saltos.pop()
+        self.retFlag = True
         
     def i_assign(self, a, b, c):
         #copia el valor de la direccion a en c
-        if type(a) is int:
-            value = self.readFromMem(a)
+        if self.retFlag:
+            value = self.returns.pop()
+            self.retFlag = False
         else:
-            if b == "string":
-                value = a
-            elif b == "int":
-                value = int(a)
+            if type(a) is int:
+                value = self.readFromMem(a)
             else:
-                value = float(a)
+                if b == "string":
+                    value = a
+                elif b == "int":
+                    value = int(a)
+                else:
+                    value = float(a)
         self.writeToMem(value,c)
         self.pc = self.pc
     

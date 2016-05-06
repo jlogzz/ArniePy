@@ -54,17 +54,13 @@ function insertToConsole(text){
 }
 
 function compilar(){
-  var xhr = new XMLHttpRequest();
-  xhr.open("GET", "../parser.py?filename=codigo.txt", true);
-  xhr.onload = function(e) {
+
     var client = new XMLHttpRequest();
     client.open('GET', '../output.txt');
     client.onload = function() {
       insertToConsole(client.responseText);
     }
     client.send();
-  }
-  xhr.send();
 }
 
 (function () {
