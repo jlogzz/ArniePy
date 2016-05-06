@@ -1,16 +1,20 @@
 inicioPrograma
-  inicioFuncion int factorialrecursivo int num
+  inicioFuncion int fibonaccirecursivo int numero
   bloque
     inicioVariablesLocales
-      int j
-      int numtemp
+      int num1
+      int num2
+      int n1
+      int n2
     finVariablesLocales
-    inicioSi num == 0
-      regresa 1
+    inicioSi numero <= 1
+      regresa numero
     sino
-      numtemp = num - 1
-      j = llamarFuncion factorialrecursivo numtemp
-      regresa num * j
+      num1 = numero - 1
+      num2 = numero - 2
+      n1 = llamarFuncion fibonaccirecursivo num1
+      n2 = llamarFuncion fibonaccirecursivo num2
+      regresa n1 + n2
     finSi
   endbloque
   finFuncion
@@ -18,7 +22,10 @@ bloque
   inicioVariablesLocales
     int numero
   finVariablesLocales
-  numero = 5
-  imprimir llamarFuncion factorialrecursivo numero
+  numero = 0
+  inicioMientras numero <= 15
+    imprimir llamarFuncion fibonaccirecursivo numero
+    numero = numero + 1
+  finMientras
 endbloque
 finPrograma

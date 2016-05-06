@@ -217,6 +217,8 @@ def printMem():
     
 
 def check(node):
+    #print("-----------------------------------------")
+    #print(node)
     global functionFlag
     global globalFlag
     global memLocalEntero
@@ -356,6 +358,7 @@ def check(node):
             oper = pOper.pop()
             if node.args[1].args[0].type == "llamarfun":
                 oDer = pReturn.pop()
+                pReturn.append(oDer)
                 typ = assgntype
             else:
                 oDer = pilaO.pop()
