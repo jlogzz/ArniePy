@@ -49,7 +49,7 @@ function insertToConsole(text){
     li.innerHTML = text[line];
     consoleB.appendChild(li);
   }
-  
+
   consoleB.scrollTop = consoleB.scrollHeight;
 }
 
