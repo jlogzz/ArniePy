@@ -56,7 +56,7 @@ function compilar(){
     alert("si");
     var client = new XMLHttpRequest();
     client.open('GET', '../output.txt');
-    client.onreadystatechange = function() {
+    client.onload = function() {
       insertToConsole(client.responseText);
     }
     client.send();
